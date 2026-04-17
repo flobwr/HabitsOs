@@ -1,7 +1,7 @@
-// HabitOS Service Worker v1.3
+// HabitOS Service Worker v1.3.1
 // Gère le cache offline et les notifications locales
 
-const CACHE_NAME = 'habitos-v1.3';
+const CACHE_NAME = 'habitos-v1.3.1';
 const ASSETS = [
   '/',
   '/index.html',
