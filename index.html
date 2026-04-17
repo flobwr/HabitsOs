@@ -3,6 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="HabitOS">
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="/icon-192.png">
 <title>HabitOS</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -250,6 +256,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
 .xp-popup{position:fixed;z-index:250;pointer-events:none;font-size:13px;font-weight:500;color:var(--success);animation:floatUp 1.2s ease-out forwards;}
 @keyframes floatUp{0%{opacity:1;transform:translateY(0);}100%{opacity:0;transform:translateY(-40px);}}
 .streak-badge{display:inline-flex;align-items:center;gap:2px;font-size:11px;color:#E24B4A;font-weight:500;}
+.danger-card{background:var(--dangerl);border:0.5px solid var(--danger);border-radius:var(--rdl);padding:12px 14px;margin-bottom:10px;width:100%;}
+.danger-card .dc-title{font-size:12px;font-weight:500;color:var(--danger);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;}
+.danger-card .dc-item{display:flex;align-items:center;gap:8px;padding:6px 0;font-size:13px;color:var(--tx);border-top:0.5px solid var(--br);}
+.danger-card .dc-item:first-of-type{border-top:none;}
+.danger-card .dc-streak{margin-left:auto;font-size:11px;color:var(--danger);font-weight:500;}
+.pwa-banner{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);max-width:440px;width:calc(100% - 24px);background:var(--bg);border:0.5px solid var(--br2);border-radius:var(--rdl);padding:12px 14px;z-index:250;display:flex;gap:10px;align-items:center;box-shadow:0 4px 20px rgba(0,0,0,0.15);}
+.pwa-banner .pb-icon{width:36px;height:36px;flex-shrink:0;border-radius:8px;background:#0a0a0a;display:flex;align-items:center;justify-content:center;}
+.pwa-banner .pb-text{flex:1;min-width:0;}
+.pwa-banner .pb-title{font-size:13px;font-weight:500;margin-bottom:2px;}
+.pwa-banner .pb-sub{font-size:11px;color:var(--tx2);}
+.pwa-banner .pb-btn{font-size:12px;padding:6px 12px;border-radius:var(--rd);border:none;background:var(--ac);color:#fff;cursor:pointer;font-family:inherit;flex-shrink:0;}
+.pwa-banner .pb-close{background:transparent;border:none;font-size:18px;color:var(--tx2);cursor:pointer;padding:0 4px;}
+.check-dot{transition:all 0.2s cubic-bezier(0.4,0,0.2,1);}
+.check-dot.checked{transform:scale(1.15);}
+@keyframes checkPop{0%{transform:scale(1);}50%{transform:scale(1.3);}100%{transform:scale(1);}}
+.check-dot.just-checked{animation:checkPop 0.3s ease-out;}
 </style>
 </head>
 <body>
@@ -259,8 +281,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
 <div class="settings-panel" id="settings-panel"></div>
 
 <script>
-const SUPABASE_URL='https://cvmgegkrpvzzgbaiufqf.supabase.co';
-const SUPABASE_KEY='sb_publishable_B1_B7x3xMBbeUjmIivs-aA_sw7ZHZy1';
+const SUPABASE_URL='REMPLACE_PAR_TON_URL';
+const SUPABASE_KEY='REMPLACE_PAR_TA_CLE';
 const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 // ── CONSTANTES ────────────────────────────────────────────────────────────────
@@ -461,10 +483,26 @@ function updateStatOnCheck(habit,checked){
 // ── INIT ──────────────────────────────────────────────────────────────────────
 async function init(){
   applySystemTheme();
+  registerServiceWorker();
   const{data:{session}}=await sb.auth.getSession();
-  if(session){user=session.user;await loadData();showApp();}
+  if(session){
+    user=session.user;
+    await loadData();
+    showApp();
+    // Programmer les notifs si l'autorisation est déjà accordée
+    if(Notification.permission==='granted')scheduleNotifications();
+  }
   else showAuth();
   document.getElementById('loading').style.display='none';
+}
+
+// Enregistrement du Service Worker (PWA + offline + notifs)
+function registerServiceWorker(){
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.register('/sw.js').catch(err=>{
+      console.warn('SW register failed:',err);
+    });
+  }
 }
 
 function applySystemTheme(){
@@ -729,6 +767,7 @@ function renderHome(){
     habHtml=`<div style="padding:12px 14px;font-size:13px;color:var(--tx2);">Aucune donnée pour ce jour.</div>`;
   }
   document.getElementById('p-0').innerHTML=`
+    ${renderDangerCard()}
     <div class="metric-grid">
       <div class="metric"><div class="mlabel">Ma journée</div><div class="mval">${doneItems()}/${totalItems()}</div><div class="msub">tâches cochées</div></div>
       <div class="metric"><div class="mlabel">Niveau</div><div class="mval">${li.level}</div><div class="msub">${li.title}</div></div>
@@ -800,6 +839,12 @@ function renderJournee(){
 
 async function toggleCheck(id,type){
   const wasChecked=DB.checked[id];
+  // Animation visuelle immédiate sur le dot avant le re-render
+  const triggerEl=event?.currentTarget||document.querySelector(`[onclick="toggleCheck('${id}','${type}')"]`);
+  if(triggerEl){
+    const dot=triggerEl.querySelector('div[style*="border-radius:50%"]');
+    if(dot){dot.classList.add('just-checked');setTimeout(()=>dot.classList.remove('just-checked'),300);}
+  }
   DB.checked[id]=!wasChecked;
   let xpGained=0;
   if(type==='h'){
@@ -1114,11 +1159,13 @@ function openSettings(){
         <div class="settings-section-title">Rappels</div>
         <div class="settings-item"><div><div class="settings-item-label">Matin</div><div class="settings-item-sub">Heure de check-in</div></div><input type="time" class="fi" style="width:110px;" id="reminder-matin" value="${DB.settings?.reminderMatin||''}" onchange="saveReminder()"></div>
         <div class="settings-item"><div><div class="settings-item-label">Soir</div><div class="settings-item-sub">Heure de check-in</div></div><input type="time" class="fi" style="width:110px;" id="reminder-soir" value="${DB.settings?.reminderSoir||''}" onchange="saveReminder()"></div>
-        <div style="font-size:11px;color:var(--tx2);margin-top:8px;">Notifications push disponibles dans la v1.3.</div>
+        <div id="notif-status" style="margin-top:8px;"></div>
+        ${isIOS()&&!isPWAInstalled()?'<div style="font-size:11px;color:var(--warn);margin-top:8px;padding:8px 10px;background:var(--warnl);border-radius:var(--rd);">Sur iPhone, les notifications ne fonctionnent qu\'après installation de l\'app. <a href="#" onclick="showIOSInstallHelp();return false;" style="color:var(--warn);text-decoration:underline;">Comment installer ?</a></div>':''}
       </div>
       <div class="settings-section">
         <div class="settings-section-title">Données</div>
         <div class="settings-item" style="border-radius:var(--rdl);"><div><div class="settings-item-label">Exporter mes données</div><div class="settings-item-sub">Télécharger en JSON</div></div><button class="btn-sec" onclick="exportData()">Exporter</button></div>
+        <div class="settings-item" style="border-radius:var(--rdl);margin-top:8px;"><div><div class="settings-item-label">Importer des données</div><div class="settings-item-sub">Restaurer depuis un fichier JSON</div></div><button class="btn-sec" onclick="document.getElementById('import-file').click()">Importer</button><input type="file" id="import-file" accept="application/json,.json" style="display:none" onchange="importData(event)"></div>
       </div>
       <div class="settings-section">
         <div class="settings-section-title">Version</div>
@@ -1130,6 +1177,7 @@ function openSettings(){
       </div>
     </div>`;
   panel.classList.add('open');
+  updateNotifStatus();
 }
 
 function closeSettings(){document.getElementById('settings-panel').classList.remove('open');}
@@ -1157,13 +1205,266 @@ async function applyCustomColor(){
 async function saveReminder(){
   DB.settings.reminderMatin=document.getElementById('reminder-matin')?.value||'';
   DB.settings.reminderSoir=document.getElementById('reminder-soir')?.value||'';
-  await saveData();toast('Rappels enregistrés');
+  await saveData();
+  // Demande la permission si une heure est définie et qu'on n'a pas encore demandé
+  if((DB.settings.reminderMatin||DB.settings.reminderSoir)&&Notification.permission==='default'){
+    await requestNotifPermission();
+  }
+  scheduleNotifications();
+  toast('Rappels enregistrés');
 }
 
 function exportData(){
   const blob=new Blob([JSON.stringify(DB,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);
   a.download=`habitOS_export_${TODAY}.json`;a.click();toast('Export téléchargé');
+}
+
+// ── IMPORT JSON ───────────────────────────────────────────────────────────────
+async function importData(event){
+  const file=event.target.files[0];
+  if(!file)return;
+  if(!confirm('Cela va remplacer TOUTES tes données actuelles par celles du fichier. Es-tu sûr ?')){
+    event.target.value='';return;
+  }
+  try{
+    const text=await file.text();
+    const imported=JSON.parse(text);
+    // Validation minimale : on vérifie que c'est un objet avec au moins une clé connue
+    if(typeof imported!=='object'||imported===null){throw new Error('Format invalide');}
+    const hasKnownKey=['habits','events','xp','rpgStats','settings'].some(k=>k in imported);
+    if(!hasKnownKey){throw new Error('Fichier non reconnu');}
+    // Merge avec defaultDB pour éviter les champs manquants
+    DB={...defaultDB(),...imported};
+    // Préserver les settings actuels si pas dans l'import
+    if(!imported.settings)DB.settings=defaultDB().settings;
+    await saveData();
+    applyTheme();applyColorTheme(DB.settings.colorTheme||'indigo',DB.settings.customColor);
+    closeSettings();navTo(0);
+    toast('Données importées avec succès','green');
+  }catch(e){
+    toast('Erreur : fichier JSON invalide','red');
+  }
+  event.target.value='';
+}
+
+// ── STREAKS EN DANGER ─────────────────────────────────────────────────────────
+function getDangerStreaks(){
+  // Une habitude est "en danger" si : streak >= 3 ET pas cochée aujourd'hui
+  // Pour les weekly : streak >= 2 semaines ET fréquence actuelle < objectif
+  const danger=[];
+  const weekKey=getWeekKey();
+  allHabits().forEach(h=>{
+    const streak=h.streak||0;
+    if(h.freqType==='weekly'){
+      if(streak>=2){
+        const done=countWeeklyDone(h.id,weekKey);
+        const target=h.freqCount||1;
+        const daysLeft=6-now.getDay();
+        const maxPossible=done+daysLeft+(DB.checked[h.id]?0:1);
+        if(maxPossible<Math.floor(target*0.5)+1){
+          danger.push({habit:h,streak,reason:`${done}/${target} cette semaine`});
+        }
+      }
+    }else{
+      if(streak>=3&&!DB.checked[h.id]){
+        danger.push({habit:h,streak,reason:`streak ${streak}j à risque`});
+      }
+    }
+  });
+  return danger.sort((a,b)=>b.streak-a.streak).slice(0,5);
+}
+
+function renderDangerCard(){
+  if(selectedHomeDay!==now.getDay())return'';
+  const danger=getDangerStreaks();
+  if(danger.length===0)return'';
+  const items=danger.map(d=>`<div class="dc-item"><div style="width:6px;height:6px;border-radius:50%;background:var(--danger);flex-shrink:0;"></div><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${d.habit.label}</span><span class="dc-streak">${d.reason}</span></div>`).join('');
+  return`<div class="danger-card"><div class="dc-title">Streaks en danger</div>${items}</div>`;
+}
+
+function getWeekKey(){
+  const d=new Date(now);
+  const day=d.getDay();
+  const diff=d.getDate()-day;
+  const monday=new Date(d.setDate(diff));
+  return monday.toISOString().split('T')[0];
+}
+
+function countWeeklyDone(habitId,weekKey){
+  let count=0;
+  const start=new Date(weekKey);
+  for(let i=0;i<7;i++){
+    const d=new Date(start);d.setDate(start.getDate()+i);
+    const key=d.toISOString().split('T')[0];
+    if(DB.history[key]&&DB.history[key].checked&&DB.history[key].checked[habitId])count++;
+  }
+  if(DB.checked[habitId])count++;
+  return count;
+}
+
+// ── PWA INSTALLATION ──────────────────────────────────────────────────────────
+let deferredInstallPrompt=null;
+
+window.addEventListener('beforeinstallprompt',e=>{
+  e.preventDefault();
+  deferredInstallPrompt=e;
+  if(!localStorage.getItem('pwa-dismissed')&&!isPWAInstalled()){
+    setTimeout(()=>showInstallBanner(),3000);
+  }
+});
+
+window.addEventListener('appinstalled',()=>{
+  deferredInstallPrompt=null;
+  hideInstallBanner();
+  toast('HabitOS installé !','green');
+});
+
+function isPWAInstalled(){
+  return window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true;
+}
+
+function isIOS(){
+  return /iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
+}
+
+function showInstallBanner(){
+  if(document.getElementById('pwa-banner'))return;
+  const banner=document.createElement('div');
+  banner.id='pwa-banner';banner.className='pwa-banner';
+  if(isIOS()){
+    banner.innerHTML=`<div class="pb-icon"><svg width="20" height="20" viewBox="0 0 48 48"><rect x="0" y="0" width="48" height="48" rx="11" fill="#0a0a0a"/><g transform="translate(11,11)"><rect x="0" y="22" width="5" height="5" rx="1" fill="#fff"/><rect x="7" y="15" width="5" height="5" rx="1" fill="#fff"/><rect x="7" y="22" width="5" height="5" rx="1" fill="#fff"/><rect x="14" y="8" width="5" height="5" rx="1" fill="#fff"/><rect x="14" y="15" width="5" height="5" rx="1" fill="#fff"/><rect x="14" y="22" width="5" height="5" rx="1" fill="#fff"/><rect x="21" y="1" width="5" height="5" rx="1" fill="#fff"/><rect x="21" y="8" width="5" height="5" rx="1" fill="#fff"/><rect x="21" y="15" width="5" height="5" rx="1" fill="#fff"/><rect x="21" y="22" width="5" height="5" rx="1" fill="#fff"/></g></svg></div><div class="pb-text"><div class="pb-title">Installer sur iPhone</div><div class="pb-sub">Bouton Partager → Sur l'écran d'accueil</div></div><button class="pb-close" onclick="dismissInstallBanner()">×</button>`;
+  }else{
+    banner.innerHTML=`<div class="pb-icon"><svg width="20" height="20" viewBox="0 0 48 48"><rect x="0" y="0" width="48" height="48" rx="11" fill="#0a0a0a"/><g transform="translate(11,11)"><rect x="0" y="22" width="5" height="5" rx="1" fill="#fff"/><rect x="7" y="15" width="5" height="5" rx="1" fill="#fff"/><rect x="7" y="22" width="5" height="5" rx="1" fill="#fff"/><rect x="14" y="8" width="5" height="5" rx="1" fill="#fff"/><rect x="14" y="15" width="5" height="5" rx="1" fill="#fff"/><rect x="14" y="22" width="5" height="5" rx="1" fill="#fff"/><rect x="21" y="1" width="5" height="5" rx="1" fill="#fff"/><rect x="21" y="8" width="5" height="5" rx="1" fill="#fff"/><rect x="21" y="15" width="5" height="5" rx="1" fill="#fff"/><rect x="21" y="22" width="5" height="5" rx="1" fill="#fff"/></g></svg></div><div class="pb-text"><div class="pb-title">Installer HabitOS</div><div class="pb-sub">App plein écran, notifs, offline</div></div><button class="pb-btn" onclick="triggerInstall()">Installer</button><button class="pb-close" onclick="dismissInstallBanner()">×</button>`;
+  }
+  document.body.appendChild(banner);
+}
+
+function hideInstallBanner(){
+  const b=document.getElementById('pwa-banner');
+  if(b)b.remove();
+}
+
+function dismissInstallBanner(){
+  localStorage.setItem('pwa-dismissed','1');
+  hideInstallBanner();
+}
+
+async function triggerInstall(){
+  if(!deferredInstallPrompt)return;
+  deferredInstallPrompt.prompt();
+  const {outcome}=await deferredInstallPrompt.userChoice;
+  deferredInstallPrompt=null;
+  if(outcome==='accepted')hideInstallBanner();
+}
+
+// Bouton manuel d'installation iOS (dans les paramètres)
+function showIOSInstallHelp(){
+  alert('Pour installer HabitOS sur iPhone :\n\n1. Appuie sur le bouton Partager en bas de Safari (carré avec flèche)\n2. Fais défiler et appuie sur "Sur l\'écran d\'accueil"\n3. Confirme en appuyant sur "Ajouter"\n\nLes notifications fonctionneront après installation.');
+}
+
+// ── NOTIFICATIONS LOCALES ─────────────────────────────────────────────────────
+function updateNotifStatus(){
+  const el=document.getElementById('notif-status');
+  if(!el)return;
+  if(!('Notification' in window)){
+    el.innerHTML=`<div style="font-size:11px;color:var(--tx2);">Notifications non supportées sur ce navigateur.</div>`;
+    return;
+  }
+  const perm=Notification.permission;
+  if(perm==='granted'){
+    const hasReminders=DB.settings?.reminderMatin||DB.settings?.reminderSoir;
+    el.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--successl);border-radius:var(--rd);"><div style="font-size:11px;color:var(--success);">${hasReminders?'Notifications activées':'Activé — définis une heure ci-dessus'}</div><button class="btn-sec" style="font-size:11px;padding:4px 8px;" onclick="testNotification()">Tester</button></div>`;
+  }else if(perm==='denied'){
+    el.innerHTML=`<div style="font-size:11px;color:var(--danger);padding:8px 10px;background:var(--dangerl);border-radius:var(--rd);">Notifications bloquées. Active-les dans les réglages du navigateur.</div>`;
+  }else{
+    el.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--bg2);border-radius:var(--rd);"><div style="font-size:11px;color:var(--tx2);">Permission non accordée</div><button class="btn-sec" style="font-size:11px;padding:4px 8px;" onclick="toggleNotifs()">Activer</button></div>`;
+  }
+}
+
+function testNotification(){
+  showLocalNotif('HabitOS — Test','Si tu vois ceci, les notifs fonctionnent bien.');
+  toast('Notification envoyée');
+}
+
+async function requestNotifPermission(){
+  if(!('Notification' in window)){
+    toast('Notifs non supportées sur ce navigateur','red');return false;
+  }
+  if(Notification.permission==='granted')return true;
+  if(Notification.permission==='denied'){
+    toast('Notifs bloquées — active-les dans les réglages','red');return false;
+  }
+  const result=await Notification.requestPermission();
+  return result==='granted';
+}
+
+function parseTimeToMs(timeStr){
+  // timeStr format "HH:MM", retourne le timestamp du prochain trigger
+  if(!timeStr||!timeStr.match(/^\d{1,2}:\d{2}$/))return null;
+  const [h,m]=timeStr.split(':').map(Number);
+  const now=new Date();
+  const target=new Date();
+  target.setHours(h,m,0,0);
+  // Si l'heure est passée aujourd'hui, on schedule pour demain
+  if(target<=now)target.setDate(target.getDate()+1);
+  return target.getTime()-now.getTime();
+}
+
+let notifTimers=[];
+
+function scheduleNotifications(){
+  // Annuler les anciens timers
+  notifTimers.forEach(t=>clearTimeout(t));
+  notifTimers=[];
+  if(!DB||!DB.settings)return;
+  if(Notification.permission!=='granted')return;
+  const matin=DB.settings.reminderMatin;
+  const soir=DB.settings.reminderSoir;
+  if(matin){
+    const delay=parseTimeToMs(matin);
+    if(delay!==null){
+      notifTimers.push(setTimeout(()=>{
+        showLocalNotif('HabitOS — Matin','Prêt à lancer ta journée ? Check tes habitudes.');
+        scheduleNotifications(); // Reprogrammer pour le lendemain
+      },delay));
+    }
+  }
+  if(soir){
+    const delay=parseTimeToMs(soir);
+    if(delay!==null){
+      notifTimers.push(setTimeout(()=>{
+        showLocalNotif('HabitOS — Soir','Bilan du jour : n\'oublie pas d\'enregistrer ta journée.');
+        scheduleNotifications();
+      },delay));
+    }
+  }
+}
+
+function showLocalNotif(title,body){
+  if(Notification.permission!=='granted')return;
+  if(navigator.serviceWorker&&navigator.serviceWorker.ready){
+    navigator.serviceWorker.ready.then(reg=>{
+      reg.showNotification(title,{
+        body,
+        icon:'/icon-192.png',
+        badge:'/icon-192.png',
+        tag:'habitos-reminder',
+        requireInteraction:false
+      });
+    });
+  }else{
+    new Notification(title,{body,icon:'/icon-192.png'});
+  }
+}
+
+// Toggle notifs dans les settings
+async function toggleNotifs(){
+  const granted=await requestNotifPermission();
+  if(granted){
+    scheduleNotifications();
+    toast('Notifications activées','green');
+  }
 }
 
 async function confirmReset(){
