@@ -272,6 +272,25 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
 .check-dot.checked{transform:scale(1.15);}
 @keyframes checkPop{0%{transform:scale(1);}50%{transform:scale(1.3);}100%{transform:scale(1);}}
 .check-dot.just-checked{animation:checkPop 0.3s ease-out;}
+/* ── FESTIVE SPLASH ─────────────────────────────────────────────────────── */
+.festive-overlay{position:fixed;inset:0;z-index:500;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;text-align:center;animation:fadeInSplash 0.35s ease;}
+@keyframes fadeInSplash{from{opacity:0;transform:scale(0.97);}to{opacity:1;transform:scale(1);}}
+.festive-icon{width:72px;height:72px;color:var(--ac);margin-bottom:24px;}
+.festive-title{font-size:22px;font-weight:500;color:var(--tx);margin-bottom:8px;letter-spacing:-0.3px;}
+.festive-sub{font-size:13px;color:var(--tx2);margin-bottom:36px;line-height:1.6;}
+.festive-btn{padding:12px 36px;background:var(--ac);color:#fff;border:none;border-radius:var(--rd);font-size:14px;cursor:pointer;font-family:inherit;transition:opacity 0.3s;opacity:0;pointer-events:none;}
+.festive-btn.show{opacity:1;pointer-events:all;}
+.festive-btn:hover{opacity:0.85;}
+.festive-confetti-wrap{position:absolute;inset:0;overflow:hidden;pointer-events:none;}
+.conf{position:absolute;width:7px;height:7px;border-radius:2px;animation:confFall linear forwards;}
+@keyframes confFall{0%{transform:translateY(-60px) rotate(0deg);opacity:1;}100%{transform:translateY(110vh) rotate(540deg);opacity:0;}}
+/* Birthday banner */
+.bday-banner{background:var(--acl);border:0.5px solid var(--acm);border-radius:var(--rdl);padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:14px;width:100%;}
+[data-theme="dark"] .bday-banner{background:rgba(83,74,183,0.15);}
+.bday-banner-icon{width:36px;height:36px;color:var(--ac);flex-shrink:0;}
+.bday-banner-txt{flex:1;min-width:0;}
+.bday-banner-title{font-size:13px;font-weight:500;color:var(--ac);}
+.bday-banner-sub{font-size:11px;color:var(--tx2);margin-top:2px;}
 </style>
 </head>
 <body>
@@ -281,8 +300,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
 <div class="settings-panel" id="settings-panel"></div>
 
 <script>
-const SUPABASE_URL='https://cvmgegkrpvzzgbaiufqf.supabase.co';
-const SUPABASE_KEY='sb_publishable_B1_B7x3xMBbeUjmIivs-aA_sw7ZHZy1';
+const SUPABASE_URL='REMPLACE_PAR_TON_URL';
+const SUPABASE_KEY='REMPLACE_PAR_TA_CLE';
 const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 // ── CONSTANTES ────────────────────────────────────────────────────────────────
@@ -403,7 +422,7 @@ const defaultDB=()=>({
   },
   rpgLastUpdated:{},
   xp:0,
-  settings:{theme:'auto',colorTheme:'indigo',customColor:null,reminderMatin:'',reminderSoir:''},
+  settings:{theme:'auto',colorTheme:'indigo',customColor:null,reminderMatin:'',reminderSoir:'',birthday:'',firstName:''},
   lastSavedDate:''
 });
 
@@ -516,6 +535,8 @@ async function loadData(){
   DB={...defaultDB(),...saved};
   if(!DB.history)DB.history={};
   if(!DB.settings)DB.settings=defaultDB().settings;
+  if(DB.settings.birthday===undefined)DB.settings.birthday='';
+  if(DB.settings.firstName===undefined)DB.settings.firstName='';
   if(!DB.rpgLastUpdated)DB.rpgLastUpdated={};
   if(Array.isArray(DB.rpgStats)){
     const newStats={};
@@ -665,6 +686,7 @@ function showApp(){
     <div class="modal-overlay" id="modal-overlay" onclick="outsideClose(event)"><div class="modal-box" id="modal-box"></div></div>`;
   setupSwipe();
   renderPage(0);
+  setTimeout(()=>{checkBirthday();checkFestiveSplash();},600);
 }
 
 function navTo(i){
@@ -673,6 +695,8 @@ function navTo(i){
   document.getElementById('ptitle').textContent=PAGE_TITLES[i];
   document.querySelectorAll('.tab').forEach((t,j)=>t.classList.toggle('active',j===i));
   document.querySelectorAll('.tab')[i].scrollIntoView({inline:'nearest',behavior:'smooth'});
+  const pageEl=document.getElementById('p-'+i);
+  if(pageEl)pageEl.scrollTop=0;
   renderPage(i);
 }
 
@@ -767,6 +791,7 @@ function renderHome(){
     habHtml=`<div style="padding:12px 14px;font-size:13px;color:var(--tx2);">Aucune donnée pour ce jour.</div>`;
   }
   document.getElementById('p-0').innerHTML=`
+    ${renderBirthdayBanner()}
     ${renderDangerCard()}
     <div class="metric-grid">
       <div class="metric"><div class="mlabel">Ma journée</div><div class="mval">${doneItems()}/${totalItems()}</div><div class="msub">tâches cochées</div></div>
@@ -1139,7 +1164,10 @@ function openSettings(){
         </div>
       </div>
       <div class="settings-section">
-        <div class="settings-section-title">Thème</div>
+        <div class="settings-section-title">Profil personnel</div>
+        <div class="settings-item"><div><div class="settings-item-label">Prénom</div><div class="settings-item-sub">Affiché dans les messages</div></div><input type="text" class="fi" style="width:130px;text-align:right;" id="profile-firstname" value="${DB.settings?.firstName||''}" placeholder="Ex: Florian" onchange="saveProfile()"></div>
+        <div class="settings-item"><div><div class="settings-item-label">Date de naissance</div><div class="settings-item-sub">Splash et badge chaque année</div></div><input type="date" class="fi" style="width:150px;" id="profile-birthday" value="${DB.settings?.birthday||''}" onchange="saveProfile()"></div>
+      </div>
         <div class="theme-selector">
           <div class="theme-opt${currentMode==='light'?' sel':''}" onclick="setThemeMode('light')">Clair</div>
           <div class="theme-opt${currentMode==='dark'?' sel':''}" onclick="setThemeMode('dark')">Sombre</div>
@@ -1169,7 +1197,7 @@ function openSettings(){
       </div>
       <div class="settings-section">
         <div class="settings-section-title">Version</div>
-        <div class="settings-item" style="border-radius:var(--rdl);"><div><div class="settings-item-label">HabitOS</div><div class="settings-item-sub">Version 1.3.1</div></div><div style="font-size:12px;color:var(--tx2);">v1.3.1</div></div>
+        <div class="settings-item" style="border-radius:var(--rdl);"><div><div class="settings-item-label">HabitOS</div><div class="settings-item-sub">Version 1.4.0</div></div><div style="font-size:12px;color:var(--tx2);">v1.4.0</div></div>
       </div>
       <div class="settings-section">
         <div class="settings-section-title">Zone de danger</div>
@@ -1752,6 +1780,212 @@ async function delObj(id){DB.objectives=DB.objectives.filter(o=>o.id!==id);await
 
 function closeModal(){document.getElementById('modal-overlay').classList.remove('open');currentFreqType='daily';}
 function outsideClose(e){if(e.target===document.getElementById('modal-overlay'))closeModal();}
+
+// ── PROFIL ─────────────────────────────────────────────────────────────────
+async function saveProfile(){
+  DB.settings.firstName=document.getElementById('profile-firstname')?.value.trim()||'';
+  DB.settings.birthday=document.getElementById('profile-birthday')?.value||'';
+  await saveData();toast('Profil enregistré');
+}
+
+// ── SPLASH FESTIF & ANNIVERSAIRE ───────────────────────────────────────────
+
+// Algorithme de Gauss pour la date de Pâques
+function getEaster(year){
+  const a=year%19,b=Math.floor(year/100),c=year%100;
+  const d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25);
+  const g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30;
+  const i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7;
+  const m=Math.floor((a+11*h+22*l)/451);
+  const month=Math.floor((h+l-7*m+114)/31);
+  const day=((h+l-7*m+114)%31)+1;
+  return String(month).padStart(2,'0')+'-'+String(day).padStart(2,'0');
+}
+
+// N-ième dimanche d'un mois (month = 1-based)
+function getNthSunday(year,month,n){
+  const d=new Date(year,month-1,1);
+  const firstDay=d.getDay();
+  const firstSunday=firstDay===0?1:8-firstDay;
+  return String(firstSunday+(n-1)*7).padStart(2,'0');
+}
+
+// SVG icons stroke fin pour chaque fête
+function getFestiveIcon(id){
+  const s='stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"';
+  const icons={
+    newyear:`<svg viewBox="0 0 24 24" ${s}><path d="M8 21h8M12 21v-6M12 15c0-3 4-5 4-8a4 4 0 0 0-8 0c0 3 4 5 4 8z"/><path d="M9 3.5L12 2l3 1.5"/><circle cx="12" cy="2" r="0.5" fill="currentColor"/></svg>`,
+    valentine:`<svg viewBox="0 0 24 24" ${s}><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`,
+    easter:`<svg viewBox="0 0 24 24" ${s}><ellipse cx="12" cy="13" rx="6" ry="8"/><path d="M6.5 10.5c2 1.5 3 3 5.5 3s3.5-1.5 5.5-3"/><path d="M8 7.5c1 .5 2 1 4 1s3-.5 4-1"/></svg>`,
+    mothers:`<svg viewBox="0 0 24 24" ${s}><path d="M12 2C6 2 3 7 3 10s2 5 5 5c1 0 2-.3 2.8-.8"/><path d="M12 2c6 0 9 5 9 8s-2 5-5 5c-1 0-2-.3-2.8-.8"/><path d="M12 15v7M9 19h6"/><circle cx="12" cy="11" r="1.5" fill="currentColor"/></svg>`,
+    fathers:`<svg viewBox="0 0 24 24" ${s}><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M16 8V6a4 4 0 0 0-8 0v2"/><path d="M12 12v5M9.5 14.5l2.5-2.5 2.5 2.5"/></svg>`,
+    halloween:`<svg viewBox="0 0 24 24" ${s}><path d="M12 3C8 3 5 7 5 11c0 5 3 8 7 8s7-3 7-8c0-4-3-8-7-8z"/><path d="M9 13c.5 1 1.5 2 3 2s2.5-1 3-2"/><path d="M8 10l2 1.5M16 10l-2 1.5"/><path d="M10 8l-2-2M14 8l2-2"/></svg>`,
+    christmas:`<svg viewBox="0 0 24 24" ${s}><polygon points="12,2 4,14 20,14"/><rect x="9" y="14" width="6" height="3"/><rect x="8" y="17" width="8" height="4"/><circle cx="12" cy="8" r="1" fill="currentColor"/></svg>`,
+    newyearseve:`<svg viewBox="0 0 24 24" ${s}><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/><path d="M5 3l2 2M19 3l-2 2M5 21l2-2M19 21l-2-2"/></svg>`,
+    ramadan:`<svg viewBox="0 0 24 24" ${s}><path d="M17 4a8 8 0 1 0 0 16 6 6 0 0 1 0-16z"/><path d="M17 9l1.5 3-3 1.5 3 1.5L17 18"/></svg>`,
+    eid:`<svg viewBox="0 0 24 24" ${s}><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>`,
+    birthday:`<svg viewBox="0 0 24 24" ${s}><rect x="3" y="10" width="18" height="12" rx="2"/><path d="M3 14h18"/><path d="M8 10V8a4 4 0 0 1 8 0v2"/><path d="M8 6c0-1.5 1-3 2-3s1.5 1 2 0 1.5-2 3-1"/><path d="M12 14v4"/></svg>`
+  };
+  return icons[id]||icons.eid;
+}
+
+function checkFestiveSplash(){
+  if(!DB)return;
+  const year=now.getFullYear();
+  const md=TODAY.slice(5);
+  const storageKey='habitos-splash-'+TODAY;
+  if(localStorage.getItem(storageKey))return;
+
+  // Dates fixes
+  const fixed={
+    '01-01':{id:'newyear',title:'Bonne année !',sub:year+' commence aujourd\'hui.'},
+    '02-14':{id:'valentine',title:'Saint-Valentin',sub:'Bonne fête à toi et aux tiens.'},
+    '10-31':{id:'halloween',title:'Halloween',sub:'Bonne nuit de frissons.'},
+    '12-25':{id:'christmas',title:'Joyeux Noël',sub:'Belle journée en famille.'},
+    '12-31':{id:'newyearseve',title:'Bonne Saint-Sylvestre',sub:'Dernière journée de '+year+'.'}
+  };
+
+  // Pâques
+  const easterMD=getEaster(year);
+
+  // Fête des mères BE (2e dimanche mai)
+  const mothersMD='05-'+getNthSunday(year,5,2);
+  // Fête des pères BE (2e dimanche juin)
+  const fathersMD='06-'+getNthSunday(year,6,2);
+
+  // Dates islamiques hardcodées
+  const islamic={
+    2026:{ramadan:'02-17',eidFitr:'03-20',eidAdha:'05-27'},
+    2027:{ramadan:'03-08',eidFitr:'04-06',eidAdha:'06-14'}
+  };
+
+  let festivity=fixed[md]||null;
+  if(!festivity&&md===easterMD)festivity={id:'easter',title:'Joyeuses Pâques',sub:'Bonne fête !'};
+  if(!festivity&&md===mothersMD)festivity={id:'mothers',title:'Fête des mères',sub:'Bonne fête !'};
+  if(!festivity&&md===fathersMD)festivity={id:'fathers',title:'Fête des pères',sub:'Bonne fête !'};
+  if(!festivity&&islamic[year]){
+    if(md===islamic[year].ramadan)festivity={id:'ramadan',title:'Début du Ramadan',sub:'Ramadan Mubarak !'};
+    else if(md===islamic[year].eidFitr)festivity={id:'eid',title:'Aïd al-Fitr',sub:'Aïd Moubarak !'};
+    else if(md===islamic[year].eidAdha)festivity={id:'eid',title:'Aïd al-Adha',sub:'Aïd Moubarak !'};
+  }
+
+  if(!festivity)return;
+  showFestiveSplash(festivity,false,storageKey);
+}
+
+function checkBirthday(){
+  if(!DB||!DB.settings?.birthday)return;
+  const bday=DB.settings.birthday; // YYYY-MM-DD
+  const bdayMD=bday.slice(5); // MM-DD
+  const todayMD=TODAY.slice(5);
+  if(bdayMD!==todayMD)return;
+
+  const year=now.getFullYear();
+  const storageKey='habitos-bday-'+year;
+  if(localStorage.getItem(storageKey))return;
+
+  const birthYear=parseInt(bday.slice(0,4));
+  const age=year-birthYear;
+  const firstName=DB.settings.firstName||'';
+
+  // Auto-déverrouillage badge anniversaire
+  autoUnlockBirthdayBadge(year,firstName);
+
+  // Montrer le splash anniversaire (prioritaire, remplace festif)
+  showFestiveSplash({
+    id:'birthday',
+    title:'Joyeux anniversaire'+(firstName?' '+firstName:'')+' !',
+    sub:age>0?'Tu as '+age+' ans aujourd\'hui.':'Belle journée !'
+  },true,storageKey);
+}
+
+function showFestiveSplash(festivity,withConfetti,storageKey){
+  // Poser la clé immédiatement : si l'user ferme sans cliquer, le splash ne revient pas
+  if(storageKey)localStorage.setItem(storageKey,'1');
+  const overlay=document.createElement('div');
+  overlay.className='festive-overlay';
+  overlay.id='festive-overlay';
+  overlay.innerHTML=`
+    ${withConfetti?'<div class="festive-confetti-wrap" id="conf-wrap"></div>':''}
+    <div class="festive-icon">${getFestiveIcon(festivity.id)}</div>
+    <div class="festive-title">${festivity.title}</div>
+    <div class="festive-sub">${festivity.sub}</div>
+    <button class="festive-btn" id="festive-btn" onclick="closeFestiveSplash()">Continuer</button>`;
+  document.body.appendChild(overlay);
+  if(withConfetti)spawnConfetti();
+  setTimeout(()=>{
+    const btn=document.getElementById('festive-btn');
+    if(btn)btn.classList.add('show');
+  },1500);
+}
+
+function closeFestiveSplash(){
+  const overlay=document.getElementById('festive-overlay');
+  if(overlay){
+    overlay.style.transition='opacity 0.3s';
+    overlay.style.opacity='0';
+    setTimeout(()=>overlay.remove(),300);
+  }
+}
+
+function spawnConfetti(){
+  const wrap=document.getElementById('conf-wrap');
+  if(!wrap)return;
+  const colors=['var(--ac)','var(--acm)','var(--success)','var(--warn)','#D4537E'];
+  for(let i=0;i<40;i++){
+    setTimeout(()=>{
+      const p=document.createElement('div');
+      p.className='conf';
+      p.style.cssText=`
+        left:${Math.random()*100}%;
+        background:${colors[Math.floor(Math.random()*colors.length)]};
+        animation-duration:${2+Math.random()*2}s;
+        animation-delay:${Math.random()*0.5}s;
+        transform:rotate(${Math.random()*360}deg);
+        width:${5+Math.random()*6}px;height:${5+Math.random()*6}px;
+        border-radius:${Math.random()>0.5?'50%':'2px'};
+      `;
+      wrap.appendChild(p);
+      setTimeout(()=>p.remove(),4500);
+    },i*30);
+  }
+}
+
+// Bandeau anniversaire sur la page Accueil (affiché toute la journée)
+function renderBirthdayBanner(){
+  if(!DB?.settings?.birthday)return'';
+  const bdayMD=DB.settings.birthday.slice(5);
+  if(bdayMD!==TODAY.slice(5))return'';
+  const year=now.getFullYear();
+  const birthYear=parseInt(DB.settings.birthday.slice(0,4));
+  const age=year-birthYear;
+  const firstName=DB.settings.firstName||'';
+  return`<div class="bday-banner">
+    <div class="bday-banner-icon">${getFestiveIcon('birthday')}</div>
+    <div class="bday-banner-txt">
+      <div class="bday-banner-title">Joyeux anniversaire${firstName?' '+firstName:''} !</div>
+      <div class="bday-banner-sub">${age>0?age+' ans aujourd\'hui — ':''}Belle journée !</div>
+    </div>
+  </div>`;
+}
+
+// Badge anniversaire auto-débloqué
+async function autoUnlockBirthdayBadge(year,firstName){
+  const badgeName='Anniversaire '+year;
+  const existing=DB.badges.find(b=>b.name===badgeName);
+  if(existing&&existing.unlocked)return;
+  if(existing){
+    existing.unlocked=true;existing.endDate=TODAY;
+  }else{
+    DB.badges.push({
+      id:'b-bday-'+year,name:badgeName,
+      cond:'Être présent le jour de ton anniversaire.',
+      unlocked:true,startDate:TODAY,endDate:TODAY
+    });
+  }
+  await saveData();
+  toast('Badge "'+badgeName+'" débloqué !','green');
+}
 
 init();
 </script>
