@@ -1,0 +1,14 @@
+{
+  "_comment": "Format : {id: {cat, name, file}}. Les fichiers vont dans /icons/<sous-dossier>/<nom>.svg. Exemples commentés ci-dessous — supprime-les et remplis avec tes vraies icônes.",
+
+  "_example_sport_dumbbell": {
+    "cat": "Sport",
+    "name": "Haltère",
+    "file": "sport/dumbbell.svg"
+  },
+  "_example_nutrition_apple": {
+    "cat": "Nutrition",
+    "name": "Pomme",
+    "file": "nutrition/apple.svg"
+  }
+}
