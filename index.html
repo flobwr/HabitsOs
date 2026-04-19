@@ -291,6 +291,64 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
 .bday-banner-txt{flex:1;min-width:0;}
 .bday-banner-title{font-size:13px;font-weight:500;color:var(--ac);}
 .bday-banner-sub{font-size:11px;color:var(--tx2);margin-top:2px;}
+/* ── BADGES TIER SYSTEM ─────────────────────────────────────────────────── */
+.badge-card-new{background:var(--bg);border:0.5px solid var(--br);border-radius:var(--rdl);padding:10px;cursor:pointer;transition:transform 0.15s,border-color 0.15s;min-width:0;display:flex;flex-direction:column;align-items:center;}
+.badge-card-new:hover{border-color:var(--acm);transform:translateY(-1px);}
+.badge-visual{position:relative;width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;margin-bottom:8px;}
+.badge-shell{width:100%;height:100%;object-fit:contain;display:block;}
+.badge-visual.locked .badge-shell{filter:brightness(0) saturate(0);opacity:0.35;}
+.badge-visual.locked .badge-icon-overlay{filter:brightness(0) saturate(0);opacity:0;}
+[data-theme="dark"] .badge-visual.locked .badge-shell{filter:brightness(0) saturate(0) invert(1);opacity:0.25;}
+.badge-icon-overlay{position:absolute;top:38%;left:50%;transform:translate(-50%,-50%);width:26%;height:26%;display:flex;align-items:center;justify-content:center;pointer-events:none;}
+.badge-icon-overlay svg,.badge-icon-overlay img{width:100%;height:100%;color:#fff;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.4));}
+.badge-card-name{font-size:12px;font-weight:500;text-align:center;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;}
+.badge-card-new.locked .badge-card-name{color:var(--tx3);}
+.badge-card-tierlbl{font-size:10px;color:var(--tx2);margin-top:2px;text-transform:uppercase;letter-spacing:0.05em;}
+/* Detail modal : tiers list */
+.bd-tier-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--br);}
+.bd-tier-row:last-child{border-bottom:none;}
+.bd-tier-visual{width:56px;height:56px;position:relative;flex-shrink:0;}
+.bd-tier-visual img{width:100%;height:100%;object-fit:contain;}
+.bd-tier-visual.locked img{filter:brightness(0) saturate(0);opacity:0.3;}
+[data-theme="dark"] .bd-tier-visual.locked img{filter:brightness(0) saturate(0) invert(1);opacity:0.25;}
+.bd-tier-visual .bd-tier-icon{position:absolute;top:38%;left:50%;transform:translate(-50%,-50%);width:24%;height:24%;}
+.bd-tier-visual.locked .bd-tier-icon{opacity:0;}
+.bd-tier-info{flex:1;min-width:0;}
+.bd-tier-name{font-size:13px;font-weight:500;}
+.bd-tier-name.locked{color:var(--tx3);}
+.bd-tier-meta{font-size:11px;color:var(--tx2);margin-top:2px;line-height:1.4;}
+.bd-tier-action{flex-shrink:0;}
+.bd-header{display:flex;gap:14px;align-items:flex-start;margin-bottom:14px;}
+.bd-header-visual{width:72px;height:72px;flex-shrink:0;position:relative;}
+.bd-header-visual img{width:100%;height:100%;object-fit:contain;}
+.bd-header-visual .bd-header-icon{position:absolute;top:38%;left:50%;transform:translate(-50%,-50%);width:24%;height:24%;}
+.bd-header-info{flex:1;min-width:0;}
+.bd-header-title{font-size:16px;font-weight:500;margin-bottom:3px;}
+.bd-header-desc{font-size:12px;color:var(--tx2);line-height:1.5;}
+.bd-header-dates{font-size:11px;color:var(--tx3);margin-top:6px;}
+/* Icon picker */
+.icon-picker-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;max-height:280px;overflow-y:auto;padding:4px;}
+.icon-picker-cell{aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;border:0.5px solid var(--br);border-radius:var(--rd);cursor:pointer;background:var(--bg2);transition:all 0.15s;padding:8px;}
+.icon-picker-cell:hover{border-color:var(--ac);background:var(--bg);}
+.icon-picker-cell.sel{border-color:var(--ac);background:var(--acl);}
+[data-theme="dark"] .icon-picker-cell.sel{background:rgba(83,74,183,0.2);}
+.icon-picker-cell svg,.icon-picker-cell img{width:100%;height:100%;color:var(--tx);}
+.icon-picker-cat{font-size:11px;color:var(--tx2);margin:8px 0 4px;text-transform:uppercase;letter-spacing:0.05em;}
+.icon-picker-cat:first-child{margin-top:0;}
+/* Tier config card in creation */
+.tier-cfg{border:0.5px solid var(--br);border-radius:var(--rd);padding:10px 12px;margin-bottom:8px;background:var(--bg2);}
+.tier-cfg.on{background:var(--bg);border-color:var(--acm);}
+.tier-cfg-hd{display:flex;align-items:center;justify-content:space-between;cursor:pointer;}
+.tier-cfg-hd-l{display:flex;align-items:center;gap:8px;}
+.tier-cfg-mini{width:28px;height:28px;flex-shrink:0;}
+.tier-cfg-mini img{width:100%;height:100%;object-fit:contain;}
+.tier-cfg-body{margin-top:10px;display:none;}
+.tier-cfg.on .tier-cfg-body{display:block;}
+.tier-cfg-toggle{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--br2);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.tier-cfg.on .tier-cfg-toggle{background:var(--ac);border-color:var(--ac);}
+.tier-cfg-toggle svg{opacity:0;}
+.tier-cfg.on .tier-cfg-toggle svg{opacity:1;}
+.modal-box.wide{max-height:90dvh;}
 </style>
 </head>
 <body>
@@ -300,8 +358,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
 <div class="settings-panel" id="settings-panel"></div>
 
 <script>
-const SUPABASE_URL='https://cvmgegkrpvzzgbaiufqf.supabase.co';
-const SUPABASE_KEY='sb_publishable_B1_B7x3xMBbeUjmIivs-aA_sw7ZHZy1';
+const SUPABASE_URL='REMPLACE_PAR_TON_URL';
+const SUPABASE_KEY='REMPLACE_PAR_TA_CLE';
 const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 // ── CONSTANTES ────────────────────────────────────────────────────────────────
@@ -400,7 +458,50 @@ const COLOR_THEMES=[
   {id:'duo-slate',name:'Duo Slate',ac:'#1E293B',acl:'#F1F5F9',acm:'#475569',act:'#0F172A'},
 ];
 
-// ── STATE ─────────────────────────────────────────────────────────────────────
+// ── BADGES TIER SYSTEM ────────────────────────────────────────────────────────
+const BADGE_TIERS=['recrue','bronze','argent','or','maitre','legende'];
+const BADGE_TIER_LABELS={recrue:'Recrue',bronze:'Bronze',argent:'Argent',or:'Or',maitre:'Maître',legende:'Légende'};
+const BADGE_TIER_IMG=t=>'/badges/'+t+'.png';
+
+// Bibliothèque d'icônes inline (starter set). Extensible via /icons/manifest.json
+const BUILTIN_ICONS={
+  'trophee':{cat:'Base',name:'Trophée',svg:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 3h12v3c0 2.8-2.2 5-5 5v3h3v2h-4v2h1v2H11v-2h1v-2H8v-2h3v-3C8.2 11 6 8.8 6 6V3zM4 5v1a3 3 0 0 0 2.3 2.9C6.1 7.7 6 6.9 6 6V5H4zm16 0v1c0 .9-.1 1.7-.3 2.9A3 3 0 0 0 22 6V5h-2z"/></svg>'},
+  'etoile':{cat:'Base',name:'Étoile',svg:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 7h7.1l-5.7 4.3L18.2 20 12 15.8 5.8 20l1.9-6.7L2 9h7.1z"/></svg>'},
+  'couronne':{cat:'Base',name:'Couronne',svg:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 8l4 6 5-8 5 8 4-6v10H3V8zm0 12h18v2H3z"/></svg>'},
+  'flamme':{cat:'Base',name:'Flamme',svg:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2s-4 5-4 9a4 4 0 0 0 8 0c0-2-1.5-3-1.5-5C14.5 4 12 2 12 2zM8 14a4 4 0 0 0 8 0c0 4-4 8-4 8s-4-4-4-8z"/></svg>'},
+  'eclair':{cat:'Base',name:'Éclair',svg:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4 14h6l-2 8 10-12h-6z"/></svg>'},
+  'cible':{cat:'Base',name:'Cible',svg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>'},
+  'coeur':{cat:'Base',name:'Cœur',svg:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7-4.5-9-9A5 5 0 0 1 12 6a5 5 0 0 1 9 6c-2 4.5-9 9-9 9z"/></svg>'},
+  'cerveau':{cat:'Base',name:'Cerveau',svg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M9 5a3 3 0 1 0-3 3v8a3 3 0 1 0 3 3v-14z"/><path d="M15 5a3 3 0 1 1 3 3v8a3 3 0 1 1-3 3v-14z"/></svg>'},
+  'livre':{cat:'Base',name:'Livre',svg:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h7v16H5a1 1 0 0 1-1-1V4zm16 0v15a1 1 0 0 1-1 1h-6V4h7z"/></svg>'},
+  'gateau':{cat:'Base',name:'Gâteau',svg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="1"/><path d="M3 15h18"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/><path d="M12 4V2"/></svg>'},
+  'medaille':{cat:'Base',name:'Médaille',svg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 2l4 7 4-7"/><circle cx="12" cy="15" r="7" fill="currentColor"/></svg>'},
+  'montagne':{cat:'Base',name:'Sommet',svg:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l9 17H3l9-17zm0 5l-5 9h10l-5-9z"/></svg>'}
+};
+// Icônes externes chargées depuis /icons/manifest.json (format : {id:{cat,name,file}})
+let MANIFEST_ICONS={};
+
+async function loadIconManifest(){
+  try{
+    const resp=await fetch('/icons/manifest.json',{cache:'no-cache'});
+    if(!resp.ok)return;
+    const data=await resp.json();
+    if(data&&typeof data==='object')MANIFEST_ICONS=data;
+  }catch(e){/* manifest absent = on se contente des builtins */}
+}
+
+function getAllIcons(){return{...BUILTIN_ICONS,...MANIFEST_ICONS};}
+
+function renderIconMarkup(iconId){
+  const all=getAllIcons();
+  if(!iconId||!all[iconId])return BUILTIN_ICONS.trophee.svg;
+  const ic=all[iconId];
+  if(ic.svg)return ic.svg;
+  if(ic.file)return `<img src="/icons/${ic.file}" alt="${ic.name||''}">`;
+  return BUILTIN_ICONS.trophee.svg;
+}
+
+
 let user=null,DB=null,currentPage=0,selectedHomeDay=now.getDay(),profilTab='stats',notesFilter='all',tempConds=[],condType='streak',agendaDay=now.getDay(),touchStartX=0,touchStartY=0,wheelAccum=0,wheelTimer=null;
 
 const defaultDB=()=>({
@@ -503,6 +604,7 @@ function updateStatOnCheck(habit,checked){
 async function init(){
   applySystemTheme();
   registerServiceWorker();
+  loadIconManifest();
   const{data:{session}}=await sb.auth.getSession();
   if(session){
     user=session.user;
@@ -538,6 +640,26 @@ async function loadData(){
   if(DB.settings.birthday===undefined)DB.settings.birthday='';
   if(DB.settings.firstName===undefined)DB.settings.firstName='';
   if(!DB.rpgLastUpdated)DB.rpgLastUpdated={};
+  // Migration badges : ancien format (cond/unlocked/startDate/endDate) → nouveau format (tiers[])
+  if(Array.isArray(DB.badges)){
+    DB.badges=DB.badges.map(b=>{
+      if(b.tiers&&Array.isArray(b.tiers))return b;
+      return{
+        id:b.id,
+        name:b.name||'Badge',
+        description:b.cond||'',
+        icon:'trophee',
+        createdDate:b.startDate||TODAY,
+        tiers:[{
+          tier:'recrue',
+          condition:{type:'manual',description:b.cond||''},
+          targetDate:'',
+          unlocked:!!b.unlocked,
+          unlockedDate:b.endDate||null
+        }]
+      };
+    });
+  }
   if(Array.isArray(DB.rpgStats)){
     const newStats={};
     Object.keys(STAT_COLORS).forEach(s=>{newStats[s]=1;});
@@ -894,6 +1016,7 @@ async function toggleCheck(id,type){
   await saveData();
   renderJournee();
   checkRewards();
+  checkBadgeAutoUnlocks();
   if(xpGained>0){
     const el=document.querySelector(`[onclick="toggleCheck('${id}','${type}')"]`);
     showXPPopup(xpGained,el);
@@ -907,6 +1030,7 @@ async function saveDay(){
   DB.weekData[now.getDay()]=doneItems();
   DB.history[TODAY]={score:doneItems(),total:totalItems(),mood:DB.mood,note:DB.dailyNote};
   await saveData();toast('Journée enregistrée');
+  checkBadgeAutoUnlocks();
 }
 
 // ── PAGE 2: AGENDA ────────────────────────────────────────────────────────────
@@ -1028,25 +1152,160 @@ function renderBadges(){
       <div class="slabel" style="margin:0;">Badges</div>
       <button class="btn-sec" onclick="openModal('badge')">+ Créer</button>
     </div>
-    ${DB.badges.length===0?`<div style="font-size:13px;color:var(--tx2);">Aucun badge créé.</div>`:`<div class="badge-grid">${DB.badges.map(b=>{
-      const days=daysBetween(b.startDate,b.endDate);
-      return`<div class="badge-card">
-        <div class="bpill${b.unlocked?' on':' off'}">${b.unlocked?'Débloqué':'En cours'}</div>
-        <div class="bname">${b.name}</div>
-        <div class="bcond">${b.cond}</div>
-        <div class="bdates">Début : ${fmtDate(b.startDate)}<br>${b.unlocked?'Atteint : '+fmtDate(b.endDate):'Non atteint'}</div>
-        ${b.unlocked&&days!==null?`<div class="bduration">${days} jour${days>1?'s':''} pour y arriver</div>`:''}
-        <div style="display:flex;gap:4px;margin-top:8px;">
-          ${!b.unlocked?`<button class="btn-sec" style="flex:1;font-size:11px;padding:5px;" onclick="unlockBadge('${b.id}')">Atteint</button>`:''}
-          <button class="btn-sec" style="flex:1;font-size:11px;padding:5px;" onclick="openModal('editBadge','${b.id}')">Modifier</button>
-        </div>
-      </div>`;
-    }).join('')}</div>`}`;
+    ${DB.badges.length===0?`<div style="font-size:13px;color:var(--tx2);">Aucun badge créé.</div>`:`<div class="badge-grid">${DB.badges.map(b=>renderBadgeCard(b)).join('')}</div>`}`;
+}
+
+function getBadgeDisplayTier(badge){
+  // Dernier tier débloqué, ou premier tier verrouillé (silhouette) si aucun
+  let lastUnlocked=null;
+  for(const t of badge.tiers){if(t.unlocked)lastUnlocked=t;}
+  if(lastUnlocked)return{tier:lastUnlocked,locked:false};
+  return{tier:badge.tiers[0],locked:true};
+}
+
+function renderBadgeCard(badge){
+  const{tier,locked}=getBadgeDisplayTier(badge);
+  const tierLbl=BADGE_TIER_LABELS[tier.tier]||'';
+  return`<div class="badge-card-new${locked?' locked':''}" onclick="openBadgeDetail('${badge.id}')">
+    <div class="badge-visual${locked?' locked':''}">
+      <img src="${BADGE_TIER_IMG(tier.tier)}" class="badge-shell" onerror="this.style.display='none'"/>
+      <div class="badge-icon-overlay">${renderIconMarkup(badge.icon)}</div>
+    </div>
+    <div class="badge-card-name">${badge.name}</div>
+    <div class="badge-card-tierlbl">${locked?'Verrouillé':tierLbl}</div>
+  </div>`;
+}
+
+function openBadgeDetail(id){
+  const b=DB.badges.find(x=>x.id===id);if(!b)return;
+  const{tier:displayTier}=getBadgeDisplayTier(b);
+  const createdStr=fmtDate(b.createdDate);
+  // Tiers : montrer tous les débloqués + le prochain verrouillé
+  let nextLockedShown=false;
+  const tierRows=b.tiers.map((t,idx)=>{
+    const isUnlocked=t.unlocked;
+    const isNextLocked=!isUnlocked&&!nextLockedShown;
+    if(isNextLocked)nextLockedShown=true;
+    const hidden=!isUnlocked&&!isNextLocked;
+    if(hidden)return'';
+    const cdText=formatCondition(t.condition,b);
+    const targetText=t.targetDate?'Objectif : '+fmtDate(t.targetDate):'';
+    const unlockedText=isUnlocked?'Débloqué le '+fmtDate(t.unlockedDate):'';
+    let timeText='';
+    if(isUnlocked&&t.unlockedDate&&b.createdDate){
+      const d=daysBetween(b.createdDate,t.unlockedDate);
+      if(d!==null&&d>=0)timeText=d+'j pour atteindre';
+    }
+    const actionBtn=(!isUnlocked&&t.condition.type==='manual')?`<button class="btn-sec" style="font-size:11px;padding:5px 10px;" onclick="event.stopPropagation();unlockTier('${b.id}','${t.tier}')">Atteint</button>`:'';
+    return`<div class="bd-tier-row">
+      <div class="bd-tier-visual${isUnlocked?'':' locked'}">
+        <img src="${BADGE_TIER_IMG(t.tier)}" onerror="this.style.display='none'"/>
+        <div class="bd-tier-icon">${renderIconMarkup(b.icon)}</div>
+      </div>
+      <div class="bd-tier-info">
+        <div class="bd-tier-name${isUnlocked?'':' locked'}">${BADGE_TIER_LABELS[t.tier]}</div>
+        <div class="bd-tier-meta">${cdText}${targetText?' · '+targetText:''}${unlockedText?'<br>'+unlockedText:''}${timeText?' · '+timeText:''}</div>
+      </div>
+      <div class="bd-tier-action">${actionBtn}</div>
+    </div>`;
+  }).join('');
+  const box=document.getElementById('modal-box');
+  box.classList.add('wide');
+  box.innerHTML=`
+    <div class="bd-header">
+      <div class="bd-header-visual">
+        <img src="${BADGE_TIER_IMG(displayTier.tier)}" onerror="this.style.display='none'"/>
+        <div class="bd-header-icon">${renderIconMarkup(b.icon)}</div>
+      </div>
+      <div class="bd-header-info">
+        <div class="bd-header-title">${b.name}</div>
+        <div class="bd-header-desc">${b.description||'—'}</div>
+        <div class="bd-header-dates">Créé le ${createdStr}</div>
+      </div>
+    </div>
+    <div style="max-height:45dvh;overflow-y:auto;border-top:0.5px solid var(--br);padding-top:6px;">${tierRows||'<div style="font-size:12px;color:var(--tx2);padding:8px 0;">Aucun tier.</div>'}</div>
+    <div class="modal-btns"><button class="btn-sec" onclick="closeModal()">Fermer</button><button class="btn-sec" onclick="openModal('editBadge','${b.id}')">Modifier</button><button class="btn-danger" style="width:auto;padding:9px 14px;" onclick="deleteBadgeConfirm('${b.id}')">Supprimer</button></div>`;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function formatCondition(c,badge){
+  if(!c)return'—';
+  if(c.type==='manual')return c.description||'Condition manuelle';
+  if(c.type==='auto'){
+    if(c.autoType==='streak'){const h=allHabits().find(x=>x.id===c.habitId);return'Streak '+c.value+'j · '+(h?.label||'habitude supprimée');}
+    if(c.autoType==='total'){const h=allHabits().find(x=>x.id===c.habitId);return c.value+' fois au total · '+(h?.label||'habitude supprimée');}
+    if(c.autoType==='perfectDays')return c.value+' journées parfaites';
+    if(c.autoType==='level')return'Niveau '+c.value+' atteint';
+    if(c.autoType==='daysSinceCreation')return c.value+' jours depuis la création';
+  }
+  return'—';
+}
+
+async function unlockTier(badgeId,tierKey){
+  const b=DB.badges.find(x=>x.id===badgeId);if(!b)return;
+  const t=b.tiers.find(x=>x.tier===tierKey);if(!t||t.unlocked)return;
+  t.unlocked=true;t.unlockedDate=TODAY;
+  await saveData();
+  toast('Tier '+BADGE_TIER_LABELS[tierKey]+' débloqué !','green');
+  checkRewards();
+  openBadgeDetail(badgeId);
+  if(currentPage===4)renderBadges();
+}
+
+async function deleteBadgeConfirm(id){
+  if(!confirm('Supprimer ce badge ? Tous les tiers seront perdus.'))return;
+  DB.badges=DB.badges.filter(x=>x.id!==id);
+  await saveData();closeModal();renderBadges();
 }
 
 async function unlockBadge(id){
+  // Rétro-compat : ancien bouton "Atteint" → débloque Recrue
   const b=DB.badges.find(x=>x.id===id);
-  if(b){b.unlocked=true;b.endDate=TODAY;await saveData();renderBadges();checkRewards();toast('Badge débloqué !');}
+  if(!b||!b.tiers[0])return;
+  if(!b.tiers[0].unlocked){
+    b.tiers[0].unlocked=true;b.tiers[0].unlockedDate=TODAY;
+    await saveData();renderBadges();checkRewards();toast('Badge débloqué !');
+  }
+}
+
+// ── AUTO-UNLOCK TIERS ─────────────────────────────────────────────────────────
+function countPerfectDays(){
+  return Object.values(DB.history).filter(d=>d&&d.total&&d.score===d.total).length;
+}
+
+function evaluateAutoCondition(c){
+  if(!c||c.type!=='auto')return false;
+  if(c.autoType==='streak'){const h=allHabits().find(x=>x.id===c.habitId);return h&&(h.streak||0)>=c.value;}
+  if(c.autoType==='total'){const h=allHabits().find(x=>x.id===c.habitId);return h&&(h.totalDone||0)>=c.value;}
+  if(c.autoType==='perfectDays')return countPerfectDays()>=c.value;
+  if(c.autoType==='level'){const li=getLevelFromXP(DB.xp);return li.level>=c.value;}
+  if(c.autoType==='daysSinceCreation')return false; // évalué dans checkBadgeAutoUnlocks avec createdDate
+  return false;
+}
+
+async function checkBadgeAutoUnlocks(){
+  let changed=false;
+  DB.badges.forEach(badge=>{
+    // Parcourir tiers en ordre séquentiel
+    for(const t of badge.tiers){
+      if(t.unlocked)continue;
+      if(t.condition.type!=='auto')break; // tier manuel → stop (doit être débloqué à la main d'abord)
+      let met=false;
+      if(t.condition.autoType==='daysSinceCreation'){
+        const d=daysBetween(badge.createdDate,TODAY);
+        met=d!==null&&d>=t.condition.value;
+      }else{
+        met=evaluateAutoCondition(t.condition);
+      }
+      if(met){
+        t.unlocked=true;t.unlockedDate=TODAY;changed=true;
+        toast('Tier '+BADGE_TIER_LABELS[t.tier]+' débloqué : '+badge.name,'green');
+      }else{
+        break; // si ce tier n'est pas rempli, les suivants non plus
+      }
+    }
+  });
+  if(changed)await saveData();
 }
 
 // ── PAGE 5: RÉCOMPENSES ───────────────────────────────────────────────────────
@@ -1078,7 +1337,7 @@ async function checkRewards(){
   DB.rewards.forEach(r=>{
     if(r.unlocked)return;
     const met=r.conditions.every(c=>{
-      if(c.type==='badge'){const b=DB.badges.find(x=>x.id===c.badgeId);return b&&b.unlocked;}
+      if(c.type==='badge'){const b=DB.badges.find(x=>x.id===c.badgeId);return b&&b.tiers&&b.tiers.some(t=>t.unlocked);}
       if(c.type==='streak'){const h=allHabits().find(x=>x.id===c.habitId);return h&&(h.streak||0)>=c.value;}
       if(c.type==='total'){const h=allHabits().find(x=>x.id===c.habitId);return h&&(h.totalDone||0)>=c.value;}
       if(c.type==='weekly'){const h=allHabits().find(x=>x.id===c.habitId);return h&&(h.streak||0)>=(c.weeks||4);}
@@ -1197,7 +1456,7 @@ function openSettings(){
       </div>
       <div class="settings-section">
         <div class="settings-section-title">Version</div>
-        <div class="settings-item" style="border-radius:var(--rdl);"><div><div class="settings-item-label">HabitOS</div><div class="settings-item-sub">Version 1.4.0</div></div><div style="font-size:12px;color:var(--tx2);">v1.4.0</div></div>
+        <div class="settings-item" style="border-radius:var(--rdl);"><div><div class="settings-item-label">HabitOS</div><div class="settings-item-sub">Version 1.5.0</div></div><div style="font-size:12px;color:var(--tx2);">v1.5.0</div></div>
       </div>
       <div class="settings-section">
         <div class="settings-section-title">Zone de danger</div>
@@ -1575,19 +1834,11 @@ function openModal(type,ctx){
       <div class="fl">Contenu</div><textarea class="fi note-area" id="mn-content" style="min-height:80px;"></textarea>
       <div class="modal-btns"><button class="btn-sec" onclick="closeModal()">Annuler</button><button class="btn-primary" onclick="confirmNote()">Enregistrer</button></div>`;
   }else if(type==='badge'){
-    box.innerHTML=`<div class="modal-title">Créer un badge</div>
-      <div class="fl">Nom</div><input class="fi" id="mb-name" placeholder="Ex: Lever tôt">
-      <div class="fl">Condition</div><input class="fi" id="mb-cond" placeholder="Ex: 7 jours de réveil avant 7h">
-      <div class="fl">Date de début</div><input class="fi" type="date" id="mb-date" value="${TODAY}">
-      <div class="modal-btns"><button class="btn-sec" onclick="closeModal()">Annuler</button><button class="btn-primary" onclick="confirmBadge()">Créer</button></div>`;
+    openBadgeEditor(null);return;
   }else if(type==='editBadge'){
-    const b=DB.badges.find(x=>x.id===ctx);if(!b)return;
-    box.innerHTML=`<div class="modal-title">Modifier le badge</div>
-      <div class="fl">Nom</div><input class="fi" id="eb-name" value="${b.name}">
-      <div class="fl">Condition</div><input class="fi" id="eb-cond" value="${b.cond}">
-      <div class="fl">Date de début</div><input class="fi" type="date" id="eb-start" value="${b.startDate||''}">
-      ${b.unlocked?`<div class="fl">Date d'atteinte</div><input class="fi" type="date" id="eb-end" value="${b.endDate||''}">`:''}
-      <div class="modal-btns"><button class="btn-sec" onclick="closeModal()">Annuler</button><button class="btn-primary" onclick="saveEditBadge('${ctx}')">Enregistrer</button></div>`;
+    openBadgeEditor(ctx);return;
+  }else if(type==='iconPicker'){
+    openIconPicker(ctx);return;
   }else if(type==='reward'){
     const hOpts=allHabits().map(h=>`<option value="${h.id}">${h.label}</option>`).join('');
     const bOpts=DB.badges.map(b=>`<option value="${b.id}">${b.name}</option>`).join('');
@@ -1678,6 +1929,203 @@ function renderCondList(){
 
 function delCond(i){tempConds.splice(i,1);renderCondList();}
 
+// ── BADGE EDITOR (création + édition) ────────────────────────────────────────
+let editorBadge=null; // badge en cours d'édition (null si création)
+
+function openBadgeEditor(id){
+  const existing=id?DB.badges.find(b=>b.id===id):null;
+  editorBadge=existing?JSON.parse(JSON.stringify(existing)):{
+    id:'b'+Date.now(),
+    name:'',description:'',icon:'trophee',createdDate:TODAY,
+    tiers:[{tier:'recrue',condition:{type:'manual',description:''},targetDate:'',unlocked:false,unlockedDate:null}]
+  };
+  renderBadgeEditor();
+}
+
+function renderBadgeEditor(){
+  const b=editorBadge;
+  const box=document.getElementById('modal-box');
+  box.classList.add('wide');
+  const hOpts=allHabits().map(h=>`<option value="${h.id}">${h.label}</option>`).join('');
+  const tiersHtml=BADGE_TIERS.map(tk=>{
+    const t=b.tiers.find(x=>x.tier===tk);
+    const enabled=!!t;
+    const c=t?.condition||{type:'manual',description:''};
+    const habitVal=c.habitId||'';
+    const valVal=c.value||'';
+    const cType=c.type||'manual';
+    const aType=c.autoType||'streak';
+    return`<div class="tier-cfg${enabled?' on':''}" id="tier-cfg-${tk}">
+      <div class="tier-cfg-hd" onclick="toggleTierCfg('${tk}')">
+        <div class="tier-cfg-hd-l">
+          <div class="tier-cfg-mini"><img src="${BADGE_TIER_IMG(tk)}" onerror="this.style.display='none'"/></div>
+          <div style="font-size:13px;font-weight:500;">${BADGE_TIER_LABELS[tk]}</div>
+        </div>
+        <div class="tier-cfg-toggle">${ck()}</div>
+      </div>
+      <div class="tier-cfg-body">
+        <div class="fl">Type de condition</div>
+        <div class="seg" style="margin-bottom:8px;">
+          <button type="button" class="sbtn${cType==='manual'?' on':''}" onclick="setTierCType('${tk}','manual',this)">Manuel</button>
+          <button type="button" class="sbtn${cType==='auto'?' on':''}" onclick="setTierCType('${tk}','auto',this)">Automatique</button>
+        </div>
+        <div id="tier-cond-${tk}">${renderTierConditionForm(tk,c,hOpts)}</div>
+        <div class="fl">Date objectif (facultative)</div>
+        <input class="fi" type="date" id="tier-target-${tk}" value="${t?.targetDate||''}">
+      </div>
+    </div>`;
+  }).join('');
+  box.innerHTML=`<div class="modal-title">${b.name?'Modifier le badge':'Créer un badge'}</div>
+    <div style="max-height:70dvh;overflow-y:auto;padding-right:4px;">
+      <div class="fl">Nom</div><input class="fi" id="be-name" value="${b.name||''}" placeholder="Ex: Lecteur assidu">
+      <div class="fl">Description</div><textarea class="fi note-area" id="be-desc" style="min-height:60px;" placeholder="À quoi correspond ce badge...">${b.description||''}</textarea>
+      <div class="fl">Icône</div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
+        <div style="width:44px;height:44px;border:0.5px solid var(--br);border-radius:var(--rd);display:flex;align-items:center;justify-content:center;background:var(--bg2);padding:8px;color:var(--tx);" id="be-icon-preview">${renderIconMarkup(b.icon)}</div>
+        <button class="btn-sec" onclick="openModal('iconPicker','editor')">Choisir</button>
+      </div>
+      <div class="slabel" style="margin-top:14px;">Tiers</div>
+      <div style="font-size:11px;color:var(--tx2);margin-bottom:8px;">Active les tiers que tu veux et définis leurs conditions. Ils se débloqueront dans l'ordre.</div>
+      ${tiersHtml}
+    </div>
+    <div class="modal-btns"><button class="btn-sec" onclick="closeModal()">Annuler</button><button class="btn-primary" onclick="saveBadgeFromEditor()">Enregistrer</button></div>`;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function renderTierConditionForm(tk,c,hOpts){
+  if(c.type==='manual'){
+    return`<div class="fl">Description de la condition</div>
+      <input class="fi" id="tier-desc-${tk}" value="${c.description||''}" placeholder="Ex: 1 rep à 100kg au développé couché">`;
+  }
+  const aType=c.autoType||'streak';
+  const showHabit=aType==='streak'||aType==='total';
+  const showValue=true;
+  const valLabel={streak:'Jours de suite',total:'Fois au total',perfectDays:'Journées parfaites totales',level:'Niveau à atteindre',daysSinceCreation:'Jours depuis la création'}[aType];
+  return`<div class="fl">Type automatique</div>
+    <select class="fi" id="tier-atype-${tk}" onchange="onTierATypeChange('${tk}')">
+      <option value="streak"${aType==='streak'?' selected':''}>Streak d'une habitude</option>
+      <option value="total"${aType==='total'?' selected':''}>Total d'une habitude</option>
+      <option value="perfectDays"${aType==='perfectDays'?' selected':''}>Journées parfaites (toutes cochées)</option>
+      <option value="level"${aType==='level'?' selected':''}>Niveau RPG atteint</option>
+      <option value="daysSinceCreation"${aType==='daysSinceCreation'?' selected':''}>Jours depuis la création du badge</option>
+    </select>
+    ${showHabit?`<div class="fl">Habitude</div><select class="fi" id="tier-habit-${tk}">${hOpts.replace(`value="${c.habitId}"`,`value="${c.habitId}" selected`)}</select>`:''}
+    ${showValue?`<div class="fl">${valLabel}</div><input class="fi" type="number" id="tier-val-${tk}" min="1" value="${c.value||''}" placeholder="Ex: 30">`:''}`;
+}
+
+function toggleTierCfg(tk){
+  const b=editorBadge;
+  const existing=b.tiers.find(t=>t.tier===tk);
+  if(existing){
+    b.tiers=b.tiers.filter(t=>t.tier!==tk);
+  }else{
+    b.tiers.push({tier:tk,condition:{type:'manual',description:''},targetDate:'',unlocked:false,unlockedDate:null});
+    // Trier par ordre canonique
+    b.tiers.sort((a,b)=>BADGE_TIERS.indexOf(a.tier)-BADGE_TIERS.indexOf(b.tier));
+  }
+  // Sauver les valeurs saisies avant re-render
+  captureEditorFields();
+  renderBadgeEditor();
+}
+
+function setTierCType(tk,newType,el){
+  const b=editorBadge;
+  const t=b.tiers.find(x=>x.tier===tk);if(!t)return;
+  if(t.condition.type===newType)return;
+  captureEditorFields();
+  t.condition=newType==='manual'?{type:'manual',description:''}:{type:'auto',autoType:'streak',habitId:'',value:0};
+  renderBadgeEditor();
+}
+
+function onTierATypeChange(tk){
+  const b=editorBadge;
+  const t=b.tiers.find(x=>x.tier===tk);if(!t||t.condition.type!=='auto')return;
+  captureEditorFields();
+  t.condition.autoType=document.getElementById('tier-atype-'+tk).value;
+  renderBadgeEditor();
+}
+
+function captureEditorFields(){
+  const b=editorBadge;if(!b)return;
+  const name=document.getElementById('be-name');if(name)b.name=name.value;
+  const desc=document.getElementById('be-desc');if(desc)b.description=desc.value;
+  b.tiers.forEach(t=>{
+    const tk=t.tier;
+    const target=document.getElementById('tier-target-'+tk);if(target)t.targetDate=target.value;
+    if(t.condition.type==='manual'){
+      const d=document.getElementById('tier-desc-'+tk);if(d)t.condition.description=d.value;
+    }else{
+      const at=document.getElementById('tier-atype-'+tk);if(at)t.condition.autoType=at.value;
+      const h=document.getElementById('tier-habit-'+tk);if(h)t.condition.habitId=h.value;
+      const v=document.getElementById('tier-val-'+tk);if(v)t.condition.value=parseInt(v.value||'0');
+    }
+  });
+}
+
+async function saveBadgeFromEditor(){
+  captureEditorFields();
+  const b=editorBadge;
+  if(!b.name.trim()){toast('Le nom est obligatoire','red');return;}
+  if(b.tiers.length===0){toast('Au moins un tier est requis','red');return;}
+  // Validation : pour chaque tier, valeur cohérente
+  for(const t of b.tiers){
+    if(t.condition.type==='auto'){
+      const need=['streak','total','perfectDays','level','daysSinceCreation'].includes(t.condition.autoType);
+      if(need&&(!t.condition.value||t.condition.value<1)){
+        toast('Valeur manquante pour tier '+BADGE_TIER_LABELS[t.tier],'red');return;
+      }
+      if((t.condition.autoType==='streak'||t.condition.autoType==='total')&&!t.condition.habitId){
+        toast('Habitude manquante pour tier '+BADGE_TIER_LABELS[t.tier],'red');return;
+      }
+    }
+  }
+  const idx=DB.badges.findIndex(x=>x.id===b.id);
+  if(idx>=0){
+    // Préserver unlocked/unlockedDate existants si déjà débloqués
+    const old=DB.badges[idx];
+    b.tiers.forEach(t=>{
+      const oldT=old.tiers.find(x=>x.tier===t.tier);
+      if(oldT&&oldT.unlocked){t.unlocked=true;t.unlockedDate=oldT.unlockedDate;}
+    });
+    DB.badges[idx]=b;
+  }else{
+    DB.badges.push(b);
+  }
+  await saveData();
+  closeModal();
+  renderBadges();
+  checkBadgeAutoUnlocks();
+  toast(idx>=0?'Badge modifié':'Badge créé');
+  editorBadge=null;
+}
+
+// ── ICON PICKER ──────────────────────────────────────────────────────────────
+function openIconPicker(source){
+  const box=document.getElementById('modal-box');
+  const all=getAllIcons();
+  const byCat={};
+  Object.entries(all).forEach(([id,ic])=>{
+    const cat=ic.cat||'Autres';
+    if(!byCat[cat])byCat[cat]=[];
+    byCat[cat].push({id,...ic});
+  });
+  const current=editorBadge?.icon||'';
+  const catsHtml=Object.entries(byCat).map(([cat,icons])=>`
+    <div class="icon-picker-cat">${cat}</div>
+    <div class="icon-picker-grid">
+      ${icons.map(ic=>`<div class="icon-picker-cell${ic.id===current?' sel':''}" onclick="selectIcon('${ic.id}')" title="${ic.name||ic.id}">${ic.svg||(ic.file?`<img src="/icons/${ic.file}" alt="">`:'')}</div>`).join('')}
+    </div>`).join('');
+  const emptyHint=Object.keys(MANIFEST_ICONS).length===0?`<div style="font-size:11px;color:var(--tx2);margin-top:12px;padding:8px 10px;background:var(--bg2);border-radius:var(--rd);">Pour ajouter tes propres icônes : place-les dans <code>/icons/&lt;catégorie&gt;/</code> puis mets à jour <code>/icons/manifest.json</code>.</div>`:'';
+  box.innerHTML=`<div class="modal-title">Choisir une icône</div>
+    <div style="max-height:60dvh;overflow-y:auto;">${catsHtml}${emptyHint}</div>
+    <div class="modal-btns"><button class="btn-sec" onclick="renderBadgeEditor()">Retour</button></div>`;
+}
+
+function selectIcon(iconId){
+  if(editorBadge)editorBadge.icon=iconId;
+  renderBadgeEditor();
+}
+
 async function confirmEvent(){
   const title=document.getElementById('mi-title')?.value.trim();if(!title)return;
   const time=document.getElementById('mi-time')?.value||'—';
@@ -1739,23 +2187,6 @@ async function confirmNote(){
   await saveData();closeModal();renderAgenda();
 }
 
-async function confirmBadge(){
-  const name=document.getElementById('mb-name')?.value.trim();if(!name)return;
-  const cond=document.getElementById('mb-cond')?.value.trim();
-  const startDate=document.getElementById('mb-date')?.value;
-  DB.badges.push({id:'b'+Date.now(),name,cond,unlocked:false,startDate,endDate:null});
-  await saveData();closeModal();renderBadges();
-}
-
-async function saveEditBadge(id){
-  const b=DB.badges.find(x=>x.id===id);if(!b)return;
-  b.name=document.getElementById('eb-name')?.value.trim()||b.name;
-  b.cond=document.getElementById('eb-cond')?.value.trim()||b.cond;
-  b.startDate=document.getElementById('eb-start')?.value||b.startDate;
-  if(b.unlocked&&document.getElementById('eb-end'))b.endDate=document.getElementById('eb-end').value||b.endDate;
-  await saveData();closeModal();renderBadges();
-}
-
 async function confirmReward(){
   const title=document.getElementById('rw-title')?.value.trim();
   if(!title||tempConds.length===0){toast('Ajoute au moins une condition','red');return;}
@@ -1778,7 +2209,7 @@ async function delHabit(id){['matin','journee','soir'].forEach(g=>{DB.habits[g]=
 async function delRoutine(id){['matin','soir'].forEach(g=>{DB.routines[g]=DB.routines[g].filter(r=>r.id!==id);});await saveData();renderAgenda();if(currentPage===1)renderJournee();}
 async function delObj(id){DB.objectives=DB.objectives.filter(o=>o.id!==id);await saveData();renderAgenda();}
 
-function closeModal(){document.getElementById('modal-overlay').classList.remove('open');currentFreqType='daily';}
+function closeModal(){document.getElementById('modal-overlay').classList.remove('open');document.getElementById('modal-box').classList.remove('wide');currentFreqType='daily';editorBadge=null;}
 function outsideClose(e){if(e.target===document.getElementById('modal-overlay'))closeModal();}
 
 // ── PROFIL ─────────────────────────────────────────────────────────────────
@@ -1973,14 +2404,24 @@ function renderBirthdayBanner(){
 async function autoUnlockBirthdayBadge(year,firstName){
   const badgeName='Anniversaire '+year;
   const existing=DB.badges.find(b=>b.name===badgeName);
-  if(existing&&existing.unlocked)return;
   if(existing){
-    existing.unlocked=true;existing.endDate=TODAY;
+    const t0=existing.tiers&&existing.tiers[0];
+    if(t0&&t0.unlocked)return;
+    if(t0){t0.unlocked=true;t0.unlockedDate=TODAY;}
   }else{
     DB.badges.push({
-      id:'b-bday-'+year,name:badgeName,
-      cond:'Être présent le jour de ton anniversaire.',
-      unlocked:true,startDate:TODAY,endDate:TODAY
+      id:'b-bday-'+year,
+      name:badgeName,
+      description:'Être présent le jour de ton anniversaire.',
+      icon:'gateau',
+      createdDate:TODAY,
+      tiers:[{
+        tier:'recrue',
+        condition:{type:'manual',description:'Être présent le jour de ton anniversaire'},
+        targetDate:'',
+        unlocked:true,
+        unlockedDate:TODAY
+      }]
     });
   }
   await saveData();
