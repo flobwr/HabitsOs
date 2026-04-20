@@ -1,0 +1,54 @@
+<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:svg="http://www.w3.org/2000/svg" id="svg6133" viewBox="0 0 211.5 211.5" version="1.1">
+  <title id="title6871">No Food or Drink</title>
+  <g id="layer1" transform="translate(-222.82 -518.04)">
+    <path id="path3874-3-6" d="m431.97 388.57c0 26.918-21.822 48.74-48.74 48.74s-48.74-21.822-48.74-48.74 21.822-48.74 48.74-48.74 48.74 21.822 48.74 48.74z" fill="#a50000" transform="matrix(2.1696 0 0 2.1696 -502.89 -219.26)"/>
+    <path id="path3876-8-7" d="m431.97 388.57c0 26.918-21.822 48.74-48.74 48.74s-48.74-21.822-48.74-48.74 21.822-48.74 48.74-48.74 48.74 21.822 48.74 48.74z" fill="#fff" transform="matrix(-1.7933 0 0 1.7933 1015.8 -73.015)"/>
+    <g id="g6866" transform="matrix(1.5003 0 0 1.5003 -116.18 -272.99)">
+      <path id="path6856" d="m302.1 632.18-5.7143-58.393h-3.0357l2.5-4.375h9.1071l-4.1964-14.42 5.4464-1.2946 4.2857 15.357 27.5 0.35714 1.7857 4.375h-3.0357l-8.3928 58.393z"/>
+      <path id="rect6860" style="color:#000000" d="m264.52 606.72c-5.2168 0-9.4296 4.114-9.625 9.2812h40.5c-0.19494-5.1677-4.4079-9.2812-9.625-9.2812h-21.25zm-9.1562 19.281c1.2654 3.8477 4.8743 6.625 9.1562 6.625h21.25c4.282 0 7.8596-2.7773 9.125-6.625h-39.531z"/>
+      <rect id="rect6858" style="color:#000000" ry="1.6874" height="5.7536" width="45.596" y="618.14" x="252.33"/>
+    </g>
+    <rect id="rect3880-9-7" ry=".000024306" transform="matrix(-.69479 -.71921 -.71921 .69479 0 0)" height="19.153" width="191.53" y="187.52" x="-772.69" fill="#a50000"/>
+  </g>
+  <metadata>
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+        <cc:license rdf:resource="http://creativecommons.org/licenses/publicdomain/"/>
+        <dc:publisher>
+          <cc:Agent rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:title>no-food-drink</dc:title>
+        <dc:date>2011-03-29T23:03:53</dc:date>
+        <dc:description>clip art, clipart, drink, food, no, notice, round, roundel, sign, </dc:description>
+        <dc:source>http://openclipart.org/detail/129703/no-food-drink-by-doctormo</dc:source>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>doctormo</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>clip art</rdf:li>
+            <rdf:li>clipart</rdf:li>
+            <rdf:li>drink</rdf:li>
+            <rdf:li>food</rdf:li>
+            <rdf:li>no</rdf:li>
+            <rdf:li>notice</rdf:li>
+            <rdf:li>round</rdf:li>
+            <rdf:li>roundel</rdf:li>
+            <rdf:li>sign</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction"/>
+        <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution"/>
+        <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks"/>
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+</svg>
