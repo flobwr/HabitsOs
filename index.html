@@ -349,6 +349,52 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
 .tier-cfg-toggle svg{opacity:0;}
 .tier-cfg.on .tier-cfg-toggle svg{opacity:1;}
 .modal-box.wide{max-height:90dvh;}
+/* ── v1.6 — DAILY RECAP ─────────────────────────────────────────────── */
+.recap-stat{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:0.5px solid var(--br);font-size:13px;}
+.recap-stat:last-child{border-bottom:none;}
+.recap-val{font-weight:500;color:var(--ac);}
+.recap-highlight{background:var(--acl);border-radius:var(--rd);padding:10px 14px;margin-top:10px;font-size:13px;text-align:center;color:var(--act);}
+[data-theme="dark"] .recap-highlight{background:rgba(83,74,183,0.2);color:var(--acm);}
+/* ── v1.6 — LEVEL UP ANIMATION ──────────────────────────────────────── */
+.levelup-overlay{position:fixed;inset:0;z-index:400;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;text-align:center;animation:fadeInSplash 0.35s ease;}
+.levelup-circle{width:100px;height:100px;border-radius:50%;background:var(--acl);border:3px solid var(--ac);display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:700;color:var(--ac);margin-bottom:20px;animation:levelBounce 0.6s ease-out;}
+@keyframes levelBounce{0%{transform:scale(0.3);opacity:0;}50%{transform:scale(1.15);}100%{transform:scale(1);opacity:1;}}
+.levelup-title{font-size:22px;font-weight:500;color:var(--tx);margin-bottom:6px;}
+.levelup-sub{font-size:14px;color:var(--tx2);margin-bottom:6px;}
+.levelup-rank{font-size:13px;color:var(--ac);font-weight:500;margin-bottom:28px;}
+/* ── v1.6 — BADGE UNLOCK ANIMATION ──────────────────────────────────── */
+.badge-unlock-overlay{position:fixed;inset:0;z-index:400;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;text-align:center;animation:fadeInSplash 0.35s ease;}
+.badge-unlock-visual{width:140px;height:140px;position:relative;margin-bottom:20px;animation:badgePop 0.7s ease-out;}
+@keyframes badgePop{0%{transform:scale(0.2) rotate(-15deg);opacity:0;}60%{transform:scale(1.1) rotate(3deg);}100%{transform:scale(1) rotate(0);opacity:1;}}
+.badge-unlock-visual img{width:100%;height:100%;object-fit:contain;}
+.badge-unlock-visual .bu-icon{position:absolute;top:38%;left:50%;transform:translate(-50%,-50%);width:26%;height:26%;}
+.badge-unlock-visual .bu-icon svg,.badge-unlock-visual .bu-icon img{width:100%;height:100%;color:#fff;filter:drop-shadow(0 1px 3px rgba(0,0,0,0.4));}
+.badge-unlock-title{font-size:20px;font-weight:500;color:var(--tx);margin-bottom:4px;}
+.badge-unlock-tier{font-size:14px;color:var(--ac);font-weight:500;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em;}
+.badge-unlock-sub{font-size:13px;color:var(--tx2);margin-bottom:28px;}
+/* ── v1.6 — ICON PICKER ENHANCED ─────────────────────────────────────── */
+.icon-search-wrap{position:relative;margin-bottom:10px;}
+.icon-search{width:100%;padding:9px 12px 9px 34px;border:0.5px solid var(--br2);border-radius:var(--rd);font-size:13px;background:var(--bg2);color:var(--tx);font-family:inherit;}
+.icon-search:focus{outline:none;border-color:var(--ac);}
+.icon-search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--tx3);pointer-events:none;}
+.icon-cat-tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px;}
+.icon-cat-tab{padding:4px 10px;border-radius:99px;font-size:11px;border:0.5px solid var(--br);background:transparent;color:var(--tx2);cursor:pointer;font-family:inherit;white-space:nowrap;transition:all 0.15s;}
+.icon-cat-tab:hover{border-color:var(--acm);}
+.icon-cat-tab.on{background:var(--ac);color:#fff;border-color:var(--ac);}
+/* ── v1.6 — BADGE FILTERS ───────────────────────────────────────────── */
+.badge-filters{display:flex;gap:3px;background:var(--bg2);border-radius:var(--rd);padding:3px;margin-bottom:12px;}
+.badge-filter-btn{flex:1;padding:6px;text-align:center;border-radius:6px;font-size:12px;cursor:pointer;color:var(--tx2);transition:all 0.15s;font-family:inherit;border:none;background:transparent;}
+.badge-filter-btn.on{background:var(--bg);color:var(--ac);font-weight:500;border:0.5px solid var(--br);}
+.badge-count{font-size:11px;color:var(--tx2);margin-bottom:10px;}
+/* ── v1.6 — REORDER BUTTONS ─────────────────────────────────────────── */
+.reorder-btn{width:24px;height:24px;border-radius:4px;border:0.5px solid var(--br);background:transparent;cursor:pointer;color:var(--tx2);font-size:14px;display:flex;align-items:center;justify-content:center;font-family:inherit;transition:background 0.15s;flex-shrink:0;padding:0;}
+.reorder-btn:hover{background:var(--bg2);}
+.reorder-btn:disabled{opacity:0.25;cursor:default;}
+/* ── v1.6 — INSTALL BUTTON SETTINGS ─────────────────────────────────── */
+.install-app-btn{display:flex;align-items:center;gap:10px;width:100%;padding:13px 16px;background:var(--ac);color:#fff;border:none;border-radius:var(--rdl);font-size:13px;cursor:pointer;font-family:inherit;transition:opacity 0.15s;}
+.install-app-btn:hover{opacity:0.85;}
+.install-app-btn:disabled{opacity:0.5;cursor:default;}
+.install-app-icon{width:20px;height:20px;flex-shrink:0;}
 </style>
 </head>
 <body>
@@ -358,8 +404,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
 <div class="settings-panel" id="settings-panel"></div>
 
 <script>
-const SUPABASE_URL='https://cvmgegkrpvzzgbaiufqf.supabase.co';
-const SUPABASE_KEY='sb_publishable_B1_B7x3xMBbeUjmIivs-aA_sw7ZHZy1';
+const SUPABASE_URL='REMPLACE_PAR_TON_URL';
+const SUPABASE_KEY='REMPLACE_PAR_TA_CLE';
 const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 // ── CONSTANTES ────────────────────────────────────────────────────────────────
@@ -502,7 +548,7 @@ function renderIconMarkup(iconId){
 }
 
 
-let user=null,DB=null,currentPage=0,selectedHomeDay=now.getDay(),profilTab='stats',notesFilter='all',tempConds=[],condType='streak',agendaDay=now.getDay(),touchStartX=0,touchStartY=0,wheelAccum=0,wheelTimer=null;
+let user=null,DB=null,currentPage=0,selectedHomeDay=now.getDay(),profilTab='stats',notesFilter='all',tempConds=[],condType='streak',agendaDay=now.getDay(),touchStartX=0,touchStartY=0,wheelAccum=0,wheelTimer=null,badgeFilter='all',iconSearchQuery='',iconCatFilter='all';
 
 const defaultDB=()=>({
   habits:{matin:[],journee:[],soir:[]},
@@ -993,6 +1039,7 @@ async function toggleCheck(id,type){
     if(dot){dot.classList.add('just-checked');setTimeout(()=>dot.classList.remove('just-checked'),300);}
   }
   DB.checked[id]=!wasChecked;
+  const levelBefore=getLevelFromXP(DB.xp).level;
   let xpGained=0;
   if(type==='h'){
     const habit=allHabits().find(h=>h.id===id);
@@ -1021,6 +1068,11 @@ async function toggleCheck(id,type){
     const el=document.querySelector(`[onclick="toggleCheck('${id}','${type}')"]`);
     showXPPopup(xpGained,el);
   }
+  // Level-up check
+  const levelAfter=getLevelFromXP(DB.xp).level;
+  if(levelAfter>levelBefore&&!wasChecked){
+    setTimeout(()=>showLevelUpAnimation(levelAfter),400);
+  }
 }
 
 async function setMood(v){DB.mood=v;await saveData();renderJournee();}
@@ -1031,6 +1083,36 @@ async function saveDay(){
   DB.history[TODAY]={score:doneItems(),total:totalItems(),mood:DB.mood,note:DB.dailyNote};
   await saveData();toast('Journée enregistrée');
   checkBadgeAutoUnlocks();
+  showDailyRecap();
+}
+
+function showDailyRecap(){
+  const done=doneItems();
+  const total=totalItems();
+  const pct=total>0?Math.round((done/total)*100):0;
+  const li=getLevelInfo();
+  const bestStreak=allHabits().length?Math.max(...allHabits().map(h=>h.streak||0)):0;
+  const bestStreakH=allHabits().find(h=>(h.streak||0)===bestStreak);
+  // Find today's top stat boost
+  const statChanges=[];
+  Object.entries(DB.rpgStats).forEach(([name,val])=>{
+    if(val>1.5)statChanges.push({name,val});
+  });
+  statChanges.sort((a,b)=>b.val-a.val);
+  const topStat=statChanges[0];
+  const isPerfect=done===total&&total>0;
+  const box=document.getElementById('modal-box');
+  box.classList.remove('wide');
+  box.innerHTML=`<div class="modal-title">Récap du jour</div>
+    <div class="recap-stat"><span>Habitudes complétées</span><span class="recap-val">${done} / ${total} (${pct}%)</span></div>
+    <div class="recap-stat"><span>Humeur</span><span class="recap-val">${DB.mood?DB.mood+' / 5':'\u2014'}</span></div>
+    <div class="recap-stat"><span>XP total</span><span class="recap-val">${DB.xp} XP</span></div>
+    <div class="recap-stat"><span>Niveau</span><span class="recap-val">${li.level} \u2014 ${li.title}</span></div>
+    <div class="recap-stat"><span>Meilleur streak</span><span class="recap-val">${bestStreak}j${bestStreakH?' ('+bestStreakH.label+')':''}</span></div>
+    ${topStat?`<div class="recap-stat"><span>Stat la plus haute</span><span class="recap-val">${topStat.name} (${topStat.val.toFixed(1)})</span></div>`:''}
+    ${isPerfect?`<div class="recap-highlight">Journée parfaite ! +50 XP bonus</div>`:''}
+    <div class="modal-btns"><button class="btn-primary" onclick="closeModal()">Fermer</button></div>`;
+  document.getElementById('modal-overlay').classList.add('open');
 }
 
 // ── PAGE 2: AGENDA ────────────────────────────────────────────────────────────
@@ -1054,10 +1136,16 @@ function renderAgenda(){
     ${DB.events.map(e=>`<div class="agenda-ev"><div class="ae-time">${e.time}</div><div class="ae-dot"></div><div class="ae-body"><div class="ae-title">${e.label}</div><div class="ae-type">${e.type}</div></div><button class="del" onclick="delEvent('${e.id}')">×</button></div>`).join('')||`<div style="font-size:13px;color:var(--tx2);margin-bottom:10px;">Aucun événement.</div>`}
     <div class="slabel">Habitudes</div>
     <div class="row-actions"><span></span><button class="btn-sec" onclick="openModal('habit')">+ Ajouter</button></div>
-    ${allHabits().map(h=>{
-      const color=STAT_COLORS[h.stat||detectStat(h.label)]||'#888';
-      const freqLabel=h.freqType==='weekly'?`${h.freqCount||3}x/semaine`:'Quotidien';
-      return`<div class="manage-item"><div class="mi-info"><div class="mi-name">${h.label}</div><div class="mi-meta">${freqLabel} · streak ${h.streak||0}j · ${h.totalDone||0} fois</div><span class="mi-stat" style="background:${color}22;color:${color};">${h.stat||detectStat(h.label)}</span></div><div style="display:flex;gap:4px;flex-shrink:0;"><button class="btn-sec" style="font-size:11px;padding:4px 8px;" onclick="openModal('editHabit','${h.id}')">Modifier</button><button class="del" onclick="delHabit('${h.id}')">×</button></div></div>`;
+    ${['matin','journee','soir'].map(gk=>{
+      const gHabits=DB.habits[gk];
+      if(gHabits.length===0)return'';
+      return gHabits.map((h,idx)=>{
+        const color=STAT_COLORS[h.stat||detectStat(h.label)]||'#888';
+        const freqLabel=h.freqType==='weekly'?`${h.freqCount||3}x/semaine`:'Quotidien';
+        const isFirst=idx===0;
+        const isLast=idx===gHabits.length-1;
+        return`<div class="manage-item"><div style="display:flex;flex-direction:column;gap:2px;flex-shrink:0;margin-right:4px;"><button class="reorder-btn" onclick="moveHabit('${h.id}',-1)"${isFirst?' disabled':''}>&#8593;</button><button class="reorder-btn" onclick="moveHabit('${h.id}',1)"${isLast?' disabled':''}>&#8595;</button></div><div class="mi-info"><div class="mi-name">${h.label}</div><div class="mi-meta">${freqLabel} · streak ${h.streak||0}j · ${h.totalDone||0} fois · ${gk==='journee'?'Journée':gk.charAt(0).toUpperCase()+gk.slice(1)}</div><span class="mi-stat" style="background:${color}22;color:${color};">${h.stat||detectStat(h.label)}</span></div><div style="display:flex;gap:4px;flex-shrink:0;"><button class="btn-sec" style="font-size:11px;padding:4px 8px;" onclick="openModal('editHabit','${h.id}')">Modifier</button><button class="del" onclick="delHabit('${h.id}')">×</button></div></div>`;
+      }).join('');
     }).join('')}
     <div class="add-row" onclick="openModal('habit')"><div class="add-icon">+</div>Nouvelle habitude</div>
     <div class="slabel">Routines</div>
@@ -1147,13 +1235,25 @@ function setProfilTab(t){profilTab=t;renderProfil();}
 
 // ── PAGE 4: BADGES ────────────────────────────────────────────────────────────
 function renderBadges(){
+  const total=DB.badges.length;
+  const unlocked=DB.badges.filter(b=>b.tiers.some(t=>t.unlocked)).length;
+  const locked=total-unlocked;
+  const filtered=badgeFilter==='all'?DB.badges:badgeFilter==='unlocked'?DB.badges.filter(b=>b.tiers.some(t=>t.unlocked)):DB.badges.filter(b=>!b.tiers.some(t=>t.unlocked));
   document.getElementById('p-4').innerHTML=`
-    <div class="row-actions" style="margin-bottom:12px;">
+    <div class="row-actions" style="margin-bottom:6px;">
       <div class="slabel" style="margin:0;">Badges</div>
       <button class="btn-sec" onclick="openModal('badge')">+ Créer</button>
     </div>
-    ${DB.badges.length===0?`<div style="font-size:13px;color:var(--tx2);">Aucun badge créé.</div>`:`<div class="badge-grid">${DB.badges.map(b=>renderBadgeCard(b)).join('')}</div>`}`;
+    <div class="badge-count">${unlocked} débloqués sur ${total}</div>
+    <div class="badge-filters">
+      <button class="badge-filter-btn${badgeFilter==='all'?' on':''}" onclick="setBadgeFilter('all')">Tous (${total})</button>
+      <button class="badge-filter-btn${badgeFilter==='unlocked'?' on':''}" onclick="setBadgeFilter('unlocked')">Débloqués (${unlocked})</button>
+      <button class="badge-filter-btn${badgeFilter==='locked'?' on':''}" onclick="setBadgeFilter('locked')">Verrouillés (${locked})</button>
+    </div>
+    ${filtered.length===0?`<div style="font-size:13px;color:var(--tx2);">${total===0?'Aucun badge créé.':'Aucun badge dans cette catégorie.'}</div>`:`<div class="badge-grid">${filtered.map(b=>renderBadgeCard(b)).join('')}</div>`}`;
 }
+
+function setBadgeFilter(f){badgeFilter=f;renderBadges();}
 
 function getBadgeDisplayTier(badge){
   // Dernier tier débloqué, ou premier tier verrouillé (silhouette) si aucun
@@ -1246,10 +1346,10 @@ async function unlockTier(badgeId,tierKey){
   const t=b.tiers.find(x=>x.tier===tierKey);if(!t||t.unlocked)return;
   t.unlocked=true;t.unlockedDate=TODAY;
   await saveData();
-  toast('Tier '+BADGE_TIER_LABELS[tierKey]+' débloqué !','green');
   checkRewards();
-  openBadgeDetail(badgeId);
+  closeModal();
   if(currentPage===4)renderBadges();
+  setTimeout(()=>showBadgeUnlockAnimation(b,tierKey),200);
 }
 
 async function deleteBadgeConfirm(id){
@@ -1285,6 +1385,7 @@ function evaluateAutoCondition(c){
 
 async function checkBadgeAutoUnlocks(){
   let changed=false;
+  let unlockQueue=[];
   DB.badges.forEach(badge=>{
     // Parcourir tiers en ordre séquentiel
     for(const t of badge.tiers){
@@ -1299,13 +1400,21 @@ async function checkBadgeAutoUnlocks(){
       }
       if(met){
         t.unlocked=true;t.unlockedDate=TODAY;changed=true;
-        toast('Tier '+BADGE_TIER_LABELS[t.tier]+' débloqué : '+badge.name,'green');
+        unlockQueue.push({badge,tierKey:t.tier});
       }else{
         break; // si ce tier n'est pas rempli, les suivants non plus
       }
     }
   });
-  if(changed)await saveData();
+  if(changed){
+    await saveData();
+    if(currentPage===4)renderBadges();
+    // Show animation for first unlock only (avoid spam)
+    if(unlockQueue.length>0){
+      const first=unlockQueue[0];
+      setTimeout(()=>showBadgeUnlockAnimation(first.badge,first.tierKey),300);
+    }
+  }
 }
 
 // ── PAGE 5: RÉCOMPENSES ───────────────────────────────────────────────────────
@@ -1450,13 +1559,17 @@ function openSettings(){
         ${isIOS()&&!isPWAInstalled()?'<div style="font-size:11px;color:var(--warn);margin-top:8px;padding:8px 10px;background:var(--warnl);border-radius:var(--rd);">Sur iPhone, les notifications ne fonctionnent qu\'après installation de l\'app. <a href="#" onclick="showIOSInstallHelp();return false;" style="color:var(--warn);text-decoration:underline;">Comment installer ?</a></div>':''}
       </div>
       <div class="settings-section">
+        <div class="settings-section-title">Installation</div>
+        ${getInstallButtonHtml()}
+      </div>
+      <div class="settings-section">
         <div class="settings-section-title">Données</div>
         <div class="settings-item" style="border-radius:var(--rdl);"><div><div class="settings-item-label">Exporter mes données</div><div class="settings-item-sub">Télécharger en JSON</div></div><button class="btn-sec" onclick="exportData()">Exporter</button></div>
         <div class="settings-item" style="border-radius:var(--rdl);margin-top:8px;"><div><div class="settings-item-label">Importer des données</div><div class="settings-item-sub">Restaurer depuis un fichier JSON</div></div><button class="btn-sec" onclick="document.getElementById('import-file').click()">Importer</button><input type="file" id="import-file" accept="application/json,.json" style="display:none" onchange="importData(event)"></div>
       </div>
       <div class="settings-section">
         <div class="settings-section-title">Version</div>
-        <div class="settings-item" style="border-radius:var(--rdl);"><div><div class="settings-item-label">HabitOS</div><div class="settings-item-sub">Version 1.5.0</div></div><div style="font-size:12px;color:var(--tx2);">v1.5.0</div></div>
+        <div class="settings-item" style="border-radius:var(--rdl);"><div><div class="settings-item-label">HabitOS</div><div class="settings-item-sub">Version 1.6.0</div></div><div style="font-size:12px;color:var(--tx2);">v1.6.0</div></div>
       </div>
       <div class="settings-section">
         <div class="settings-section-title">Zone de danger</div>
@@ -2102,6 +2215,12 @@ async function saveBadgeFromEditor(){
 // ── ICON PICKER ──────────────────────────────────────────────────────────────
 function openIconPicker(source){
   const box=document.getElementById('modal-box');
+  box.classList.add('wide');
+  renderIconPickerContent();
+}
+
+function renderIconPickerContent(){
+  const box=document.getElementById('modal-box');
   const all=getAllIcons();
   const byCat={};
   Object.entries(all).forEach(([id,ic])=>{
@@ -2109,20 +2228,39 @@ function openIconPicker(source){
     if(!byCat[cat])byCat[cat]=[];
     byCat[cat].push({id,...ic});
   });
+  const cats=['all',...Object.keys(byCat)];
   const current=editorBadge?.icon||'';
-  const catsHtml=Object.entries(byCat).map(([cat,icons])=>`
-    <div class="icon-picker-cat">${cat}</div>
+  const q=iconSearchQuery.toLowerCase();
+  // Filter by category and search
+  let filteredCats=iconCatFilter==='all'?Object.entries(byCat):Object.entries(byCat).filter(([cat])=>cat===iconCatFilter);
+  if(q){
+    filteredCats=filteredCats.map(([cat,icons])=>[cat,icons.filter(ic=>(ic.name||ic.id).toLowerCase().includes(q)||cat.toLowerCase().includes(q))]).filter(([,icons])=>icons.length>0);
+  }
+  const catTabsHtml=cats.map(c=>`<button class="icon-cat-tab${iconCatFilter===c?' on':''}" onclick="setIconCatFilter('${c}')">${c==='all'?'Toutes':c}</button>`).join('');
+  const iconsHtml=filteredCats.map(([cat,icons])=>`
+    ${iconCatFilter==='all'?`<div class="icon-picker-cat">${cat}</div>`:''}
     <div class="icon-picker-grid">
       ${icons.map(ic=>`<div class="icon-picker-cell${ic.id===current?' sel':''}" onclick="selectIcon('${ic.id}')" title="${ic.name||ic.id}">${ic.svg||(ic.file?`<img src="/icons/${ic.file}" alt="">`:'')}</div>`).join('')}
     </div>`).join('');
-  const emptyHint=Object.keys(MANIFEST_ICONS).length===0?`<div style="font-size:11px;color:var(--tx2);margin-top:12px;padding:8px 10px;background:var(--bg2);border-radius:var(--rd);">Pour ajouter tes propres icônes : place-les dans <code>/icons/&lt;catégorie&gt;/</code> puis mets à jour <code>/icons/manifest.json</code>.</div>`:'';
-  box.innerHTML=`<div class="modal-title">Choisir une icône</div>
-    <div style="max-height:60dvh;overflow-y:auto;">${catsHtml}${emptyHint}</div>
-    <div class="modal-btns"><button class="btn-sec" onclick="renderBadgeEditor()">Retour</button></div>`;
+  const totalCount=Object.keys(all).length;
+  const emptyHint=Object.keys(MANIFEST_ICONS).length===0?`<div style="font-size:11px;color:var(--tx2);margin-top:12px;padding:8px 10px;background:var(--bg2);border-radius:var(--rd);">Pour ajouter tes propres icônes : place-les dans <code>/icons/&lt;categorie&gt;/</code> puis mets a jour <code>/icons/manifest.json</code>.</div>`:'';
+  box.innerHTML=`<div class="modal-title">Choisir une icône <span style="font-size:12px;color:var(--tx2);font-weight:400;">(${totalCount})</span></div>
+    <div class="icon-search-wrap">
+      <div class="icon-search-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div>
+      <input class="icon-search" id="icon-search-input" type="text" placeholder="Rechercher..." value="${iconSearchQuery}" oninput="iconSearchQuery=this.value;renderIconPickerContent()">
+    </div>
+    <div class="icon-cat-tabs">${catTabsHtml}</div>
+    <div style="max-height:50dvh;overflow-y:auto;">${iconsHtml||'<div style="font-size:13px;color:var(--tx2);padding:16px 0;text-align:center;">Aucune icône trouvée.</div>'}${emptyHint}</div>
+    <div class="modal-btns"><button class="btn-sec" onclick="iconSearchQuery='';iconCatFilter='all';renderBadgeEditor()">Retour</button></div>`;
+  // Re-focus search
+  setTimeout(()=>{const inp=document.getElementById('icon-search-input');if(inp&&iconSearchQuery)inp.setSelectionRange(inp.value.length,inp.value.length);},50);
 }
+
+function setIconCatFilter(cat){iconCatFilter=cat;renderIconPickerContent();}
 
 function selectIcon(iconId){
   if(editorBadge)editorBadge.icon=iconId;
+  iconSearchQuery='';iconCatFilter='all';
   renderBadgeEditor();
 }
 
@@ -2426,6 +2564,119 @@ async function autoUnlockBirthdayBadge(year,firstName){
   }
   await saveData();
   toast('Badge "'+badgeName+'" débloqué !','green');
+}
+
+// ── v1.6 — LEVEL UP ANIMATION ────────────────────────────────────────────────
+function showLevelUpAnimation(newLevel){
+  const title=LEVEL_TITLES[Math.min(newLevel-1,99)];
+  const prevTitle=LEVEL_TITLES[Math.min(newLevel-2,99)];
+  const rankChanged=title!==prevTitle;
+  const overlay=document.createElement('div');
+  overlay.className='levelup-overlay';
+  overlay.id='levelup-overlay';
+  overlay.innerHTML=`
+    <div class="festive-confetti-wrap" id="levelup-conf-wrap"></div>
+    <div class="levelup-circle">${newLevel}</div>
+    <div class="levelup-title">Niveau ${newLevel} !</div>
+    <div class="levelup-sub">Tu progresses, continue comme ça.</div>
+    ${rankChanged?`<div class="levelup-rank">Nouveau rang : ${title}</div>`:`<div class="levelup-rank">${title}</div>`}
+    <button class="festive-btn show" onclick="closeLevelUp()">Continuer</button>`;
+  document.body.appendChild(overlay);
+  // Confetti
+  const wrap=document.getElementById('levelup-conf-wrap');
+  if(wrap){
+    const colors=['var(--ac)','var(--acm)','var(--success)','var(--warn)','#D4537E'];
+    for(let i=0;i<25;i++){
+      setTimeout(()=>{
+        const p=document.createElement('div');
+        p.className='conf';
+        p.style.cssText=`left:${Math.random()*100}%;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${2+Math.random()*2}s;animation-delay:${Math.random()*0.3}s;width:${5+Math.random()*5}px;height:${5+Math.random()*5}px;border-radius:${Math.random()>0.5?'50%':'2px'};`;
+        wrap.appendChild(p);
+        setTimeout(()=>p.remove(),4500);
+      },i*25);
+    }
+  }
+}
+
+function closeLevelUp(){
+  const o=document.getElementById('levelup-overlay');
+  if(o){o.style.transition='opacity 0.3s';o.style.opacity='0';setTimeout(()=>o.remove(),300);}
+}
+
+// ── v1.6 — BADGE UNLOCK ANIMATION ───────────────────────────────────────────
+function showBadgeUnlockAnimation(badge,tierKey){
+  const tierLabel=BADGE_TIER_LABELS[tierKey]||tierKey;
+  const overlay=document.createElement('div');
+  overlay.className='badge-unlock-overlay';
+  overlay.id='badge-unlock-overlay';
+  overlay.innerHTML=`
+    <div class="festive-confetti-wrap" id="bu-conf-wrap"></div>
+    <div class="badge-unlock-visual">
+      <img src="${BADGE_TIER_IMG(tierKey)}" onerror="this.style.display='none'"/>
+      <div class="bu-icon">${renderIconMarkup(badge.icon)}</div>
+    </div>
+    <div class="badge-unlock-tier">${tierLabel}</div>
+    <div class="badge-unlock-title">${badge.name}</div>
+    <div class="badge-unlock-sub">Tier ${tierLabel} débloqué !</div>
+    <button class="festive-btn show" onclick="closeBadgeUnlock()">Continuer</button>`;
+  document.body.appendChild(overlay);
+  // Mini confetti
+  const wrap=document.getElementById('bu-conf-wrap');
+  if(wrap){
+    const colors=['var(--ac)','var(--acm)','var(--success)','#D4537E'];
+    for(let i=0;i<20;i++){
+      setTimeout(()=>{
+        const p=document.createElement('div');
+        p.className='conf';
+        p.style.cssText=`left:${Math.random()*100}%;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${2+Math.random()*2}s;animation-delay:${Math.random()*0.3}s;width:${4+Math.random()*5}px;height:${4+Math.random()*5}px;border-radius:${Math.random()>0.5?'50%':'2px'};`;
+        wrap.appendChild(p);
+        setTimeout(()=>p.remove(),4500);
+      },i*30);
+    }
+  }
+}
+
+function closeBadgeUnlock(){
+  const o=document.getElementById('badge-unlock-overlay');
+  if(o){o.style.transition='opacity 0.3s';o.style.opacity='0';setTimeout(()=>o.remove(),300);}
+}
+
+// ── v1.6 — HABIT REORDER ────────────────────────────────────────────────────
+async function moveHabit(id,direction){
+  for(const group of['matin','journee','soir']){
+    const arr=DB.habits[group];
+    const idx=arr.findIndex(h=>h.id===id);
+    if(idx===-1)continue;
+    const newIdx=idx+direction;
+    if(newIdx<0||newIdx>=arr.length)return;
+    const temp=arr[idx];
+    arr[idx]=arr[newIdx];
+    arr[newIdx]=temp;
+    await saveData();
+    renderAgenda();
+    if(currentPage===1)renderJournee();
+    return;
+  }
+}
+
+// ── v1.6 — INSTALL APP (DESKTOP) ────────────────────────────────────────────
+function getInstallButtonHtml(){
+  if(isPWAInstalled())return`<div class="settings-item" style="border-radius:var(--rdl);"><div><div class="settings-item-label">App installée</div><div class="settings-item-sub">HabitOS est déjà installé sur cet appareil.</div></div></div>`;
+  if(isIOS())return`<div class="settings-item" style="border-radius:var(--rdl);cursor:pointer;" onclick="showIOSInstallHelp()"><div><div class="settings-item-label">Installer sur iPhone</div><div class="settings-item-sub">Partager puis "Sur l'écran d'accueil"</div></div><div style="font-size:16px;color:var(--tx2);">→</div></div>`;
+  return`<button class="install-app-btn" id="install-app-btn" onclick="triggerInstallFromSettings()">
+    <div class="install-app-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
+    <div><div style="font-weight:500;">Installer HabitOS</div><div style="font-size:11px;opacity:0.8;margin-top:2px;">App plein écran sur PC ou Mac</div></div>
+  </button>`;
+}
+
+async function triggerInstallFromSettings(){
+  if(deferredInstallPrompt){
+    deferredInstallPrompt.prompt();
+    const{outcome}=await deferredInstallPrompt.userChoice;
+    if(outcome==='accepted'){deferredInstallPrompt=null;toast('HabitOS installé !','green');closeSettings();openSettings();}
+  }else{
+    toast('Utilise le menu de ton navigateur pour installer','red');
+  }
 }
 
 init();
