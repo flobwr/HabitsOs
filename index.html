@@ -11,6 +11,7 @@
 <link rel="apple-touch-icon" href="/icon-192.png">
 <title>HabitOS</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();window.__earlyBIP=e;});</script>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -1704,7 +1705,7 @@ function countWeeklyDone(habitId,weekKey){
 }
 
 // ── PWA INSTALLATION ──────────────────────────────────────────────────────────
-let deferredInstallPrompt=null;
+let deferredInstallPrompt=window.__earlyBIP||null;
 
 window.addEventListener('beforeinstallprompt',e=>{
   e.preventDefault();
