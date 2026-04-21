@@ -124,21 +124,6 @@
     "name": "Task remove",
     "file": "discipline/03_task-remove-4fef2f.svg"
   },
-  "discipline-04-task-view-all-252054": {
-    "cat": "Discipline",
-    "name": "Task view all",
-    "file": "discipline/test.svg"
-  },
-  "discipline-05-task-view-unscheduled-29ca49": {
-    "cat": "Discipline",
-    "name": "Task view unscheduled",
-    "file": "discipline/05_task-view-unscheduled-29ca49.svg"
-  },
-  "discipline-06-task-view-unscheduled-29ca49_1": {
-    "cat": "Discipline",
-    "name": "Task view unscheduled",
-    "file": "discipline/06_task-view-unscheduled-29ca49_1.svg"
-  },
   "discipline-07-web-habitica-4768cd": {
     "cat": "Discipline",
     "name": "Web habitica",
