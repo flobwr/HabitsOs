@@ -1,14 +1,907 @@
 {
-  "_comment": "Format : {id: {cat, name, file}}. Les fichiers vont dans /icons/<sous-dossier>/<nom>.svg. Exemples commentés ci-dessous — supprime-les et remplis avec tes vraies icônes.",
-
-  "_example_sport_dumbbell": {
-    "cat": "Sport",
-    "name": "Haltère",
-    "file": "sport/dumbbell.svg"
+  "apprentissage-01-school-44dec2": {
+    "cat": "Apprentissage",
+    "name": "School",
+    "file": "apprentissage/01_school-44dec2.svg"
   },
-  "_example_nutrition_apple": {
+  "apprentissage-02-school-5acd7c": {
+    "cat": "Apprentissage",
+    "name": "School",
+    "file": "apprentissage/02_school-5acd7c.svg"
+  },
+  "apprentissage-03-school-coreui-f49672": {
+    "cat": "Apprentissage",
+    "name": "School coreui",
+    "file": "apprentissage/03_school-coreui-f49672.svg"
+  },
+  "apprentissage-04-school-ic-45f918": {
+    "cat": "Apprentissage",
+    "name": "School ic",
+    "file": "apprentissage/04_school-ic-45f918.svg"
+  },
+  "apprentissage-05-school-u1f3eb-48dd61": {
+    "cat": "Apprentissage",
+    "name": "School u1f3eb",
+    "file": "apprentissage/05_school-u1f3eb-48dd61.svg"
+  },
+  "apprentissage-06-school-diploma-7464b2": {
+    "cat": "Apprentissage",
+    "name": "School diploma",
+    "file": "apprentissage/06_school-diploma-7464b2.svg"
+  },
+  "apprentissage-07-graduate-12b3f2": {
+    "cat": "Apprentissage",
+    "name": "Graduate",
+    "file": "apprentissage/07_graduate-12b3f2.svg"
+  },
+  "apprentissage-08-school-silh-43f467": {
+    "cat": "Apprentissage",
+    "name": "School silh",
+    "file": "apprentissage/08_school-silh-43f467.svg"
+  },
+  "apprentissage-09-school-silh-chair-2c7279": {
+    "cat": "Apprentissage",
+    "name": "School silh chair",
+    "file": "apprentissage/09_school-silh-chair-2c7279.svg"
+  },
+  "apprentissage-10-study-blueprint-5a129b": {
+    "cat": "Apprentissage",
+    "name": "Study blueprint",
+    "file": "apprentissage/10_study-blueprint-5a129b.svg"
+  },
+  "apprentissage-11-study-feather-dbd0b3": {
+    "cat": "Apprentissage",
+    "name": "Study feather",
+    "file": "apprentissage/11_study-feather-dbd0b3.svg"
+  },
+  "apprentissage-12-study-bible-5a3592": {
+    "cat": "Apprentissage",
+    "name": "Study bible",
+    "file": "apprentissage/12_study-bible-5a3592.svg"
+  },
+  "apprentissage-13-brain-ai-bec118": {
+    "cat": "Apprentissage",
+    "name": "Brain ai",
+    "file": "apprentissage/13_brain-ai-bec118.svg"
+  },
+  "apprentissage-14-brain-research-fec36f": {
+    "cat": "Apprentissage",
+    "name": "Brain research",
+    "file": "apprentissage/14_brain-research-fec36f.svg"
+  },
+  "apprentissage-15-archive-research-77712f": {
+    "cat": "Apprentissage",
+    "name": "Archive research",
+    "file": "apprentissage/15_archive-research-77712f.svg"
+  },
+  "apprentissage-16-notepad-cb3569": {
+    "cat": "Apprentissage",
+    "name": "Notepad",
+    "file": "apprentissage/16_notepad-cb3569.svg"
+  },
+  "bienetre-01-calm-meditation-61c9ac": {
+    "cat": "Bien-être",
+    "name": "Calm méditation",
+    "file": "bienetre/01_calm-meditation-61c9ac.svg"
+  },
+  "bienetre-02-calmness-dark-4e2c37": {
+    "cat": "Bien-être",
+    "name": "Calme dark",
+    "file": "bienetre/02_calmness-dark-4e2c37.svg"
+  },
+  "bienetre-03-face-calm-f9cc24": {
+    "cat": "Bien-être",
+    "name": "Face calm",
+    "file": "bienetre/03_face-calm-f9cc24.svg"
+  },
+  "bienetre-04-mental-health-504cbe": {
+    "cat": "Bien-être",
+    "name": "Mental health",
+    "file": "bienetre/04_mental-health-504cbe.svg"
+  },
+  "bienetre-05-brain-music-609263": {
+    "cat": "Bien-être",
+    "name": "Brain music",
+    "file": "bienetre/05_brain-music-609263.svg"
+  },
+  "bienetre-06-brain-sketched-cb9ec6": {
+    "cat": "Bien-être",
+    "name": "Brain sketched",
+    "file": "bienetre/06_brain-sketched-cb9ec6.svg"
+  },
+  "discipline-01-task-approved-99469e": {
+    "cat": "Discipline",
+    "name": "Task approved",
+    "file": "discipline/01_task-approved-99469e.svg"
+  },
+  "discipline-02-task-complete-ff87e7": {
+    "cat": "Discipline",
+    "name": "Task complete",
+    "file": "discipline/02_task-complete-ff87e7.svg"
+  },
+  "discipline-03-task-remove-4fef2f": {
+    "cat": "Discipline",
+    "name": "Task remove",
+    "file": "discipline/03_task-remove-4fef2f.svg"
+  },
+  "discipline-04-task-view-all-252054": {
+    "cat": "Discipline",
+    "name": "Task view all",
+    "file": "discipline/04_task-view-all-252054.svg"
+  },
+  "discipline-05-task-view-unscheduled-29ca49": {
+    "cat": "Discipline",
+    "name": "Task view unscheduled",
+    "file": "discipline/05_task-view-unscheduled-29ca49.svg"
+  },
+  "discipline-06-task-view-unscheduled-29ca49-1": {
+    "cat": "Discipline",
+    "name": "Task view unscheduled",
+    "file": "discipline/06_task-view-unscheduled-29ca49_1.svg"
+  },
+  "discipline-07-web-habitica-4768cd": {
+    "cat": "Discipline",
+    "name": "Web habitica",
+    "file": "discipline/07_web-habitica-4768cd.svg"
+  },
+  "discipline-08-alarm-clock-b689fd": {
+    "cat": "Discipline",
+    "name": "Alarm clock",
+    "file": "discipline/08_alarm-clock-b689fd.svg"
+  },
+  "discipline-09-discipline": {
+    "cat": "Discipline",
+    "name": "Discipline",
+    "file": "discipline/09_discipline.png"
+  },
+  "general-01-habitacao-caixa-41f46d": {
+    "cat": "General",
+    "name": "Habitacao caixa",
+    "file": "general/01_habitacao-caixa-41f46d.svg"
+  },
+  "general-02-man-16424030": {
+    "cat": "General",
+    "name": "Man",
+    "file": "general/02_man_16424030.png"
+  },
+  "general-03-game-13851443": {
+    "cat": "General",
+    "name": "Game",
+    "file": "general/03_game_13851443.png"
+  },
+  "hydratation-01-drinking-water": {
+    "cat": "Hydratation",
+    "name": "Drinking water",
+    "file": "hydratation/01_drinking-water.png"
+  },
+  "hydratation-02-hydration": {
+    "cat": "Hydratation",
+    "name": "Hydration",
+    "file": "hydratation/02_hydration.png"
+  },
+  "hydratation-03-stay-hydrated": {
+    "cat": "Hydratation",
+    "name": "Stay hydrated",
+    "file": "hydratation/03_stay-hydrated.png"
+  },
+  "hydratation-04-water-bottle": {
+    "cat": "Hydratation",
+    "name": "Water bottle",
+    "file": "hydratation/04_water-bottle.png"
+  },
+  "hydratation-05-running-water-273742": {
+    "cat": "Hydratation",
+    "name": "Running water",
+    "file": "hydratation/05_running-water-273742.svg"
+  },
+  "hydratation-06-running-water-cf7803": {
+    "cat": "Hydratation",
+    "name": "Running water",
+    "file": "hydratation/06_running-water-cf7803.svg"
+  },
+  "lecture-01-reading-d99be0": {
+    "cat": "Lecture",
+    "name": "Reading",
+    "file": "lecture/01_reading-d99be0.svg"
+  },
+  "lecture-02-reading-e00b1c": {
+    "cat": "Lecture",
+    "name": "Reading",
+    "file": "lecture/02_reading-e00b1c.svg"
+  },
+  "lecture-03-reading-other-f6900d": {
+    "cat": "Lecture",
+    "name": "Reading other",
+    "file": "lecture/03_reading-other-f6900d.svg"
+  },
+  "lecture-04-open-book-de4f9f": {
+    "cat": "Lecture",
+    "name": "Open book",
+    "file": "lecture/04_open-book-de4f9f.svg"
+  },
+  "lecture-05-reading-lamp-454b84": {
+    "cat": "Lecture",
+    "name": "Reading lamp",
+    "file": "lecture/05_reading-lamp-454b84.svg"
+  },
+  "nutrition-01-apple-2ef476": {
     "cat": "Nutrition",
-    "name": "Pomme",
-    "file": "nutrition/apple.svg"
+    "name": "Apple",
+    "file": "nutrition/01_apple-2ef476.svg"
+  },
+  "nutrition-02-apple-9f6bd1": {
+    "cat": "Nutrition",
+    "name": "Apple",
+    "file": "nutrition/02_apple-9f6bd1.svg"
+  },
+  "nutrition-03-apple-icon-e9ce25": {
+    "cat": "Nutrition",
+    "name": "Apple icon",
+    "file": "nutrition/03_apple-icon-e9ce25.svg"
+  },
+  "nutrition-04-bananas-icon-17ba77": {
+    "cat": "Nutrition",
+    "name": "Bananas icon",
+    "file": "nutrition/04_bananas-icon-17ba77.svg"
+  },
+  "nutrition-05-bananas-icon-f5cefa": {
+    "cat": "Nutrition",
+    "name": "Bananas icon",
+    "file": "nutrition/05_bananas-icon-f5cefa.svg"
+  },
+  "nutrition-06-cherries-icon-00f825": {
+    "cat": "Nutrition",
+    "name": "Cherries icon",
+    "file": "nutrition/06_cherries-icon-00f825.svg"
+  },
+  "nutrition-07-fruit-cherries-7aeaf0": {
+    "cat": "Nutrition",
+    "name": "Fruit cherries",
+    "file": "nutrition/07_fruit-cherries-7aeaf0.svg"
+  },
+  "nutrition-08-food-cherries-ripe-1206e8": {
+    "cat": "Nutrition",
+    "name": "Food cherries ripe",
+    "file": "nutrition/08_food-cherries-ripe-1206e8.svg"
+  },
+  "nutrition-09-food-cherries-tasty-046c67": {
+    "cat": "Nutrition",
+    "name": "Food cherries tasty",
+    "file": "nutrition/09_food-cherries-tasty-046c67.svg"
+  },
+  "nutrition-10-grapes-3c2fea": {
+    "cat": "Nutrition",
+    "name": "Grapes",
+    "file": "nutrition/10_grapes-3c2fea.svg"
+  },
+  "nutrition-11-food-grapes-bunch-2558e3": {
+    "cat": "Nutrition",
+    "name": "Food grapes bunch",
+    "file": "nutrition/11_food-grapes-bunch-2558e3.svg"
+  },
+  "nutrition-12-watermelon-icon-0b6298": {
+    "cat": "Nutrition",
+    "name": "Watermelon icon",
+    "file": "nutrition/12_watermelon-icon-0b6298.svg"
+  },
+  "nutrition-13-watermelon-icon-f8197a": {
+    "cat": "Nutrition",
+    "name": "Watermelon icon",
+    "file": "nutrition/13_watermelon-icon-f8197a.svg"
+  },
+  "nutrition-14-pear-icon-0b5e84": {
+    "cat": "Nutrition",
+    "name": "Pear icon",
+    "file": "nutrition/14_pear-icon-0b5e84.svg"
+  },
+  "nutrition-15-food-strawberry-4c6669": {
+    "cat": "Nutrition",
+    "name": "Food strawberry",
+    "file": "nutrition/15_food-strawberry-4c6669.svg"
+  },
+  "nutrition-16-food-strawberry-4c7fe2": {
+    "cat": "Nutrition",
+    "name": "Food strawberry",
+    "file": "nutrition/16_food-strawberry-4c7fe2.svg"
+  },
+  "nutrition-17-food-lemon-0feade": {
+    "cat": "Nutrition",
+    "name": "Food lemon",
+    "file": "nutrition/17_food-lemon-0feade.svg"
+  },
+  "nutrition-18-food-lemon-5c8094": {
+    "cat": "Nutrition",
+    "name": "Food lemon",
+    "file": "nutrition/18_food-lemon-5c8094.svg"
+  },
+  "nutrition-19-food-fruit-ee4bfb": {
+    "cat": "Nutrition",
+    "name": "Food fruit",
+    "file": "nutrition/19_food-fruit-ee4bfb.svg"
+  },
+  "nutrition-20-food-fruit-healthy-281fc0": {
+    "cat": "Nutrition",
+    "name": "Food fruit healthy",
+    "file": "nutrition/20_food-fruit-healthy-281fc0.svg"
+  },
+  "nutrition-21-food-corn-9f654b": {
+    "cat": "Nutrition",
+    "name": "Food corn",
+    "file": "nutrition/21_food-corn-9f654b.svg"
+  },
+  "nutrition-22-food-veg-stem-4f3231": {
+    "cat": "Nutrition",
+    "name": "Food veg stem",
+    "file": "nutrition/22_food-veg-stem-4f3231.svg"
+  },
+  "nutrition-23-food-veg-organic-874580": {
+    "cat": "Nutrition",
+    "name": "Food veg organic",
+    "file": "nutrition/23_food-veg-organic-874580.svg"
+  },
+  "nutrition-24-food-veg-fresh-1812e3": {
+    "cat": "Nutrition",
+    "name": "Food veg fresh",
+    "file": "nutrition/24_food-veg-fresh-1812e3.svg"
+  },
+  "nutrition-25-food-veg-raw-4c020c": {
+    "cat": "Nutrition",
+    "name": "Food veg raw",
+    "file": "nutrition/25_food-veg-raw-4c020c.svg"
+  },
+  "nutrition-26-food-tree-branch-b226c5": {
+    "cat": "Nutrition",
+    "name": "Food tree branch",
+    "file": "nutrition/26_food-tree-branch-b226c5.svg"
+  },
+  "nutrition-27-cooking-herb-9706a5": {
+    "cat": "Nutrition",
+    "name": "Cooking herb",
+    "file": "nutrition/27_cooking-herb-9706a5.svg"
+  },
+  "nutrition-28-chicken-breast-9bdbae": {
+    "cat": "Nutrition",
+    "name": "Chicken breast",
+    "file": "nutrition/28_chicken-breast-9bdbae.svg"
+  },
+  "nutrition-29-chicken-hen-466953": {
+    "cat": "Nutrition",
+    "name": "Chicken hen",
+    "file": "nutrition/29_chicken-hen-466953.svg"
+  },
+  "nutrition-30-chicken-leg-50820e": {
+    "cat": "Nutrition",
+    "name": "Chicken leg",
+    "file": "nutrition/30_chicken-leg-50820e.svg"
+  },
+  "nutrition-31-chicken-leg-roasted-720619": {
+    "cat": "Nutrition",
+    "name": "Chicken leg roasted",
+    "file": "nutrition/31_chicken-leg-roasted-720619.svg"
+  },
+  "nutrition-32-chicken-breakfast-4628e2": {
+    "cat": "Nutrition",
+    "name": "Chicken breakfast",
+    "file": "nutrition/32_chicken-breakfast-4628e2.svg"
+  },
+  "nutrition-33-breakfast-bacon-9c62ec": {
+    "cat": "Nutrition",
+    "name": "Breakfast bacon",
+    "file": "nutrition/33_breakfast-bacon-9c62ec.svg"
+  },
+  "nutrition-34-breakfast-sausage-2d8ea9": {
+    "cat": "Nutrition",
+    "name": "Breakfast sausage",
+    "file": "nutrition/34_breakfast-sausage-2d8ea9.svg"
+  },
+  "nutrition-35-breakfast-eggs-538d23": {
+    "cat": "Nutrition",
+    "name": "Breakfast eggs",
+    "file": "nutrition/35_breakfast-eggs-538d23.svg"
+  },
+  "nutrition-36-breakfast-eggs-d577b9": {
+    "cat": "Nutrition",
+    "name": "Breakfast eggs",
+    "file": "nutrition/36_breakfast-eggs-d577b9.svg"
+  },
+  "nutrition-37-breakfast-pancakes-50d399": {
+    "cat": "Nutrition",
+    "name": "Breakfast pancakes",
+    "file": "nutrition/37_breakfast-pancakes-50d399.svg"
+  },
+  "nutrition-38-breakfast-pancakes-b28286": {
+    "cat": "Nutrition",
+    "name": "Breakfast pancakes",
+    "file": "nutrition/38_breakfast-pancakes-b28286.svg"
+  },
+  "nutrition-39-breakfast-muffin-75db7f": {
+    "cat": "Nutrition",
+    "name": "Breakfast muffin",
+    "file": "nutrition/39_breakfast-muffin-75db7f.svg"
+  },
+  "nutrition-40-breakfast-muffin-blueberry-7ea443": {
+    "cat": "Nutrition",
+    "name": "Breakfast muffin blueberry",
+    "file": "nutrition/40_breakfast-muffin-blueberry-7ea443.svg"
+  },
+  "nutrition-41-breakfast-hot-bf9b74": {
+    "cat": "Nutrition",
+    "name": "Breakfast hot",
+    "file": "nutrition/41_breakfast-hot-bf9b74.svg"
+  },
+  "nutrition-42-fastfood-burger-45aa51": {
+    "cat": "Nutrition",
+    "name": "Fastfood burger",
+    "file": "nutrition/42_fastfood-burger-45aa51.svg"
+  },
+  "nutrition-43-fastfood-junk-a7b995": {
+    "cat": "Nutrition",
+    "name": "Fastfood junk",
+    "file": "nutrition/43_fastfood-junk-a7b995.svg"
+  },
+  "nutrition-44-fastfood-junk-plate-7c7dd1": {
+    "cat": "Nutrition",
+    "name": "Fastfood junk plate",
+    "file": "nutrition/44_fastfood-junk-plate-7c7dd1.svg"
+  },
+  "nutrition-45-fastfood-pizza-c6fbdb": {
+    "cat": "Nutrition",
+    "name": "Fastfood pizza",
+    "file": "nutrition/45_fastfood-pizza-c6fbdb.svg"
+  },
+  "nutrition-46-fastfood-taco-1f8f95": {
+    "cat": "Nutrition",
+    "name": "Fastfood taco",
+    "file": "nutrition/46_fastfood-taco-1f8f95.svg"
+  },
+  "nutrition-47-fastfood-menu-74c0ca": {
+    "cat": "Nutrition",
+    "name": "Fastfood menu",
+    "file": "nutrition/47_fastfood-menu-74c0ca.svg"
+  },
+  "nutrition-48-drink-milk-f3f13a": {
+    "cat": "Nutrition",
+    "name": "Drink milk",
+    "file": "nutrition/48_drink-milk-f3f13a.svg"
+  },
+  "nutrition-49-drink-tea-58c442": {
+    "cat": "Nutrition",
+    "name": "Drink tea",
+    "file": "nutrition/49_drink-tea-58c442.svg"
+  },
+  "nutrition-50-drink-tea-7394a1": {
+    "cat": "Nutrition",
+    "name": "Drink tea",
+    "file": "nutrition/50_drink-tea-7394a1.svg"
+  },
+  "nutrition-51-meal-dinner-f69cc4": {
+    "cat": "Nutrition",
+    "name": "Meal dinner",
+    "file": "nutrition/51_meal-dinner-f69cc4.svg"
+  },
+  "nutrition-52-meal-hot-286c1d": {
+    "cat": "Nutrition",
+    "name": "Meal hot",
+    "file": "nutrition/52_meal-hot-286c1d.svg"
+  },
+  "nutrition-53-meal-58095d": {
+    "cat": "Nutrition",
+    "name": "Meal",
+    "file": "nutrition/53_meal-58095d.svg"
+  },
+  "nutrition-54-meal-mealie-3ea8f3": {
+    "cat": "Nutrition",
+    "name": "Meal mealie",
+    "file": "nutrition/54_meal-mealie-3ea8f3.svg"
+  },
+  "nutrition-55-plate-tray-5a4f13": {
+    "cat": "Nutrition",
+    "name": "Plate tray",
+    "file": "nutrition/55_plate-tray-5a4f13.svg"
+  },
+  "nutrition-56-plate-forkknife-1f37d": {
+    "cat": "Nutrition",
+    "name": "Plate forkknife 1f37d",
+    "file": "nutrition/56_plate-forkknife-1f37d.svg"
+  },
+  "nutrition-57-couvert-47cd30": {
+    "cat": "Nutrition",
+    "name": "Couvert",
+    "file": "nutrition/57_couvert-47cd30.svg"
+  },
+  "nutrition-58-food-selection-d2287f": {
+    "cat": "Nutrition",
+    "name": "Food selection",
+    "file": "nutrition/58_food-selection-d2287f.svg"
+  },
+  "nutrition-59-shopping-cart-b79c11": {
+    "cat": "Nutrition",
+    "name": "Shopping cart",
+    "file": "nutrition/59_shopping-cart-b79c11.svg"
+  },
+  "nutrition-60-shopping-cart-b51e7d": {
+    "cat": "Nutrition",
+    "name": "Shopping cart",
+    "file": "nutrition/60_shopping-cart-b51e7d.svg"
+  },
+  "nutrition-61-no-food-sign-afcdf5": {
+    "cat": "Nutrition",
+    "name": "No food sign",
+    "file": "nutrition/61_no-food-sign-afcdf5.svg"
+  },
+  "nutrition-62-no-food-sign-b5b84b": {
+    "cat": "Nutrition",
+    "name": "No food sign",
+    "file": "nutrition/62_no-food-sign-b5b84b.svg"
+  },
+  "nutrition-63-wasting-food-6f60d4": {
+    "cat": "Nutrition",
+    "name": "Wasting food",
+    "file": "nutrition/63_wasting-food-6f60d4.svg"
+  },
+  "nutrition-64-food-emoji-67115a": {
+    "cat": "Nutrition",
+    "name": "Food émoji",
+    "file": "nutrition/64_food-emoji-67115a.svg"
+  },
+  "productivite-01-calendar-48d08e": {
+    "cat": "Productivité",
+    "name": "Calendar",
+    "file": "productivite/01_calendar-48d08e.svg"
+  },
+  "productivite-02-calendar-48d08e-1": {
+    "cat": "Productivité",
+    "name": "Calendar",
+    "file": "productivite/02_calendar-48d08e_1.svg"
+  },
+  "productivite-03-calendar-icon-9c29c1": {
+    "cat": "Productivité",
+    "name": "Calendar icon",
+    "file": "productivite/03_calendar-icon-9c29c1.svg"
+  },
+  "productivite-04-calendar-clock-230e1f": {
+    "cat": "Productivité",
+    "name": "Calendar clock",
+    "file": "productivite/04_calendar-clock-230e1f.svg"
+  },
+  "productivite-05-calendar-month-1fda0e": {
+    "cat": "Productivité",
+    "name": "Calendar month",
+    "file": "productivite/05_calendar-month-1fda0e.svg"
+  },
+  "productivite-06-timer-cdf93f": {
+    "cat": "Productivité",
+    "name": "Timer",
+    "file": "productivite/06_timer-cdf93f.svg"
+  },
+  "productivite-07-timer-symbolic-0fdebb": {
+    "cat": "Productivité",
+    "name": "Timer symbolic",
+    "file": "productivite/07_timer-symbolic-0fdebb.svg"
+  },
+  "productivite-08-timer-floating-ad051d": {
+    "cat": "Productivité",
+    "name": "Timer floating",
+    "file": "productivite/08_timer-floating-ad051d.svg"
+  },
+  "productivite-09-timer-interval-d55220": {
+    "cat": "Productivité",
+    "name": "Timer interval",
+    "file": "productivite/09_timer-interval-d55220.svg"
+  },
+  "productivite-10-timer-mpris-0f54ed": {
+    "cat": "Productivité",
+    "name": "Timer mpris",
+    "file": "productivite/10_timer-mpris-0f54ed.svg"
+  },
+  "productivite-11-timer-parnold-171847": {
+    "cat": "Productivité",
+    "name": "Timer parnold",
+    "file": "productivite/11_timer-parnold-171847.svg"
+  },
+  "productivite-12-time": {
+    "cat": "Productivité",
+    "name": "Time",
+    "file": "productivite/12_time.png"
+  },
+  "productivite-13-time-production-268dc5": {
+    "cat": "Productivité",
+    "name": "Time production",
+    "file": "productivite/13_time-production-268dc5.svg"
+  },
+  "productivite-14-focus-app-grid-951539": {
+    "cat": "Productivité",
+    "name": "Focus app grid",
+    "file": "productivite/14_focus-app-grid-951539.svg"
+  },
+  "productivite-15-focus-search-b4fd9f": {
+    "cat": "Productivité",
+    "name": "Focus search",
+    "file": "productivite/15_focus-search-b4fd9f.svg"
+  },
+  "productivite-16-focus-windows-738f07": {
+    "cat": "Productivité",
+    "name": "Focus windows",
+    "file": "productivite/16_focus-windows-738f07.svg"
+  },
+  "productivite-17-focus-folder-301042": {
+    "cat": "Productivité",
+    "name": "Focus folder",
+    "file": "productivite/17_focus-folder-301042.svg"
+  },
+  "productivite-18-chart-bar-8b651e": {
+    "cat": "Productivité",
+    "name": "Chart bar",
+    "file": "productivite/18_chart-bar-8b651e.svg"
+  },
+  "productivite-19-chart-line-07fbca": {
+    "cat": "Productivité",
+    "name": "Chart line",
+    "file": "productivite/19_chart-line-07fbca.svg"
+  },
+  "productivite-20-chart-pie-cbd061": {
+    "cat": "Productivité",
+    "name": "Chart pie",
+    "file": "productivite/20_chart-pie-cbd061.svg"
+  },
+  "productivite-21-chart-lines-0483f9": {
+    "cat": "Productivité",
+    "name": "Chart lines",
+    "file": "productivite/21_chart-lines-0483f9.svg"
+  },
+  "productivite-22-target-arrow-04cace": {
+    "cat": "Productivité",
+    "name": "Target arrow",
+    "file": "productivite/22_target-arrow-04cace.svg"
+  },
+  "productivite-23-goal-47ea6b": {
+    "cat": "Productivité",
+    "name": "Goal",
+    "file": "productivite/23_goal-47ea6b.svg"
+  },
+  "productivite-24-goals-329da2": {
+    "cat": "Productivité",
+    "name": "Goals",
+    "file": "productivite/24_goals-329da2.svg"
+  },
+  "productivite-25-trophy-445696": {
+    "cat": "Productivité",
+    "name": "Trophy",
+    "file": "productivite/25_trophy-445696.svg"
+  },
+  "productivite-26-trophy-base-5a8a68": {
+    "cat": "Productivité",
+    "name": "Trophy base",
+    "file": "productivite/26_trophy-base-5a8a68.svg"
+  },
+  "productivite-27-trophy-cup-0f2bca": {
+    "cat": "Productivité",
+    "name": "Trophy cup",
+    "file": "productivite/27_trophy-cup-0f2bca.svg"
+  },
+  "productivite-28-phone-smartphone-8aaaa9": {
+    "cat": "Productivité",
+    "name": "Phone smartphone",
+    "file": "productivite/28_phone-smartphone-8aaaa9.svg"
+  },
+  "productivite-29-phone-no-cell-666b10": {
+    "cat": "Productivité",
+    "name": "Phone no cell",
+    "file": "productivite/29_phone-no-cell-666b10.svg"
+  },
+  "productivite-30-bolt-icons-6ec792": {
+    "cat": "Productivité",
+    "name": "Bolt icons",
+    "file": "productivite/30_bolt-icons-6ec792.svg"
+  },
+  "productivite-31-bolt-merchant-b061cf": {
+    "cat": "Productivité",
+    "name": "Bolt merchant",
+    "file": "productivite/31_bolt-merchant-b061cf.svg"
+  },
+  "sommeil-01-sleep": {
+    "cat": "Sommeil",
+    "name": "Sleep",
+    "file": "sommeil/01_sleep.png"
+  },
+  "sommeil-02-sleep-quality": {
+    "cat": "Sommeil",
+    "name": "Sleep quality",
+    "file": "sommeil/02_sleep-quality.png"
+  },
+  "sommeil-03-sleep-night-23bfa0": {
+    "cat": "Sommeil",
+    "name": "Sleep night",
+    "file": "sommeil/03_sleep-night-23bfa0.svg"
+  },
+  "sommeil-04-bed-bear-sleeping-765686": {
+    "cat": "Sommeil",
+    "name": "Bed bear sleeping",
+    "file": "sommeil/04_bed-bear-sleeping-765686.svg"
+  },
+  "sommeil-05-sleeping-bag-6478f0": {
+    "cat": "Sommeil",
+    "name": "Sleeping bag",
+    "file": "sommeil/05_sleeping-bag-6478f0.svg"
+  },
+  "sommeil-06-sleepiq-616672": {
+    "cat": "Sommeil",
+    "name": "Sleepiq",
+    "file": "sommeil/06_sleepiq-616672.svg"
+  },
+  "sommeil-07-sleepy-woman-computer-8e389f": {
+    "cat": "Sommeil",
+    "name": "Sleepy woman computer",
+    "file": "sommeil/07_sleepy-woman-computer-8e389f.svg"
+  },
+  "sommeil-08-sleepy-woman-writing-2b7647": {
+    "cat": "Sommeil",
+    "name": "Sleepy woman writing",
+    "file": "sommeil/08_sleepy-woman-writing-2b7647.svg"
+  },
+  "sport-01-barbell-b59778": {
+    "cat": "Sport",
+    "name": "Barbell",
+    "file": "sport/01_barbell-b59778.svg"
+  },
+  "sport-02-barbell-fill-a8942d": {
+    "cat": "Sport",
+    "name": "Barbell fill",
+    "file": "sport/02_barbell-fill-a8942d.svg"
+  },
+  "sport-03-barbell-outline-724a6c": {
+    "cat": "Sport",
+    "name": "Barbell outline",
+    "file": "sport/03_barbell-outline-724a6c.svg"
+  },
+  "sport-04-barbell-sharp-0c2b2c": {
+    "cat": "Sport",
+    "name": "Barbell sharp",
+    "file": "sport/04_barbell-sharp-0c2b2c.svg"
+  },
+  "sport-05-barbell-sharp-dc8c2a": {
+    "cat": "Sport",
+    "name": "Barbell sharp",
+    "file": "sport/05_barbell-sharp-dc8c2a.svg"
+  },
+  "sport-06-dumbell-4e00ba": {
+    "cat": "Sport",
+    "name": "Dumbell",
+    "file": "sport/06_dumbell-4e00ba.svg"
+  },
+  "sport-07-fitness-weight-27f1d4": {
+    "cat": "Sport",
+    "name": "Fitness weight",
+    "file": "sport/07_fitness-weight-27f1d4.svg"
+  },
+  "sport-08-gym-weights-91aeae": {
+    "cat": "Sport",
+    "name": "Gym weights",
+    "file": "sport/08_gym-weights-91aeae.svg"
+  },
+  "sport-09-weight-12846204": {
+    "cat": "Sport",
+    "name": "Weight",
+    "file": "sport/09_weight_12846204.png"
+  },
+  "sport-10-weights-16079695": {
+    "cat": "Sport",
+    "name": "Weights",
+    "file": "sport/10_weights_16079695.png"
+  },
+  "sport-11-man-lifting-barbell-48c963": {
+    "cat": "Sport",
+    "name": "Man lifting barbell",
+    "file": "sport/11_man-lifting-barbell-48c963.svg"
+  },
+  "sport-12-equipment-gym-02-1edf81": {
+    "cat": "Sport",
+    "name": "Equipment gym 02",
+    "file": "sport/12_equipment-gym-02-1edf81.svg"
+  },
+  "sport-13-equipment-gym-03-fd5248": {
+    "cat": "Sport",
+    "name": "Equipment gym 03",
+    "file": "sport/13_equipment-gym-03-fd5248.svg"
+  },
+  "sport-14-rope-fitness-3aa398": {
+    "cat": "Sport",
+    "name": "Rope fitness",
+    "file": "sport/14_rope-fitness-3aa398.svg"
+  },
+  "sport-15-gym-bag-da938c": {
+    "cat": "Sport",
+    "name": "Gym bag",
+    "file": "sport/15_gym-bag-da938c.svg"
+  },
+  "sport-16-arm-workout-811d68": {
+    "cat": "Sport",
+    "name": "Arm workout",
+    "file": "sport/16_arm-workout-811d68.svg"
+  },
+  "sport-17-chest-workout-04d312": {
+    "cat": "Sport",
+    "name": "Chest workout",
+    "file": "sport/17_chest-workout-04d312.svg"
+  },
+  "sport-18-home-workout-32947c": {
+    "cat": "Sport",
+    "name": "Home workout",
+    "file": "sport/18_home-workout-32947c.svg"
+  },
+  "sport-19-training-a896f9": {
+    "cat": "Sport",
+    "name": "Training",
+    "file": "sport/19_training-a896f9.svg"
+  },
+  "sport-20-exercise-timer-d320ff": {
+    "cat": "Sport",
+    "name": "Exercise timer",
+    "file": "sport/20_exercise-timer-d320ff.svg"
+  },
+  "sport-21-workout-2548532": {
+    "cat": "Sport",
+    "name": "Workout",
+    "file": "sport/21_workout_2548532.png"
+  },
+  "sport-22-workout-run-d7a3d0": {
+    "cat": "Sport",
+    "name": "Workout run",
+    "file": "sport/22_workout-run-d7a3d0.svg"
+  },
+  "sport-23-biceps": {
+    "cat": "Sport",
+    "name": "Biceps",
+    "file": "sport/23_biceps.png"
+  },
+  "sport-24-muscle-7447732": {
+    "cat": "Sport",
+    "name": "Muscle",
+    "file": "sport/24_muscle_7447732.png"
+  },
+  "sport-25-muscular-man-db69dc": {
+    "cat": "Sport",
+    "name": "Muscular man",
+    "file": "sport/25_muscular-man-db69dc.svg"
+  },
+  "sport-26-muscular-torso-f175dd": {
+    "cat": "Sport",
+    "name": "Muscular torso",
+    "file": "sport/26_muscular-torso-f175dd.svg"
+  },
+  "sport-27-musculous-arm": {
+    "cat": "Sport",
+    "name": "Musculous arm",
+    "file": "sport/27_musculous-arm.png"
+  },
+  "sport-28-cil-running-6e4577": {
+    "cat": "Sport",
+    "name": "Cil running",
+    "file": "sport/28_cil-running-6e4577.svg"
+  },
+  "sport-29-run-11437969": {
+    "cat": "Sport",
+    "name": "Run",
+    "file": "sport/29_run_11437969.png"
+  },
+  "sport-30-run-2496979": {
+    "cat": "Sport",
+    "name": "Run",
+    "file": "sport/30_run_2496979.png"
+  },
+  "sport-31-running-315bad": {
+    "cat": "Sport",
+    "name": "Running",
+    "file": "sport/31_running-315bad.svg"
+  },
+  "sport-32-running-e5e63f": {
+    "cat": "Sport",
+    "name": "Running",
+    "file": "sport/32_running-e5e63f.svg"
+  },
+  "sport-33-shoe-44f1bf": {
+    "cat": "Sport",
+    "name": "Shoe",
+    "file": "sport/33_shoe-44f1bf.svg"
   }
 }
