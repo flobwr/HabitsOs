@@ -1202,6 +1202,16 @@ function getCompletionRate(habitId,days){
   }
   return total===0?null:Math.round((done/total)*100);
 }
+function getRegularityScore(days){
+  let total=0,sumPct=0;
+  for(let i=1;i<=days;i++){
+    const d=new Date(now);d.setDate(d.getDate()-i);
+    const key=d.toISOString().split('T')[0];
+    const e=DB.history[key];
+    if(e&&e.total>0){total++;sumPct+=e.score/e.total;}
+  }
+  return total===0?null:{score:Math.round((sumPct/total)*100),days:total};
+}
   
 // ── PAGE 3: PROFIL ────────────────────────────────────────────────────────────
 function renderProfil(){
@@ -1210,25 +1220,48 @@ function renderProfil(){
   const nextLevelXP=getTotalXPForLevel(Math.min(li.level+1,100));
   const segHtml=`<div class="seg">${['stats','week','month','history'].map((t,i)=>`<button class="sbtn${profilTab===t?' on':''}" onclick="setProfilTab('${t}')">${['Stats','Semaine','Mois','Historique'][i]}</button>`).join('')}</div>`;
   let content='';
-  if(profilTab==='stats'){
-    content=`<div class="card"><div style="padding:10px 16px;">${Object.entries(DB.rpgStats).map(([name,val])=>{
+ if(profilTab==='stats'){
+    const reg=getRegularityScore(30);
+    const regScore=reg?reg.score+'%':'--';
+    const regDays=reg?reg.days+' j / 30':'0 j / 30';
+    const withRates=allHabits().map(h=>({label:h.label,p:getCompletionRate(h.id,30)})).filter(h=>h.p!==null).sort((a,b)=>b.p-a.p);
+    const top3=withRates.slice(0,3);
+    const flopN=Math.min(3,withRates.length-3);
+    const flop3=flopN>0?withRates.slice(-flopN):[];
+    const moodData=Array.from({length:30},(_,i)=>{const d=new Date(now);d.setDate(d.getDate()-29+i);return DB.history[d.toISOString().split('T')[0]]?.mood||0;});
+    const moodBars=moodData.map(v=>'<div style="flex:1;display:flex;align-items:flex-end;"><div style="width:100%;height:'+(v>0?Math.round((v/5)*40)+4:2)+'px;background:'+(v>=4?'var(--success)':v>=2?'var(--ac)':'var(--bg3)')+';border-radius:2px 2px 0 0;"></div></div>').join('');
+    const rpgHtml=Object.entries(DB.rpgStats).map(([name,val])=>{
       const color=STAT_COLORS[name]||'#888';
       const pctStat=Math.round((val/10)*100);
       const lastUpdated=DB.rpgLastUpdated[Object.keys(DB.rpgLastUpdated).find(k=>allHabits().find(h=>h.id===k&&(h.stat||detectStat(h.label))===name))];
       const daysSince=lastUpdated?Math.floor((new Date(TODAY)-new Date(lastUpdated))/(1000*60*60*24)):999;
       const trend=daysSince<=1?'↑':daysSince>=7?'↓':'→';
       const trendColor=daysSince<=1?'var(--success)':daysSince>=7?'var(--danger)':'var(--tx3)';
-      return`<div class="rpg-stat-row">
-        <div class="rpg-sname" style="font-size:12px;">${name}</div>
-        <div class="rpg-bar-wrap">
-          <div class="rpg-bar-bg"><div class="rpg-bar-fill" style="width:${pctStat}%;background:${color};"></div></div>
-        </div>
-        <div class="rpg-trend" style="color:${trendColor};">${trend}</div>
-        <div class="rpg-val">${val.toFixed(1)}</div>
-      </div>`;
+      return'<div class="rpg-stat-row"><div class="rpg-sname" style="font-size:12px;">'+name+'</div><div class="rpg-bar-wrap"><div class="rpg-bar-bg"><div class="rpg-bar-fill" style="width:'+pctStat+'%;background:'+color+';"></div></div></div><div class="rpg-trend" style="color:'+trendColor+';">'+trend+'</div><div class="rpg-val">'+val.toFixed(1)+'</div></div>';
+    }).join('');
+    const topHtml=top3.length>0?top3.map(h=>'<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:0.5px solid var(--br);font-size:13px;"><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;">'+h.label+'</span><span style="color:var(--success);flex-shrink:0;margin-left:8px;font-weight:500;">'+h.p+'%</span></div>').join(''):'<div style="font-size:12px;color:var(--tx2);padding:8px 0;">Enregistre quelques journees pour voir tes meilleures habitudes.</div>';
+    const flopSection=flop3.length>0?'<div class="slabel">A ameliorer</div><div class="card" style="margin-bottom:10px;"><div style="padding:4px 16px;">'+flop3.map(h=>'<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:0.5px solid var(--br);font-size:13px;"><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;">'+h.label+'</span><span style="color:var(--danger);flex-shrink:0;margin-left:8px;font-weight:500;">'+h.p+'%</span></div>').join('')+'</div></div>':'';
+    content=
+      '<div class="card" style="margin-bottom:10px;"><div style="padding:14px 16px;">'+
+        '<div class="slabel" style="margin:0 0 4px;">Regularite 30 jours</div>'+
+        '<div style="font-size:28px;font-weight:500;color:var(--tx);">'+regScore+'</div>'+
+        '<div style="font-size:11px;color:var(--tx3);margin-top:2px;">'+regDays+' journees enregistrees</div>'+
+      '</div></div>'+
+      '<div class="card" style="margin-bottom:10px;"><div style="padding:10px 16px;">'+rpgHtml+'</div></div>'+
+      '<div class="slabel">Meilleures habitudes</div>'+
+      '<div class="card" style="margin-bottom:10px;"><div style="padding:4px 16px;">'+topHtml+'</div></div>'+
+      flopSection+
+      '<div class="slabel">Humeur 30 jours</div>'+
+      '<div class="card" style="margin-bottom:10px;"><div style="padding:12px 16px 8px;">'+
+        '<div style="display:flex;align-items:flex-end;height:48px;gap:1px;">'+moodBars+'</div>'+
+        '<div style="display:flex;justify-content:space-between;font-size:9px;color:var(--tx3);margin-top:4px;"><span>-30j</span><span>Aujourd\'hui</span></div>'+
+      '</div></div>';
+  }
+    }).join('')}</div></div>`;
+  }
     }).join('')}</div></div>`;
   }else if(profilTab==='history'){
-    const days=Object.entries(DB.history).filter(([k])=>k.length===10).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,14);
+    const days=Object.entries(DB.history).filter(([k])=>k.length===10).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,30);
     content=days.length===0?`<div style="font-size:13px;color:var(--tx2);">Enregistre ta première journée pour voir l'historique !</div>`:days.map(([date,d])=>{
       const dt=new Date(date);
       const p=Math.round((d.score/Math.max(d.total,1))*100);
@@ -1612,7 +1645,7 @@ function openSettings(){
         <div class="settings-item" style="border-radius:0 0 var(--rdl) var(--rdl);"><div><div class="settings-item-label">Profil visible par mes amis</div><div class="settings-item-sub">Partager niveau, streaks, badges</div></div><div class="seg" style="margin:0;gap:2px;"><button class="sbtn${DB.settings.friendsPrivacy!==false?' on':''}" id="friends-privacy-yes" onclick="setFriendsPrivacy(true)">Oui</button><button class="sbtn${DB.settings.friendsPrivacy===false?' on':''}" id="friends-privacy-no" onclick="setFriendsPrivacy(false)">Non</button></div></div>
       </div>
         <div class="settings-section-title">Version</div>
-        <div class="settings-item" style="border-radius:var(--rdl);"><div><div class="settings-item-label">HabitOS</div><div class="settings-item-sub">Version 1.8.1</div></div><div style="font-size:12px;color:var(--tx2);">v1.8.1</div></div>
+        <div class="settings-item" style="border-radius:var(--rdl);"><div><div class="settings-item-label">HabitOS</div><div class="settings-item-sub">Version 1.9.0</div></div><div style="font-size:12px;color:var(--tx2);">v1.9.0</div></div>
       </div>
       <div class="settings-section">
         <div class="settings-section-title">Zone de danger</div>
@@ -2790,6 +2823,7 @@ function openNewsPanel(){
   const panel=document.getElementById('news-panel');
   if(!panel)return;
   const CL=[
+    {v:'1.9.0',label:'Statistiques',items:['Score de regularite sur 30 jours','Meilleures et pires habitudes par taux de completion reel','Graphique humeur sur 30 jours','Historique etendu a 30 journees']},
     {v:'1.8.1',label:'bugfix',items:['fix completion','edition journee','note dans historique']},
     {v:'1.8.0',label:'Rappels',items:['Rappel individuel par habitude via la modal de creation et modification','Integration dans le planificateur de notifications existant']},
     {v:'1.7.1',label:'Nouveautes',items:['Ajout du bouton Nouveautes dans la topbar']},
