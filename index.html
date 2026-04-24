@@ -397,6 +397,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
 .install-app-btn:hover{opacity:0.85;}
 .install-app-btn:disabled{opacity:0.5;cursor:default;}
 .install-app-icon{width:20px;height:20px;flex-shrink:0;}
+/* ── v1.7 — FRIENDS ─────────────────────────────────────────────────── */
+.friend-code-box{display:flex;align-items:center;justify-content:space-between;background:var(--bg);border:0.5px solid var(--acm);border-radius:var(--rdl);padding:14px 16px;margin-bottom:16px;width:100%;}
+.friend-code-value{font-size:24px;font-weight:600;letter-spacing:0.14em;color:var(--ac);}
+.friend-item{display:flex;align-items:center;gap:10px;background:var(--bg);border:0.5px solid var(--br);border-radius:var(--rdl);padding:11px 13px;margin-bottom:8px;cursor:pointer;transition:border-color 0.15s;width:100%;}
+.friend-item:hover{border-color:var(--acm);}
+.friend-avatar{width:36px;height:36px;border-radius:50%;background:var(--acl);border:1.5px solid var(--acm);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:var(--act);flex-shrink:0;}
+.friend-info{flex:1;min-width:0;}
+.friend-name{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.friend-meta{font-size:11px;color:var(--tx2);margin-top:2px;}
+.friend-streak{font-size:12px;color:var(--success);font-weight:500;flex-shrink:0;margin-right:4px;}
+.friend-request-item{display:flex;align-items:center;gap:8px;background:var(--bg);border:0.5px solid var(--br);border-radius:var(--rdl);padding:10px 12px;margin-bottom:8px;width:100%;}
+.friends-panel-wrap{position:fixed;inset:0;z-index:50;background:var(--bg3);overflow-y:auto;transform:translateX(100%);transition:transform 0.3s cubic-bezier(0.4,0,0.2,1);}
+.friends-panel-wrap.open{transform:translateX(0);}
 </style>
 </head>
 <body>
@@ -404,6 +417,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
 <div id="auth-screen" style="display:none;"></div>
 <div id="root" style="display:none;"></div>
 <div class="settings-panel" id="settings-panel"></div>
+<div class="friends-panel-wrap" id="friends-panel"></div>
 
 <script>
 const SUPABASE_URL='https://cvmgegkrpvzzgbaiufqf.supabase.co';
@@ -550,7 +564,7 @@ function renderIconMarkup(iconId){
 }
 
 
-let user=null,DB=null,currentPage=0,selectedHomeDay=now.getDay(),profilTab='stats',notesFilter='all',tempConds=[],condType='streak',agendaDay=now.getDay(),touchStartX=0,touchStartY=0,wheelAccum=0,wheelTimer=null,badgeFilter='all',iconSearchQuery='',iconCatFilter='all';
+let user=null,DB=null,currentPage=0,selectedHomeDay=now.getDay(),profilTab='stats',notesFilter='all',tempConds=[],condType='streak',agendaDay=now.getDay(),touchStartX=0,touchStartY=0,wheelAccum=0,wheelTimer=null,badgeFilter='all',iconSearchQuery='',iconCatFilter='all',friendsTab='friends';
 
 const defaultDB=()=>({
   habits:{matin:[],journee:[],soir:[]},
@@ -571,7 +585,7 @@ const defaultDB=()=>({
   },
   rpgLastUpdated:{},
   xp:0,
-  settings:{theme:'auto',colorTheme:'indigo',customColor:null,reminderMatin:'',reminderSoir:'',birthday:'',firstName:''},
+  settings:{theme:'auto',colorTheme:'indigo',customColor:null,reminderMatin:'',reminderSoir:'',birthday:'',firstName:'',friendsPrivacy:true},
   lastSavedDate:''
 });
 
@@ -657,7 +671,8 @@ async function init(){
   if(session){
     user=session.user;
     await loadData();
-    showApp();
+  showApp();
+    ensureFriendCode(); // v1.7 — async non-bloquant
     // Programmer les notifs si l'autorisation est déjà accordée
     if(Notification.permission==='granted')scheduleNotifications();
   }
@@ -687,6 +702,7 @@ async function loadData(){
   if(!DB.settings)DB.settings=defaultDB().settings;
   if(DB.settings.birthday===undefined)DB.settings.birthday='';
   if(DB.settings.firstName===undefined)DB.settings.firstName='';
+  if(DB.settings.friendsPrivacy===undefined)DB.settings.friendsPrivacy=true;
   if(!DB.rpgLastUpdated)DB.rpgLastUpdated={};
   // Migration badges : ancien format (cond/unlocked/startDate/endDate) → nouveau format (tiers[])
   if(Array.isArray(DB.badges)){
@@ -844,7 +860,8 @@ function showApp(){
       <div class="topbar-title" id="ptitle">Accueil</div>
       <div class="topbar-right">
         <div class="topbar-date">${DAYS[now.getDay()]} ${now.getDate()} ${MONTHS[now.getMonth()]}</div>
-        <button class="icon-btn" onclick="openSettings()">⚙</button>
+        <button class="icon-btn" onclick="openFriendsPanel()" title="Amis"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></button>
+<button class="icon-btn" onclick="openSettings()">⚙</button>
       </div>
     </div>
     <div class="pages-wrap" id="pages-wrap">
@@ -1066,6 +1083,7 @@ async function toggleCheck(id,type){
   renderJournee();
   checkRewards();
   checkBadgeAutoUnlocks();
+  updateFriendSnapshot(); // v1.7 — async non-bloquant
   if(xpGained>0){
     const el=document.querySelector(`[onclick="toggleCheck('${id}','${type}')"]`);
     showXPPopup(xpGained,el);
@@ -1570,8 +1588,13 @@ function openSettings(){
         <div class="settings-item" style="border-radius:var(--rdl);margin-top:8px;"><div><div class="settings-item-label">Importer des données</div><div class="settings-item-sub">Restaurer depuis un fichier JSON</div></div><button class="btn-sec" onclick="document.getElementById('import-file').click()">Importer</button><input type="file" id="import-file" accept="application/json,.json" style="display:none" onchange="importData(event)"></div>
       </div>
       <div class="settings-section">
+      <div class="settings-section">
+        <div class="settings-section-title">Amis</div>
+        <div class="settings-item" style="border-radius:var(--rdl) var(--rdl) 0 0;"><div><div class="settings-item-label">Mon code ami</div><div class="settings-item-sub">${myFriendCode||'—'}</div></div><button class="btn-sec" onclick="copyFriendCode()">Copier</button></div>
+        <div class="settings-item" style="border-radius:0 0 var(--rdl) var(--rdl);"><div><div class="settings-item-label">Profil visible par mes amis</div><div class="settings-item-sub">Partager niveau, streaks, badges</div></div><div class="seg" style="margin:0;gap:2px;"><button class="sbtn${DB.settings.friendsPrivacy!==false?' on':''}" id="friends-privacy-yes" onclick="setFriendsPrivacy(true)">Oui</button><button class="sbtn${DB.settings.friendsPrivacy===false?' on':''}" id="friends-privacy-no" onclick="setFriendsPrivacy(false)">Non</button></div></div>
+      </div>
         <div class="settings-section-title">Version</div>
-        <div class="settings-item" style="border-radius:var(--rdl);"><div><div class="settings-item-label">HabitOS</div><div class="settings-item-sub">Version 1.6.0</div></div><div style="font-size:12px;color:var(--tx2);">v1.6.0</div></div>
+        <div class="settings-item" style="border-radius:var(--rdl);"><div><div class="settings-item-label">HabitOS</div><div class="settings-item-sub">Version 1.7.0</div></div><div style="font-size:12px;color:var(--tx2);">v1.7.0</div></div>
       </div>
       <div class="settings-section">
         <div class="settings-section-title">Zone de danger</div>
@@ -2079,7 +2102,7 @@ function renderBadgeEditor(){
         <div class="tier-cfg-toggle">${ck()}</div>
       </div>
       <div class="tier-cfg-body">
-        <div class="fl">Type de condition</div>
+      <div class="fl">Type de condition</div>
         <div class="seg" style="margin-bottom:8px;">
           <button type="button" class="sbtn${cType==='manual'?' on':''}" onclick="setTierCType('${tk}','manual',this)">Manuel</button>
           <button type="button" class="sbtn${cType==='auto'?' on':''}" onclick="setTierCType('${tk}','auto',this)">Automatique</button>
@@ -2681,6 +2704,226 @@ async function triggerInstallFromSettings(){
   }
 }
 
+  // ── v1.7 — FRIENDS ────────────────────────────────────────────────────────────
+async function ensureFriendCode(){
+  if(!user)return;
+  const{data,error}=await sb.from('friend_code').select('code').eq('user_id',user.id).single();
+  if(data?.code){
+    myFriendCode=data.code;
+  }else{
+    const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    let code='';
+    for(let i=0;i<6;i++)code+=chars[Math.floor(Math.random()*chars.length)];
+    await sb.from('friend_code').insert({user_id:user.id,code});
+    myFriendCode=code;
+  }
+}
+
+async function updateFriendSnapshot(){
+  if(!user||!DB)return;
+  if(DB.settings.friendsPrivacy===false)return;
+  const li=getLevelInfo();
+  const topStreaks=allHabits().map(h=>({label:h.label,streak:h.streak||0})).sort((a,b)=>b.streak-a.streak).slice(0,5);
+  const snapshot={
+    displayName:DB.settings.firstName||user.email.split('@')[0],
+    level:li.level,title:li.title,xp:DB.xp,
+    rpgStats:{...DB.rpgStats},
+    badges:DB.badges.filter(b=>b.tiers.some(t=>t.unlocked)).map(b=>({id:b.id,name:b.name,icon:b.icon,topTier:b.tiers.filter(t=>t.unlocked).slice(-1)[0]?.tier||'recrue'})),
+    streaks:topStreaks,updatedAt:TODAY
+  };
+  try{await sb.from('friend_snapshots').upsert({user_id:user.id,snapshot,updated_at:new Date().toISOString()},{onConflict:'user_id'});}
+  catch(e){console.warn('Snapshot update failed:',e);}
+}
+
+function openFriendsPanel(){
+  _friendsCache=null;
+  const panel=document.getElementById('friends-panel');
+  panel.innerHTML=`
+    <div class="settings-topbar">
+      <button class="icon-btn" onclick="closeFriendsPanel()">←</button>
+      <div style="font-size:15px;font-weight:500;">Amis</div>
+    </div>
+    <div class="settings-content" id="friends-content">
+      <div style="font-size:13px;color:var(--tx2);padding:20px 0;text-align:center;">Chargement...</div>
+    </div>`;
+  panel.classList.add('open');
+  loadFriendsPage();
+}
+
+function closeFriendsPanel(){document.getElementById('friends-panel').classList.remove('open');}
+
+async function loadFriendsPage(){
+  if(!user)return;
+  const{data:friendships}=await sb.from('friendships').select('*').or(`requester_id.eq.${user.id},addressee_id.eq.${user.id}`);
+  const accepted=(friendships||[]).filter(f=>f.status==='accepted');
+  const pendingReceived=(friendships||[]).filter(f=>f.status==='pending'&&f.addressee_id===user.id);
+  const pendingSent=(friendships||[]).filter(f=>f.status==='pending'&&f.requester_id===user.id);
+  const friendIds=accepted.map(f=>f.requester_id===user.id?f.addressee_id:f.requester_id);
+  const requesterIds=pendingReceived.map(f=>f.requester_id);
+  const allIds=[...new Set([...friendIds,...requesterIds])];
+  let snapshots={};
+  if(allIds.length>0){
+    const{data:snaps}=await sb.from('friend_snapshots').select('user_id,snapshot').in('user_id',allIds);
+    (snaps||[]).forEach(s=>{snapshots[s.user_id]=s.snapshot;});
+  }
+  _friendsCache={friendIds,accepted,pendingReceived,pendingSent,snapshots};
+  renderFriendsContent();
+}
+
+function renderFriendsContent(){
+  const el=document.getElementById('friends-content');
+  if(!el||!_friendsCache)return;
+  const{friendIds,accepted,pendingReceived,pendingSent,snapshots}=_friendsCache;
+  const code=myFriendCode||'—';
+  const friendListHtml=friendIds.length===0
+    ?`<div style="font-size:13px;color:var(--tx2);padding:20px 0;text-align:center;">Aucun ami pour l'instant.</div>`
+    :friendIds.map(fid=>{
+      const snap=snapshots[fid];
+      const name=snap?.displayName||'Utilisateur';
+      const level=snap?.level||'?';
+      const title=snap?.title||'';
+      const friendship=accepted.find(f=>f.requester_id===fid||f.addressee_id===fid);
+      const topStreak=snap?.streaks?.[0]?.streak||0;
+      return`<div class="friend-item" onclick="openFriendProfile('${fid}')">
+        <div class="friend-avatar">${name.slice(0,2).toUpperCase()}</div>
+        <div class="friend-info"><div class="friend-name">${name}</div><div class="friend-meta">Niveau ${level} — ${title}</div></div>
+        ${topStreak>0?`<div class="friend-streak">${topStreak}j</div>`:''}
+        <button class="del" onclick="event.stopPropagation();removeFriend('${friendship?.id}')">×</button>
+      </div>`;
+    }).join('');
+  const receivedHtml=pendingReceived.length===0?'':pendingReceived.map(f=>{
+    const snap=snapshots[f.requester_id];
+    const name=snap?.displayName||'Utilisateur';
+    return`<div class="friend-request-item">
+      <div class="friend-avatar">${name.slice(0,2).toUpperCase()}</div>
+      <div class="friend-info"><div class="friend-name">${name}</div><div class="friend-meta">Niveau ${snap?.level||'?'}</div></div>
+      <button class="btn-sec" style="font-size:11px;padding:5px 10px;flex-shrink:0;" onclick="acceptRequest('${f.id}')">Accepter</button>
+      <button class="del" onclick="declineRequest('${f.id}')">×</button>
+    </div>`;
+  }).join('');
+  const sentHtml=pendingSent.length===0?'':pendingSent.map(f=>`<div class="friend-request-item">
+    <div class="friend-avatar" style="background:var(--bg2);color:var(--tx2);">?</div>
+    <div class="friend-info" style="flex:1;"><div class="friend-name">Demande envoyée</div><div class="friend-meta">En attente de réponse</div></div>
+    <button class="del" onclick="cancelRequest('${f.id}')">×</button>
+  </div>`).join('');
+  const requestsBlock=(receivedHtml||sentHtml)
+    ?(receivedHtml?`<div class="slabel" style="margin-top:0;">Reçues</div>${receivedHtml}`:'')+(sentHtml?`<div class="slabel">Envoyées</div>${sentHtml}`:'')
+    :`<div style="font-size:13px;color:var(--tx2);padding:20px 0;text-align:center;">Aucune demande en attente.</div>`;
+  el.innerHTML=`
+    <div class="slabel" style="margin-top:0;">Mon code ami</div>
+    <div class="friend-code-box"><div class="friend-code-value">${code}</div><button class="btn-sec" onclick="copyFriendCode()">Copier</button></div>
+    <div class="slabel">Ajouter un ami</div>
+    <div style="display:flex;gap:8px;margin-bottom:16px;width:100%;">
+      <input class="fi" id="friend-code-input" placeholder="Code ami (6 caractères)" style="flex:1;" maxlength="10" oninput="this.value=this.value.toUpperCase()">
+      <button class="btn-primary" style="width:auto;padding:10px 14px;" onclick="sendFriendRequest()">Ajouter</button>
+    </div>
+    <div class="seg" style="margin-bottom:12px;">
+      <button class="sbtn${friendsTab==='friends'?' on':''}" onclick="setFriendsTab('friends')">Amis (${friendIds.length})</button>
+      <button class="sbtn${friendsTab==='requests'?' on':''}" onclick="setFriendsTab('requests')">Demandes${pendingReceived.length>0?' ('+pendingReceived.length+')':''}</button>
+    </div>
+    <div id="friends-tab-content">${friendsTab==='friends'?friendListHtml:requestsBlock}</div>`;
+}
+
+function setFriendsTab(t){friendsTab=t;renderFriendsContent();}
+
+function copyFriendCode(){
+  const code=myFriendCode||'';
+  if(!code)return;
+  if(navigator.clipboard){navigator.clipboard.writeText(code).then(()=>toast('Code copié !'));}
+  else{const el=document.createElement('input');el.value=code;document.body.appendChild(el);el.select();document.execCommand('copy');el.remove();toast('Code copié !');}
+}
+
+async function sendFriendRequest(){
+  const input=document.getElementById('friend-code-input');
+  const code=input?.value.trim().toUpperCase();
+  if(!code||code.length<3){toast('Entre un code valide','red');return;}
+  if(code===myFriendCode){toast('Tu ne peux pas t\'ajouter toi-même','red');return;}
+  const{data:codeData,error:codeErr}=await sb.from('friend_code').select('user_id').eq('code',code).single();
+  if(codeErr||!codeData){toast('Code introuvable','red');return;}
+  const targetId=codeData.user_id;
+  const{data:d1}=await sb.from('friendships').select('id,status').eq('requester_id',user.id).eq('addressee_id',targetId);
+  const{data:d2}=await sb.from('friendships').select('id,status').eq('requester_id',targetId).eq('addressee_id',user.id);
+  const existing=[...(d1||[]),...(d2||[])];
+  if(existing.length>0){toast(existing[0].status==='accepted'?'Vous êtes déjà amis':'Demande déjà envoyée','red');return;}
+  const{error}=await sb.from('friendships').insert({requester_id:user.id,addressee_id:targetId,status:'pending'});
+  if(error){toast('Erreur lors de l\'envoi','red');return;}
+  if(input)input.value='';
+  toast('Demande envoyée !','green');
+  _friendsCache=null;loadFriendsPage();
+}
+
+async function acceptRequest(friendshipId){
+  const{error}=await sb.from('friendships').update({status:'accepted'}).eq('id',friendshipId);
+  if(error){toast('Erreur','red');return;}
+  toast('Ami ajouté !','green');
+  _friendsCache=null;loadFriendsPage();
+}
+
+async function declineRequest(friendshipId){
+  const{error}=await sb.from('friendships').delete().eq('id',friendshipId);
+  if(error){toast('Erreur','red');return;}
+  toast('Demande refusée');
+  _friendsCache=null;loadFriendsPage();
+}
+
+async function cancelRequest(friendshipId){
+  const{error}=await sb.from('friendships').delete().eq('id',friendshipId);
+  if(error){toast('Erreur','red');return;}
+  toast('Demande annulée');
+  _friendsCache=null;loadFriendsPage();
+}
+
+async function removeFriend(friendshipId){
+  if(!friendshipId)return;
+  if(!confirm('Retirer cet ami ?'))return;
+  const{error}=await sb.from('friendships').delete().eq('id',friendshipId);
+  if(error){toast('Erreur','red');return;}
+  toast('Ami retiré');
+  _friendsCache=null;loadFriendsPage();
+}
+
+function openFriendProfile(userId){
+  const snap=_friendsCache?.snapshots?.[userId];
+  if(!snap){toast('Profil indisponible','red');return;}
+  const name=snap.displayName||'Utilisateur';
+  const statsHtml=snap.rpgStats?Object.entries(snap.rpgStats).map(([sn,val])=>{
+    const color=STAT_COLORS[sn]||'#888';
+    const pct=Math.round((val/10)*100);
+    return`<div class="rpg-stat-row"><div class="rpg-sname" style="font-size:12px;">${sn}</div><div class="rpg-bar-wrap"><div class="rpg-bar-bg"><div class="rpg-bar-fill" style="width:${pct}%;background:${color};"></div></div></div><div class="rpg-val">${val.toFixed(1)}</div></div>`;
+  }).join(''):'';
+  const streaksHtml=snap.streaks?.length?snap.streaks.map(s=>`<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:0.5px solid var(--br);font-size:13px;width:100%;"><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;">${s.label}</span><span class="streak-badge">${s.streak}j</span></div>`).join(''):'<div style="font-size:13px;color:var(--tx2);">Aucun streak.</div>';
+  const badgesHtml=snap.badges?.length?`<div class="badge-grid" style="margin-top:6px;">${snap.badges.slice(0,6).map(b=>`<div class="badge-card-new"><div class="badge-visual"><img src="${BADGE_TIER_IMG(b.topTier)}" class="badge-shell" onerror="this.style.display='none'"/><div class="badge-icon-overlay">${renderIconMarkup(b.icon)}</div></div><div class="badge-card-name">${b.name}</div></div>`).join('')}</div>`:'<div style="font-size:13px;color:var(--tx2);">Aucun badge débloqué.</div>';
+  // Ouvrir la modal principale
+  const box=document.getElementById('modal-box');
+  box.classList.add('wide');
+  box.innerHTML=`
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;">
+      <div class="friend-avatar" style="width:48px;height:48px;font-size:17px;flex-shrink:0;">${name.slice(0,2).toUpperCase()}</div>
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:15px;font-weight:500;">${name}</div>
+        <div style="font-size:12px;color:var(--tx2);">Niveau ${snap.level||'?'} — ${snap.title||''}</div>
+        <div style="font-size:11px;color:var(--tx3);margin-top:2px;">${snap.xp||0} XP</div>
+      </div>
+    </div>
+    <div style="max-height:55dvh;overflow-y:auto;">
+      <div class="slabel" style="margin-top:0;">Top streaks</div>${streaksHtml}
+      <div class="slabel">Stats RPG</div><div class="card"><div style="padding:10px 16px;">${statsHtml}</div></div>
+      <div class="slabel">Badges</div>${badgesHtml}
+    </div>
+    <div class="modal-btns"><button class="btn-primary" onclick="closeModal()">Fermer</button></div>`;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+async function setFriendsPrivacy(val){
+  DB.settings.friendsPrivacy=val;
+  await saveData();
+  const y=document.getElementById('friends-privacy-yes');
+  const n=document.getElementById('friends-privacy-no');
+  if(y)y.classList.toggle('on',val!==false);
+  if(n)n.classList.toggle('on',val===false);
+  if(val!==false)updateFriendSnapshot();
+  toast(val!==false?'Profil partagé avec tes amis':'Profil masqué');
+}
 init();
 </script>
 </body>
