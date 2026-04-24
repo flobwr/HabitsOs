@@ -1597,7 +1597,7 @@ function openSettings(){
         <div class="settings-item" style="border-radius:0 0 var(--rdl) var(--rdl);"><div><div class="settings-item-label">Profil visible par mes amis</div><div class="settings-item-sub">Partager niveau, streaks, badges</div></div><div class="seg" style="margin:0;gap:2px;"><button class="sbtn${DB.settings.friendsPrivacy!==false?' on':''}" id="friends-privacy-yes" onclick="setFriendsPrivacy(true)">Oui</button><button class="sbtn${DB.settings.friendsPrivacy===false?' on':''}" id="friends-privacy-no" onclick="setFriendsPrivacy(false)">Non</button></div></div>
       </div>
         <div class="settings-section-title">Version</div>
-        <div class="settings-item" style="border-radius:var(--rdl);"><div><div class="settings-item-label">HabitOS</div><div class="settings-item-sub">Version 1.7.1</div></div><div style="font-size:12px;color:var(--tx2);">v1.7.1</div></div>
+        <div class="settings-item" style="border-radius:var(--rdl);"><div><div class="settings-item-label">HabitOS</div><div class="settings-item-sub">Version 1.8.0</div></div><div style="font-size:12px;color:var(--tx2);">v1.8.0</div></div>
       </div>
       <div class="settings-section">
         <div class="settings-section-title">Zone de danger</div>
@@ -1858,7 +1858,7 @@ function scheduleNotifications(){
       },delay));
     }
   }
-  if(soir){
+ if(soir){
     const delay=parseTimeToMs(soir);
     if(delay!==null){
       notifTimers.push(setTimeout(()=>{
@@ -1867,6 +1867,16 @@ function scheduleNotifications(){
       },delay));
     }
   }
+  allHabits().forEach(function(h){
+    if(!h.reminder)return;
+    const delay=parseTimeToMs(h.reminder);
+    if(delay===null)return;
+    const lbl=h.label;
+    notifTimers.push(setTimeout(function(){
+      showLocalNotif('HabitOS — Rappel',lbl);
+      scheduleNotifications();
+    },delay));
+  });
 }
 
 function showLocalNotif(title,body){
@@ -1928,6 +1938,8 @@ function openModal(type,ctx){
         <div class="fl">Nombre de fois par semaine</div>
         <input class="fi" type="number" id="mh-freq-count" min="1" max="7" value="3" placeholder="Ex: 5">
       </div>
+     <div class="fl">Rappel <span style="color:var(--tx3);font-weight:400;">(optionnel)</span></div>
+      <input class="fi" type="time" id="mh-reminder">
       <div class="modal-btns"><button class="btn-sec" onclick="closeModal()">Annuler</button><button class="btn-primary" onclick="confirmHabit()">Ajouter</button></div>`;
   }else if(type==='editHabit'){
     const h=allHabits().find(x=>x.id===ctx);if(!h)return;
@@ -1949,6 +1961,8 @@ function openModal(type,ctx){
         <div class="fl">Fois par semaine</div>
         <input class="fi" type="number" id="eh-freq-count" min="1" max="7" value="${h.freqCount||3}">
       </div>
+      <div class="fl">Rappel <span style="color:var(--tx3);font-weight:400;">(optionnel)</span></div>
+      <input class="fi" type="time" id="eh-reminder" value="${h.reminder||''}">
       <div class="modal-btns"><button class="btn-sec" onclick="closeModal()">Annuler</button><button class="btn-primary" onclick="saveEditHabit('${ctx}')">Enregistrer</button></div>`;
   }else if(type==='routine'){
     box.innerHTML=`<div class="modal-title">Nouvelle étape de rituel</div>
@@ -2306,8 +2320,10 @@ async function confirmHabit(){
   const freqType=currentFreqType;
   const freqCount=freqType==='weekly'?parseInt(document.getElementById('mh-freq-count')?.value||'3'):null;
   const stat=detectStat(name);
-  DB.habits[group].push({id:'h'+Date.now(),label:name,streak:0,totalDone:0,stat,freqType,freqCount});
+ const reminder=document.getElementById('mh-reminder')?.value||'';
+  DB.habits[group].push({id:'h'+Date.now(),label:name,streak:0,totalDone:0,stat,freqType,freqCount,reminder});
   await saveData();closeModal();renderAgenda();if(currentPage===1)renderJournee();
+  scheduleNotifications();
   currentFreqType='daily';
 }
 
@@ -2317,8 +2333,10 @@ async function saveEditHabit(id){
   h.label=newName;
   h.stat=detectStat(newName);
   h.freqType=currentFreqType;
-  h.freqCount=currentFreqType==='weekly'?parseInt(document.getElementById('eh-freq-count')?.value||'3'):null;
+ h.freqCount=currentFreqType==='weekly'?parseInt(document.getElementById('eh-freq-count')?.value||'3'):null;
+  h.reminder=document.getElementById('eh-reminder')?.value||'';
   await saveData();closeModal();renderAgenda();if(currentPage===1)renderJournee();
+  scheduleNotifications();
   currentFreqType='daily';
 }
 
@@ -2757,6 +2775,7 @@ function openNewsPanel(){
   const panel=document.getElementById('news-panel');
   if(!panel)return;
   const CL=[
+    {v:'1.8.0',label:'Rappels',items:['Rappel individuel par habitude via la modal de creation et modification','Integration dans le planificateur de notifications existant']},
     {v:'1.7.1',label:'Nouveautes',items:['Ajout du bouton Nouveautes dans la topbar']},
     {v:'1.7.0',label:'Systeme amis',items:['Panel amis avec codes 6 caracteres','Demandes envoi et reception','Profil ami : niveau, streaks, stats RPG, badges','3 tables Supabase : friend_code, friendships, friend_snapshots','Privacy toggle dans les parametres','Logo partout : favicon, chargement, connexion']},
     {v:'1.6.0',label:'Badges et UX',items:['Page badges refaite avec filtres','Icon picker avec recherche et categories','Modal daily recap apres enregistrement','Animations level-up et badge debloque','Boutons reorganisation habitudes','Installation PWA desktop']},
