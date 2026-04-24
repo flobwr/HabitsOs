@@ -1256,7 +1256,6 @@ function renderProfil(){
         '<div style="display:flex;align-items:flex-end;height:48px;gap:1px;">'+moodBars+'</div>'+
         '<div style="display:flex;justify-content:space-between;font-size:9px;color:var(--tx3);margin-top:4px;"><span>-30j</span><span>Aujourd\'hui</span></div>'+
       '</div></div>';
-  }
    
   }else if(profilTab==='history'){
     const days=Object.entries(DB.history).filter(([k])=>k.length===10).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,30);
