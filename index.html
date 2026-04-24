@@ -884,7 +884,7 @@ function navTo(i){
   document.getElementById('pages-track').style.transform=`translateX(-${i*100}%)`;
   document.getElementById('ptitle').textContent=PAGE_TITLES[i];
   document.querySelectorAll('.tab').forEach((t,j)=>t.classList.toggle('active',j===i));
-  document.querySelectorAll('.tab')[i].scrollIntoView({inline:'nearest',behavior:'smooth'});
+  document.querySelectorAll('.tab')[i].scrollIntoView({inline:'nearest',block:'nearest',behavior:'smooth'});
   const pageEl=document.getElementById('p-'+i);
   if(pageEl)pageEl.scrollTop=0;
   renderPage(i);
