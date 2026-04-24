@@ -1257,9 +1257,7 @@ function renderProfil(){
         '<div style="display:flex;justify-content:space-between;font-size:9px;color:var(--tx3);margin-top:4px;"><span>-30j</span><span>Aujourd\'hui</span></div>'+
       '</div></div>';
   }
-    }).join('')}</div></div>`;
-  }
-    }).join('')}</div></div>`;
+   
   }else if(profilTab==='history'){
     const days=Object.entries(DB.history).filter(([k])=>k.length===10).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,30);
     content=days.length===0?`<div style="font-size:13px;color:var(--tx2);">Enregistre ta première journée pour voir l'historique !</div>`:days.map(([date,d])=>{
