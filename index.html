@@ -430,7 +430,7 @@ const DAYS=['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
 const MONTHS=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
 const now=new Date();
 const TODAY=now.toISOString().split('T')[0];
-const PAGE_TITLES=['Accueil','Ma journée','Agenda','Profil','Badges','Récompenses','Bilan hebdo'];
+const PAGE_TITLES=['Accueil','Journée','Agenda','Profil','Badges','Récompenses','Bilan'];
 const NUM_PAGES=7;
 
 // 100 niveaux calibrés pour 2 ans avec 15-20 habitudes/jour à 80%
@@ -884,7 +884,7 @@ function navTo(i){
   document.getElementById('pages-track').style.transform=`translateX(-${i*100}%)`;
   document.getElementById('ptitle').textContent=PAGE_TITLES[i];
   document.querySelectorAll('.tab').forEach((t,j)=>t.classList.toggle('active',j===i));
-  document.querySelectorAll('.tab')[i].scrollIntoView({inline:'nearest',block:'nearest',behavior:'smooth'});
+  const _tabEl=document.querySelectorAll('.tab')[i];const _tabsEl=document.querySelector('.tabs');if(_tabEl&&_tabsEl){_tabsEl.scrollTo({left:_tabEl.offsetLeft-(_tabsEl.offsetWidth/2)+(_tabEl.offsetWidth/2),behavior:'smooth'});}
   const pageEl=document.getElementById('p-'+i);
   if(pageEl)pageEl.scrollTop=0;
   renderPage(i);
