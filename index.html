@@ -2751,7 +2751,9 @@ function openFriendsPanel(){
     </div>`;
   panel.classList.add('open');
   loadFriendsPage();
-  function openNewsPanel(){
+}
+
+function openNewsPanel(){
   const panel=document.getElementById('news-panel');
   const CL=[
     {v:'1.7.1',label:'Nouveautes',items:['Ajout du bouton Nouveautes dans la topbar avec historique complet des versions']},
@@ -2789,9 +2791,8 @@ function openFriendsPanel(){
   panel.classList.add('open');
 }
 function closeNewsPanel(){document.getElementById('news-panel').classList.remove('open');}
-}
 
-function closeFriendsPanel(){document.getElementById('friends-panel').classList.remove('open');}
+function closeFriendsPanel(){
 
 async function loadFriendsPage(){
   if(!user)return;
