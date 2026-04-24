@@ -1538,7 +1538,8 @@ function renderBilan(){
 async function genBilan(){
   const btn=document.getElementById('bilan-btn');
   const out=document.getElementById('bilan-out');
-  btn.textContent='Génération en cours...';btn.disabled=true;out.innerHTML='';
+  if(allHabits().length===0&&Object.entries(DB.history).filter(([k])=>k.length===10).length===0){out.innerHTML='<div style="font-size:13px;color:var(--tx2);">Enregistre quelques journées avant de générer ton bilan.</div>';return;}
+btn.textContent='Génération en cours...';btn.disabled=true;out.innerHTML='';
   const li=getLevelInfo();
   const recentHistory=Object.entries(DB.history).filter(([k])=>k.length===10).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,7);
   const avgScore=recentHistory.length?Math.round(recentHistory.reduce((a,[,d])=>a+d.score/Math.max(d.total,1)*100,0)/recentHistory.length):0;
