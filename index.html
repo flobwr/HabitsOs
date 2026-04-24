@@ -1564,9 +1564,9 @@ Génère un bilan en markdown avec ces 5 sections :
 
 Style : direct, sans condescendance. 2e personne du singulier.`;
   try{
-    const resp=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
-    const data=await resp.json();
-    const text=data.content?.find(c=>c.type==='text')?.text||'Erreur.';
+const resp=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer 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'},body:JSON.stringify({model:'gpt-4o-mini',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+const data=await resp.json();
+const text=data.choices?.[0]?.message?.content||'Erreur.';
     out.innerHTML=`<div class="bilan-block">${marked.parse(text)}</div>`;
   }catch(e){out.innerHTML=`<div style="font-size:13px;color:var(--tx2);">Erreur de connexion.</div>`;}
   btn.textContent='Générer mon bilan';btn.disabled=false;
