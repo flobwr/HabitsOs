@@ -2755,39 +2755,29 @@ function openFriendsPanel(){
 
 function openNewsPanel(){
   const panel=document.getElementById('news-panel');
+  if(!panel)return;
   const CL=[
-    {v:'1.7.1',label:'Nouveautes',items:['Ajout du bouton Nouveautes dans la topbar avec historique complet des versions']},
-    {v:'1.7.0',label:'Systeme amis',items:['Panel amis : codes 6 caracteres, envoi et reception de demandes','Profil ami : niveau, streaks, stats RPG, badges','3 nouvelles tables Supabase : friend_code, friendships, friend_snapshots','Privacy toggle dans les parametres','Logo partout : favicon, chargement, connexion']},
-    {v:'1.6.0',label:'Badges et UX',items:['Page badges refaite : filtres Tous / Debloques / Verrouilles','Icon picker refait avec recherche et categories','Modal daily recap apres enregistrement de la journee','Animations level-up et debloquage de badge','Boutons de reorganisation des habitudes (haut / bas)','Installation PWA desktop depuis les parametres']},
-    {v:'1.5.0',label:'Badges 6 tiers',items:['Refonte complete du systeme de badges','6 tiers sequentiels : Recrue, Bronze, Argent, Or, Maitre, Legende','Conditions automatiques et manuelles','Migration de l\'ancien format de badges']},
-    {v:'1.4.0',label:'Fetes et anniversaire',items:['Correction du scroll au changement de page','11 splashs festifs : Noel, Halloween, Paques, St-Valentin et plus','Scenario anniversaire : splash, bandeau et badge automatique','Champ date de naissance dans les parametres']},
+    {v:'1.7.1',label:'Nouveautes',items:['Ajout du bouton Nouveautes dans la topbar']},
+    {v:'1.7.0',label:'Systeme amis',items:['Panel amis avec codes 6 caracteres','Demandes envoi et reception','Profil ami : niveau, streaks, stats RPG, badges','3 tables Supabase : friend_code, friendships, friend_snapshots','Privacy toggle dans les parametres','Logo partout : favicon, chargement, connexion']},
+    {v:'1.6.0',label:'Badges et UX',items:['Page badges refaite avec filtres','Icon picker avec recherche et categories','Modal daily recap apres enregistrement','Animations level-up et badge debloque','Boutons reorganisation habitudes','Installation PWA desktop']},
+    {v:'1.5.0',label:'Badges 6 tiers',items:['Refonte complete du systeme de badges','6 tiers : Recrue, Bronze, Argent, Or, Maitre, Legende','Conditions automatiques et manuelles','Migration de lancien format']},
+    {v:'1.4.0',label:'Fetes et anniversaire',items:['Correction du scroll au changement de page','11 splashs festifs','Scenario anniversaire avec splash et badge auto','Champ date de naissance dans les parametres']},
     {v:'1.3.1',label:'Corrections',type:'fix',items:['Affichage correct du numero de version','Bouton Tester les notifications repare','Cache service worker mis a jour']},
-    {v:'1.3.0',label:'PWA et streaks',items:['Notifications locales avec rappels quotidiens','Installation PWA sur Android','Mode hors-ligne via cache service worker','Encart streaks en danger sur l\'accueil','Import de donnees depuis un fichier JSON','Feedback visuel au cochage des habitudes']},
-    {v:'1.2.0',label:'Profil et stats',items:['Page Profil avec onglets Stats, Semaine, Mois, Historique','9 stats RPG avec tendance et degradation automatique','Graphique semaine interactif sur l\'accueil']},
-    {v:'1.1.0',label:'Gamification',items:['Systeme XP avec multiplicateurs de streak (x1.2 / x1.5 / x2.0)','100 niveaux de Debutant a Maitre absolu','Courbe de progression exponentielle','Bonus journee parfaite et routines']},
-    {v:'1.0.0',label:'Lancement',items:['Authentification Supabase','7 pages : Accueil, Ma journee, Agenda, Profil, Badges, Recompenses, Bilan hebdo','Navigation par swipe','Themes clair et sombre','Habitudes par groupes Matin, Journee, Soir']}
+    {v:'1.3.0',label:'PWA et streaks',items:['Notifications locales avec rappels quotidiens','Installation PWA sur Android','Mode hors-ligne via cache service worker','Encart streaks en danger sur accueil','Import de donnees depuis JSON','Feedback visuel au cochage des habitudes']},
+    {v:'1.2.0',label:'Profil et stats',items:['Page Profil avec 4 onglets','9 stats RPG avec tendance et degradation','Graphique semaine interactif sur accueil']},
+    {v:'1.1.0',label:'Gamification',items:['Systeme XP avec multiplicateurs de streak','100 niveaux de Debutant a Maitre absolu','Courbe de progression exponentielle','Bonus journee parfaite et routines']},
+    {v:'1.0.0',label:'Lancement',items:['Authentification Supabase','7 pages : Accueil, Ma journee, Agenda, Profil, Badges, Recompenses, Bilan','Navigation par swipe','Themes clair et sombre','Habitudes par groupes Matin, Journee, Soir']}
   ];
-  panel.innerHTML=`
-    <div class="settings-topbar">
-      <button class="icon-btn" onclick="closeNewsPanel()">←</button>
-      <span style="font-size:15px;font-weight:500;flex:1;">Nouveautes</span>
-    </div>
-    <div class="settings-content">
-      ${CL.map((c,i)=>{
-        const isFix=c.type==='fix';
-        const pillBg=isFix?'background:var(--successl);color:var(--success);':'background:var(--acl);color:var(--act);';
-        return`<div style="margin-bottom:18px;">
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-            <span style="font-size:13px;font-weight:500;">v${c.v}</span>
-            <span style="font-size:11px;font-weight:500;padding:2px 8px;border-radius:99px;${pillBg}">${c.label}</span>
-            ${i===0?'<span style="font-size:11px;font-weight:500;padding:2px 8px;border-radius:99px;background:var(--ac);color:#fff;">Actuel</span>':''}
-          </div>
-          <div class="card" style="margin-bottom:0;">
-            ${c.items.map(item=>`<div style="display:flex;align-items:flex-start;gap:8px;padding:8px 14px;border-bottom:0.5px solid var(--br);font-size:13px;line-height:1.5;"><span style="color:var(--acm);font-size:10px;margin-top:4px;flex-shrink:0;">&#9656;</span><span>${item}</span></div>`).join('')}
-          </div>
-        </div>`;
-      }).join('')}
-    </div>`;
+  const rows=CL.map(function(c,i){
+    const isFix=c.type==='fix';
+    const pillBg=isFix?'background:var(--successl);color:var(--success);':'background:var(--acl);color:var(--act);';
+    const items=c.items.map(function(item){
+      return '<div style="display:flex;align-items:flex-start;gap:8px;padding:8px 14px;border-bottom:0.5px solid var(--br);font-size:13px;line-height:1.5;"><span style="color:var(--acm);font-size:10px;margin-top:4px;flex-shrink:0;">&#9656;</span><span>'+item+'</span></div>';
+    }).join('');
+    const badge=i===0?'<span style="font-size:11px;font-weight:500;padding:2px 8px;border-radius:99px;background:var(--ac);color:#fff;">Actuel</span>':'';
+    return '<div style="margin-bottom:18px;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><span style="font-size:13px;font-weight:500;">v'+c.v+'</span><span style="font-size:11px;font-weight:500;padding:2px 8px;border-radius:99px;'+pillBg+'">'+c.label+'</span>'+badge+'</div><div class="card" style="margin-bottom:0;">'+items+'</div></div>';
+  }).join('');
+  panel.innerHTML='<div class="settings-topbar"><button class="icon-btn" onclick="closeNewsPanel()">&#8592;</button><span style="font-size:15px;font-weight:500;flex:1;">Nouveautes</span></div><div class="settings-content">'+rows+'</div>';
   panel.classList.add('open');
 }
 function closeNewsPanel(){document.getElementById('news-panel').classList.remove('open');}
