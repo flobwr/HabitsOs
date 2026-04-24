@@ -1082,6 +1082,7 @@ async function toggleCheck(id,type){
     else DB.xp=Math.max(0,DB.xp-10);
   }
   DB.weekData[now.getDay()]=doneItems();
+if(DB.history[TODAY])DB.history[TODAY]={...DB.history[TODAY],score:doneItems(),checked:{...DB.checked}};
   await saveData();
   renderJournee();
   checkRewards();
@@ -1103,7 +1104,7 @@ async function setMood(v){DB.mood=v;await saveData();renderJournee();}
 async function saveDay(){
   DB.dailyNote=document.getElementById('daily-note').value;
   DB.weekData[now.getDay()]=doneItems();
-  DB.history[TODAY]={score:doneItems(),total:totalItems(),mood:DB.mood,note:DB.dailyNote};
+  DB.history[TODAY]={score:doneItems(),total:totalItems(),mood:DB.mood,note:DB.dailyNote,checked:{...DB.checked}};
   await saveData();toast('Journée enregistrée');
   checkBadgeAutoUnlocks();
   showDailyRecap();
@@ -1191,7 +1192,17 @@ function renderAgenda(){
 
 function setAgendaDay(i){agendaDay=i;renderAgenda();}
 function filterNotes(cat){notesFilter=cat;renderAgenda();}
-
+function getCompletionRate(habitId,days){
+  let done=0,total=0;
+  for(let i=1;i<=days;i++){
+    const d=new Date(now);d.setDate(d.getDate()-i);
+    const key=d.toISOString().split('T')[0];
+    const e=DB.history[key];
+    if(e&&e.checked!==undefined){total++;if(e.checked[habitId])done++;}
+  }
+  return total===0?null:Math.round((done/total)*100);
+}
+  
 // ── PAGE 3: PROFIL ────────────────────────────────────────────────────────────
 function renderProfil(){
   const li=getLevelInfo();
@@ -1222,7 +1233,9 @@ function renderProfil(){
       const dt=new Date(date);
       const p=Math.round((d.score/Math.max(d.total,1))*100);
       const dots=Array.from({length:Math.min(d.total,12)},(_,j)=>`<div class="hd${j<d.score?' on':' off'}"></div>`).join('');
-      return`<div class="hist-row"><div class="hist-date">${DAYS[dt.getDay()]} ${dt.getDate()}</div><div class="hist-dots">${dots}</div><div class="hist-pct">${p}%</div></div>`;
+      const moodTxt=d.mood?' · '+d.mood+'/5':'';
+const noteTxt=d.note?'<div style="font-size:11px;color:var(--tx3);padding:3px 0 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+d.note+'</div>':'';
+return'<div style="padding:8px 0;border-bottom:0.5px solid var(--br);width:100%;"><div class="hist-row"><div class="hist-date">'+DAYS[dt.getDay()]+' '+dt.getDate()+'</div><div class="hist-dots">'+dots+'</div><div class="hist-pct">'+p+'%'+moodTxt+'</div></div>'+noteTxt+'</div>';
     }).join('');
   }else{
     const data=profilTab==='week'?DB.weekData:Array.from({length:30},(_,i)=>{
@@ -1234,8 +1247,10 @@ function renderProfil(){
     const bars=data.map((v,i)=>`<div class="bcol"><div class="bbar${i===now.getDay()&&profilTab==='week'?' today':''}" style="height:${Math.round((v/max)*76)+4}px;"></div></div>`).join('');
     const labels=data.map((_,i)=>`<div style="font-size:9px;color:var(--tx2);flex:1;text-align:center;min-width:0;">${profilTab==='week'?DAYS[i%7]:i+1}</div>`).join('');
     const comps=allHabits().map(h=>{
-      const p=Math.min((h.streak||0)*3,100);
-      return`<div style="margin-bottom:10px;width:100%;"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;">${h.label}</span><span style="color:var(--tx2);flex-shrink:0;margin-left:8px;">${p}%</span></div><div class="prog-bg"><div class="prog-fill" style="width:${p}%;"></div></div></div>`;
+    const rawP=getCompletionRate(h.id,30);
+const p=rawP!==null?rawP:0;
+const pLabel=rawP!==null?p+'%':'--';
+return`<div style="margin-bottom:10px;width:100%;"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;">${h.label}</span><span style="color:var(--tx2);flex-shrink:0;margin-left:8px;">${pLabel}</span></div><div class="prog-bg"><div class="prog-fill" style="width:${p}%;"></div></div></div>`;
     }).join('');
     content=`<div class="bar-chart">${bars}</div><div style="display:flex;margin-top:4px;margin-bottom:16px;width:100%;">${labels}</div><div class="slabel">Complétion</div>${comps||`<div style="font-size:13px;color:var(--tx2);">Aucune habitude.</div>`}<div class="slabel">Streaks</div>${allHabits().map(h=>`<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:0.5px solid var(--br);font-size:13px;width:100%;"><span style="min-width:0;overflow:hidden;text-overflow:ellipsis;flex:1;">${h.label}</span><span class="streak-badge" style="flex-shrink:0;">${h.streak||0}j</span></div>`).join('')||`<div style="font-size:13px;color:var(--tx2);">Aucune habitude.</div>`}`;
   }
@@ -2775,6 +2790,7 @@ function openNewsPanel(){
   const panel=document.getElementById('news-panel');
   if(!panel)return;
   const CL=[
+    {v:'1.8.1',label:'bugfix',items:['fix completion','edition journee','note dans historique']},
     {v:'1.8.0',label:'Rappels',items:['Rappel individuel par habitude via la modal de creation et modification','Integration dans le planificateur de notifications existant']},
     {v:'1.7.1',label:'Nouveautes',items:['Ajout du bouton Nouveautes dans la topbar']},
     {v:'1.7.0',label:'Systeme amis',items:['Panel amis avec codes 6 caracteres','Demandes envoi et reception','Profil ami : niveau, streaks, stats RPG, badges','3 tables Supabase : friend_code, friendships, friend_snapshots','Privacy toggle dans les parametres','Logo partout : favicon, chargement, connexion']},
